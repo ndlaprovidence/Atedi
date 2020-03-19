@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New OperatingSystem{% endblock %}
+
+{% block body %}
+    <h1>Create new OperatingSystem</h1>
+
+    {{ include('operating_system/_form.html.twig') }}
+
+    <a href="{{ path('operating_system_index') }}">back to list</a>
+{% endblock %}
