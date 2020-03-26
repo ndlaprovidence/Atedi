@@ -14,7 +14,7 @@
 
     <body>
     <nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
-        <a class="navbar-brand" href="/">SlamQuiz</a>
+        <a class="navbar-brand" href="/">GDI</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -23,6 +23,27 @@
             <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
                 <a class="nav-link" href="/">{{ 'Home'|trans }}</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ path('client_index') }}">{{ 'Client'|trans }}</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ path('equipment_index') }}">{{ 'Equipment'|trans }}</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ path('intervention_index') }}">{{ 'intervention'|trans }}</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ path('operating_system_index') }}">{{ 'OperatingSystem'|trans }}</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ path('task_index') }}">{{ 'Task'|trans }}</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ path('technician_index') }}">{{ 'Technician'|trans }}</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ path('user_index') }}">{{ 'User'|trans }}</a>
             </li>
 
         </div>
