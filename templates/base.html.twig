@@ -46,14 +46,6 @@
                     <a class="nav-link" href="{{ path('user_index') }}">{{ 'User'|trans }}</a>
                 </li>
            </ul>
-           {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-            <a href="/logout"><button class="btn btn-danger my-2 my-sm-0" type="submit">Logout</button></a>
-            {% endif %}
-
-            {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
-            <a href="/login"><button class="btn btn-success my-2 my-sm-0">Sign in</button></a>
-            <a href="/register"><button class="btn btn-success my-2 my-sm-0">Sign up</button></a>
-            {% endif %}
 
         </div>
     </nav>
