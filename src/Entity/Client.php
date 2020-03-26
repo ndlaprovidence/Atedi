@@ -135,7 +135,7 @@ class Client
 
     public function getStreetName(): ?string
     {
-        return $this->street;
+        return $this->street_name;
     }
 
     public function setStreetName(?string $street_name): self
