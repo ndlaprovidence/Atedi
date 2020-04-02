@@ -15,14 +15,23 @@
     {% endif %}
 
     <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputEmail">Email</label>
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus>
-    <label for="inputPassword">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" required>
 
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">@</span>
+        </div>
+        <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg placeholder="email">
+    </div>
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default"><i class="fas fa-lock"></i></span>
+        </div>
+        <input type="password" name="password" id="inputPassword" class="form-control" required aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg placeholder="mot de passe">
+    </div>
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+    
 
     {#
         Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
