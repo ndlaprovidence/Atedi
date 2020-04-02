@@ -20,29 +20,25 @@
 
             <div class="collapse navbar-collapse" id="navbarsExampleDefault">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
+                </ul>
+                <ul class="navbar-nav px-5">
+                    <li class="nav-item active px-4">
                         <a class="nav-link" href="/">{{ 'Home'|trans }}</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('client_index') }}">{{ 'Client'|trans }}</a>
+                    <li class="nav-item dropdown px-4">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Outils</a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ path('client_index') }}">{{ 'Client'|trans }}</a>
+                            <a class="dropdown-item" href="{{ path('equipment_index') }}">{{ 'Equipment'|trans }}</a>
+                            <a class="dropdown-item" href="{{ path('intervention_index') }}">{{ 'intervention'|trans }}</a>
+                            <a class="dropdown-item" href="{{ path('operating_system_index') }}">{{ 'OperatingSystem'|trans }}</a>
+                            <a class="dropdown-item" href="{{ path('task_index') }}">{{ 'Task'|trans }}</a>
+                            <a class="dropdown-item" href="{{ path('technician_index') }}">{{ 'Technician'|trans }}</a>
+                            <a class="dropdown-item" href="{{ path('user_index') }}">{{ 'User'|trans }}</a>
+                        </div>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('equipment_index') }}">{{ 'Equipment'|trans }}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('intervention_index') }}">{{ 'intervention'|trans }}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('operating_system_index') }}">{{ 'OperatingSystem'|trans }}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('task_index') }}">{{ 'Task'|trans }}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('technician_index') }}">{{ 'Technician'|trans }}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('user_index') }}">{{ 'User'|trans }}</a>
+                    <li class="nav-item px-4">
+                        <a class="nav-link" href="" data-toggle="modal" data-target="#about">{{ 'About'|trans }}</a>
                     </li>
                 </ul>
             </div>
@@ -50,6 +46,35 @@
         </nav>
 
         <main role="main" class="container">
+
+            <div class="modal fade" id="about">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2 class="modal-title">{{'About Formadytho'|trans}}</h2>
+                            <button type="button" class="close" data-dismiss="modal">
+                                <span>&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>{{'Formadytho is a free software under an'|trans}} <a href='https://cecill.info/'>CeCILL</a> {{'license. It is developped with Symfony 4.'|trans}}</p>
+                            <hr>
+                            <h5>{{'Software developped by :'|trans}}</h5>
+                            <p>2020 - HOCHET Dylan & HEUVELINE Thomas</p>
+                            <hr>
+                            <h5>{{'Libraries used :'|trans}}</h5>
+                            <label class='w-100'>phpoffice/phpspreadsheet</label>
+                            <label class='w-100'>phpoffice/phpword</label>
+                            <hr>
+                            <h5>{{'Version :'|trans}}</h5>
+                            <label class='w-100'>1.0.0</label>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary mx-auto" data-dismiss="modal">{{'Close'|trans}}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="starter-template mt-5">
                 {% block body %}{% endblock %}
