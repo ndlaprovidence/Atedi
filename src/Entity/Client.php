@@ -68,6 +68,11 @@ class Client
         $this->interventions = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->last_name . ' ' . $this->first_name;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

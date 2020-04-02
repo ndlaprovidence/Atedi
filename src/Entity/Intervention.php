@@ -65,6 +65,7 @@ class Intervention
         $this->technicians = new ArrayCollection();
         $this->tasks = new ArrayCollection();
     }
+    
 
     public function getId(): ?int
     {
