@@ -64,6 +64,7 @@ class Intervention
     {
         $this->technicians = new ArrayCollection();
         $this->tasks = new ArrayCollection();
+        $this->setDepositDate(new \DateTime());
     }
 
     public function getId(): ?int
