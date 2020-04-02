@@ -41,12 +41,7 @@ class Client
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $street_number;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $street_name;
+    private $street;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -126,26 +121,14 @@ class Client
         return $this;
     }
 
-    public function getStreetNumber(): ?string
+    public function getStreet(): ?string
     {
-        return $this->street_number;
+        return $this->street;
     }
 
-    public function setStreetNumber(?string $street_number): self
+    public function setStreet(?string $street): self
     {
-        $this->street_number = $street_number;
-
-        return $this;
-    }
-
-    public function getStreetName(): ?string
-    {
-        return $this->street_name;
-    }
-
-    public function setStreetName(?string $street_name): self
-    {
-        $this->street_name = $street_name;
+        $this->street = $street;
 
         return $this;
     }
