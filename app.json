@@ -1,7 +1,7 @@
 {
     "name": "SlamQuiz",
     "description": "Online quiz software",
-    "repository": "https://github.com/SIOProjet/gdi.git",
+    "repository": "https://github.com/SIOProjet/gdi.gitgit",
     "keywords": ["php",
     "symfony",
     "quiz",
