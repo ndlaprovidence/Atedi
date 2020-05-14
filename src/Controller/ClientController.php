@@ -31,6 +31,8 @@ class ClientController extends AbstractController
      */
     public function new(Request $request): Response
     {
+
+
         $client = new Client();
         $form = $this->createForm(ClientType::class, $client);
         $form->handleRequest($request);
@@ -39,6 +41,10 @@ class ClientController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($client);
             $entityManager->flush();
+
+            if ( $request->query->get('i') == 'new') {
+                return $this->redirectToRoute('intervention_new');
+            }
 
             return $this->redirectToRoute('client_index');
         }

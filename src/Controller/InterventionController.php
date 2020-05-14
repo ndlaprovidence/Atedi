@@ -4,11 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Intervention;
 use App\Form\InterventionType;
+use App\Repository\ClientRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\InterventionRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/intervention")
@@ -28,16 +30,18 @@ class InterventionController extends AbstractController
     /**
      * @Route("/new", name="intervention_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, ClientRepository $cr, EntityManagerInterface $em): Response
     {
+        $this->em = $em;
+
         $intervention = new Intervention();
+
         $form = $this->createForm(InterventionType::class, $intervention);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($intervention);
-            $entityManager->flush();
+            $this->em->persist($intervention);
+            $this->em->flush();
 
             return $this->redirectToRoute('intervention_index');
         }
