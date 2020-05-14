@@ -60,11 +60,17 @@ class Intervention
      */
     private $client;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $status;
+
     public function __construct()
     {
         $this->technicians = new ArrayCollection();
         $this->tasks = new ArrayCollection();
         $this->setDepositDate(new \DateTime());
+        $this->setStatus('En cours');
     }
     
 
@@ -193,6 +199,18 @@ class Intervention
     public function setClient(?Client $client): self
     {
         $this->client = $client;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

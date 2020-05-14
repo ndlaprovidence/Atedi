@@ -39,6 +39,10 @@ class TaskController extends AbstractController
             $entityManager->persist($task);
             $entityManager->flush();
 
+            if ( $request->query->has('s') == 'intervention') {
+                return $this->redirectToRoute('intervention_new');
+            }
+            
             return $this->redirectToRoute('task_index');
         }
 

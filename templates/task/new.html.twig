@@ -3,9 +3,8 @@
 {% block title %}New Task{% endblock %}
 
 {% block body %}
-    <h1>Create new Task</h1>
+    <a href="{{ path('task_index') }}"><i class="fas fa-chevron-left h1 float-left"></i></a>
+    <h1 class='text-center mb-5'>Create new Task</h1>
 
     {{ include('task/_form.html.twig') }}
-
-    <a href="{{ path('task_index') }}">back to list</a>
 {% endblock %}

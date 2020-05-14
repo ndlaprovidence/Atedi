@@ -3,9 +3,8 @@
 {% block title %}New Technician{% endblock %}
 
 {% block body %}
-    <h1>Create new Technician</h1>
+    <a href="{{ path('technician_index') }}"><i class="fas fa-chevron-left h1 float-left"></i></a>
+    <h1 class='text-center mb-5'>Create new Technician</h1>
 
     {{ include('technician/_form.html.twig') }}
-
-    <a href="{{ path('technician_index') }}">back to list</a>
 {% endblock %}

@@ -39,6 +39,10 @@ class EquipmentController extends AbstractController
             $entityManager->persist($equipment);
             $entityManager->flush();
 
+            if ( $request->query->has('s') == 'intervention') {
+                return $this->redirectToRoute('intervention_new');
+            }
+            
             return $this->redirectToRoute('equipment_index');
         }
 

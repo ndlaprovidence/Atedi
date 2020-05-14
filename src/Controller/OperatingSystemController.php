@@ -39,6 +39,10 @@ class OperatingSystemController extends AbstractController
             $entityManager->persist($operatingSystem);
             $entityManager->flush();
 
+            if ( $request->query->has('s') == 'intervention') {
+                return $this->redirectToRoute('intervention_new');
+            }
+
             return $this->redirectToRoute('operating_system_index');
         }
 

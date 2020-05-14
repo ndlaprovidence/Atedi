@@ -42,7 +42,7 @@ class ClientController extends AbstractController
             $entityManager->persist($client);
             $entityManager->flush();
 
-            if ( $request->query->get('i') == 'new') {
+            if ( $request->query->has('s') == 'intervention') {
                 return $this->redirectToRoute('intervention_new');
             }
 
