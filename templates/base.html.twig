@@ -6,6 +6,7 @@
         {% block stylesheets %}
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
             <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+            <link rel="stylesheet" href="{{ asset('css/style.css') }}"/>
         {% endblock %}
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
@@ -24,12 +25,14 @@
                     <li class="nav-item active px-4">
                         <a class="nav-link" href="/">{{ 'Home'|trans }}</a>
                     </li>
+                    <li class="nav-item px-4">
+                        <a class="nav-link" href="{{ path('intervention_index') }}">{{ 'Intervention'|trans }}</a>
+                    </li>
                     <li class="nav-item dropdown px-4">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Outils</a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="{{ path('client_index') }}">{{ 'Client'|trans }}</a>
                             <a class="dropdown-item" href="{{ path('equipment_index') }}">{{ 'Equipment'|trans }}</a>
-                            <a class="dropdown-item" href="{{ path('intervention_index') }}">{{ 'intervention'|trans }}</a>
                             <a class="dropdown-item" href="{{ path('operating_system_index') }}">{{ 'OperatingSystem'|trans }}</a>
                             <a class="dropdown-item" href="{{ path('task_index') }}">{{ 'Task'|trans }}</a>
                             <a class="dropdown-item" href="{{ path('technician_index') }}">{{ 'Technician'|trans }}</a>

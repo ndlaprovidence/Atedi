@@ -8,12 +8,6 @@
                     {{ form_errors(form.title) }}
                     {{ form_widget(form.title, {'attr': {'class': 'mb-3'}}) }}
                 </div>
-
-                <div class='col row'>
-                    <h5>{{'Interventions'|trans}}</h5>            
-                    {{ form_errors(form.interventions) }}
-                    {{ form_widget(form.interventions, {'attr': {'class': 'mb-3'}}) }}
-                </div>
             </div>
 
             <button class="btn btn-success mt-3">{{ button_label|default('Save') }}</button>

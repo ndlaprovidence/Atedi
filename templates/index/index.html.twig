@@ -3,7 +3,62 @@
 {% block title %}Index{% endblock %}
 
 {% block body %}
-    <div class='text-center'>	
+    <div class='text-center mb-5'>	
         <a href='{{ path('intervention_new') }}'><button>Nouvelle intervention</button></a>
+    </div>
+
+    <h2>Intervention list</h2>
+    <div class="col list-container">
+        <table class="table">
+            <thead>
+                <tr>     
+                    <th>Deposit_date</th>        
+                    <th>Return_date</th>
+                    <th>Comment</th>
+                    <th>technicians</th>
+                    <th>Task</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for intervention in interventions %}
+                <tr>
+                    <td>{{ intervention.depositDate ? intervention.depositDate|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ intervention.returnDate ? intervention.returnDate|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ intervention.comment }}</td> 
+                    {% for technician in intervention.technicians %}
+                        <td>{{ technician.lastName }} {{ technician.firstName }}</td> 
+                    {% endfor %}
+                    <td>
+                    {% for interventions_type in intervention.tasks %}
+                        {{ interventions_type.title }} <br> 
+                    {% endfor %}
+                    </td> 
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="col">
+        <h1>Intervention fini</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>        
+                    <th>Deposit_date</th>        
+                    <th>Return_date</th>
+                    <th>Comment</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for intervention in interventions %}
+                <tr>
+                    <td>{{ intervention.id }}</td> 
+                    <td>{{ intervention.depositDate ? intervention.depositDate|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ intervention.returnDate ? intervention.returnDate|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ intervention.comment }}</td> 
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
 {% endblock %}
