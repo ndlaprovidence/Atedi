@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Client{% endblock %}
+{% block title %}Nouvelle fiche client{% endblock %}
 
 {% block body %}
     <a href="{{ path('client_index') }}"><i class="fas fa-chevron-left h1 float-left"></i></a>
-    <h1 class='text-center mb-5'>Create new Client</h1>
+    <h1 class='text-center mb-5'>Nouvelle fiche client</h1>
 
     {{ include('client/_form.html.twig') }}
 {% endblock %}

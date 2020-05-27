@@ -9,12 +9,12 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
- * @Route("/")
+ * @Route("/statistics")
  */
-class IndexController extends AbstractController
+class StatisticsController extends AbstractController
 {
     /**
-     * @Route("/", name="index", methods={"GET"})
+     * @Route("/", name="statistics_index", methods={"GET"})
      */
     public function index(InterventionRepository $interventionRepository)
     {

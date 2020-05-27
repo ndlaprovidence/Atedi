@@ -1,0 +1,196 @@
+// /* raleway-regular - latin */
+// @font-face {
+//     font-family: 'Raleway';
+//     font-style: normal;
+//     font-weight: 400;
+//     src: url('../fonts/raleway-v14-latin-regular.eot'); /* IE9 Compat Modes */
+//     src: local('Raleway'), local('Raleway-Regular'),
+//          url('../fonts/raleway-v14-latin-regular.woff') format('woff') /* Modern Browsers */
+// }
+
+$primaryColor: #264653;
+$lightGrey: #ebebeb;
+$darkerGrey: #d6d6d6;
+$darkGrey: #afafaf;
+$darkestGrey: #777777;
+$hoverGrey: #75757550;
+$lightGreen: #40913e6c;
+$darkGreen: #02910088;
+$hoverGreen: #047c0070;
+$lightRed: #cf0000cb;
+$darkRed: #9e0000cb;
+$hoverRed: #a10000cb;
+
+body {
+    // font-family: 'Raleway';
+}
+
+a {
+    color: inherit; /* blue colors for links too */
+    text-decoration: inherit; /* no underline */
+    background-color: transparent;
+    &:hover {
+        color: inherit; /* blue colors for links too */
+        text-decoration: inherit; /* no underline */
+        background-color: transparent;
+    }
+    &:focus {
+        color: inherit; /* blue colors for links too */
+        text-decoration: inherit; /* no underline */
+        background-color: transparent;
+    }
+    &:active {
+        color: inherit; /* blue colors for links too */
+        text-decoration: inherit; /* no underline */
+        background-color: transparent;
+    }
+}
+.fa-chevron-left:hover { color: $darkestGrey; }
+
+input {
+    outline: none;
+    &:focus { outline: none; }
+}
+
+.navbar { 
+    background-color: $primaryColor;
+    .active { background-color: $primaryColor; }
+}
+
+@mixin btn($color,$hoverColor) {
+    outline: none;
+    border-radius: 10px;
+    font-size: 16px;
+    background-color: $color;
+    outline: none;
+    border: none; 
+    &:hover { background-color: $hoverColor; }
+}
+
+.grey-btn { @include btn($lightGrey,$hoverGrey); }
+.green-btn { @include btn($lightGrey,$hoverGreen); }
+.red-btn { @include btn($lightGrey,$hoverRed); &:hover {color: #FFFFFF;} }
+
+.missing-info { color: $darkRed; }
+.alert-label { background-color: $lightRed; }
+
+.f-20 { font-size: 20px; }
+
+
+
+
+
+.top-infos-container {
+    .top-infos {
+        font-size: 20px;
+        font-family: inherit;
+        border-radius: 10px 10px 0 0;
+        background-color: $lightGrey;
+        display: inline-block;
+    }
+    .order-by-btn:hover {
+        background-color: $hoverGrey;
+        cursor: pointer;
+    }
+}
+
+.interv-list-container {
+    overflow: auto;
+    max-height: 500px;
+    border-top: $darkGrey solid 2px;
+
+    .active { 
+        background-color: $lightGreen; 
+        &:hover { background-color: $hoverGreen; }
+    }
+
+    .waiting { 
+        background-color: $lightGrey; 
+        &:hover { background-color: $hoverGrey; }
+    }
+
+    .interv-row {
+        margin: 0;
+        border-bottom: $darkGrey solid 1px;
+        &:hover { cursor: pointer; } 
+
+        .interv-row-tab-1 {
+            .bg-red { background-color: red; }
+            .bg-green { background-color: green; }
+            .bg-blue { background-color: blue; }
+            .bg-white { background-color: white; }
+            .bg-black { background-color: black; }
+            .interv-category {
+                height: 13px;
+                width: 13px;
+            }
+        } 
+        .interv-row-tab-2 { border-right: $darkGrey solid 1px; } 
+        .interv-row-tab-3 {
+            .interv-sub-info {
+                color: #0000009f;
+                font-style: italic;
+                font-size: 16px;
+            }
+        }
+    }
+    .alert-label {
+        background-color: $lightGreen;
+        margin: 0;
+    }
+}
+
+
+
+.show-container {
+    .info-container {
+        background-color: $lightGrey;
+        border-radius: 10px;
+
+        .status-manager {
+            .inactive { background-color: $darkGrey; }
+            .active { background-color: $darkGreen; }
+        }
+        .comment {
+            max-width: 100%;
+            border-radius: 5px;
+            background-color: $darkerGrey;
+        }
+        .btn {
+            background-color: $darkerGrey;
+            &:hover { background-color: $hoverGreen; }
+        }
+    }
+    .list { 
+        .link { 
+            border-bottom: $darkGrey solid 1px; 
+            &:hover { 
+                background-color: $darkerGrey;
+                cursor: pointer;
+            }
+        } 
+    }
+    .action-btn { border: $darkGrey solid 1px; }
+}
+
+
+
+.tab-head {
+    background-color: $primaryColor;
+    color: #FFFFFF;
+}    
+.index-list {
+    .link { border-bottom: $darkGrey solid 1px; }
+    .active { 
+        background-color: $lightGreen; 
+        &:hover { background-color: $hoverGreen; }
+    }
+    .waiting { 
+        background-color: $darkerGrey; 
+        &:hover { background-color: $darkGrey; }
+    }
+    .finished, .default { 
+        background-color: #FFFFFF; 
+        &:hover { background-color: $lightGrey; }
+    }
+}

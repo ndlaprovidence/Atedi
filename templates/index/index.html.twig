@@ -1,64 +1,62 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Index{% endblock %}
+{% block title %}Accueil{% endblock %}
 
 {% block body %}
-    <div class='text-center mb-5'>	
-        <a href='{{ path('intervention_new') }}'><button>Nouvelle intervention</button></a>
+    <div class='text-center mb-2'>	
+        <a href='{{ path('intervention_new') }}'><input type='button' value="Nouvelle demande d'intervention" class='green-btn f-20 w-50 p-2' /></a>
     </div>
 
-    <h2>Intervention list</h2>
-    <div class="col list-container">
-        <table class="table">
-            <thead>
-                <tr>     
-                    <th>Deposit_date</th>        
-                    <th>Return_date</th>
-                    <th>Comment</th>
-                    <th>technicians</th>
-                    <th>Task</th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for intervention in interventions %}
-                <tr>
-                    <td>{{ intervention.depositDate ? intervention.depositDate|date('Y-m-d H:i:s') : '' }}</td>
-                    <td>{{ intervention.returnDate ? intervention.returnDate|date('Y-m-d H:i:s') : '' }}</td>
-                    <td>{{ intervention.comment }}</td> 
-                    {% for technician in intervention.technicians %}
-                        <td>{{ technician.lastName }} {{ technician.firstName }}</td> 
-                    {% endfor %}
-                    <td>
-                    {% for interventions_type in intervention.tasks %}
-                        {{ interventions_type.title }} <br> 
-                    {% endfor %}
-                    </td> 
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    <hr>
+
+    <div class="row justify-content-md-center top-infos-container mt-5">
+        <div class="col-md-auto">
+            <div class='top-infos py-2 px-4'>{{ (interventions|length > 1) ? "Demandes d'interventions :" : "Demande d'intervention :" }} {{ interventions|length }}</div>
+        </div>
+        <div class="col-md-auto ml-auto">
+            <div class='top-infos py-2 px-3 order-by-btn by-task'><i class="fas fa-wrench"></i></div>
+            <div class='top-infos py-2 px-3 order-by-btn by-date'><i class="fas fa-clock"></i></div>
+        </div>
     </div>
-    <div class="col">
-        <h1>Intervention fini</h1>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Id</th>        
-                    <th>Deposit_date</th>        
-                    <th>Return_date</th>
-                    <th>Comment</th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for intervention in interventions %}
-                <tr>
-                    <td>{{ intervention.id }}</td> 
-                    <td>{{ intervention.depositDate ? intervention.depositDate|date('Y-m-d H:i:s') : '' }}</td>
-                    <td>{{ intervention.returnDate ? intervention.returnDate|date('Y-m-d H:i:s') : '' }}</td>
-                    <td>{{ intervention.comment }}</td> 
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+
+    <div class="interv-list-container mb-5">
+    {% if interventions %}
+        {% for intervention in interventions %}
+            <a href="{{ path('intervention_show', {'id': intervention.id}) }}">
+                <div class="row justify-content-md-center p-4 interv-row {{ intervStatus(intervention.status) }}">
+                    <div class="col-md-auto interv-row-tab-1 my-auto">
+                        <div class="interv-category {{ intervTypes(intervention.tasks) }}"></div>
+                    </div>
+                    <div class="col-6 interv-row-tab-2">
+                        <div class="d-flex flex-column">
+                            <div class="f-20">
+                                {% for task in intervention.tasks %}
+                                    {{ task }}{% if not loop.last %}, {% endif %}
+                                {% endfor %}
+                            </div>
+                            <div class="interv-sub-info">
+                                {% for technician in intervention.technicians %}
+                                    {{ technician }}{% if not loop.last %}, {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col interv-row-tab-3">
+                        <div class="d-flex flex-column">
+                            <div class="f-20">{{ intervention.operatingSystem }} - {{ intervention.equipment }}</div>
+                            <div class="interv-sub-info">{{ intervention.depositDate ? intervention.depositDate|date('d-m-Y') : '' }} - {{ intervention.client }}</div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+    {% else %}
+        <div class="row justify-content-md-center p-3 alert-label">
+            <div>Pas de demande d'intervention prévues</div>
+        </div>
+    {% endif %}
+
     </div>
+
+
 {% endblock %}

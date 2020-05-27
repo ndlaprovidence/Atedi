@@ -43,7 +43,7 @@ class InterventionController extends AbstractController
             $this->em->persist($intervention);
             $this->em->flush();
 
-            return $this->redirectToRoute('intervention_index');
+            return $this->redirectToRoute('intervention_show', ['id' => $intervention->getId()]);
         }
 
         return $this->render('intervention/new.html.twig', [
@@ -53,10 +53,20 @@ class InterventionController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="intervention_show", methods={"GET"})
+     * @Route("/{id}", name="intervention_show", methods={"GET","POST"})
      */
-    public function show(Intervention $intervention): Response
+    public function show(Request $request, Intervention $intervention, EntityManagerInterface $em): Response
     {
+        if ($request->request->has('status')) {
+            $this->em = $em;
+
+            $newStatus = $request->request->get('status');
+            
+            $intervention->setStatus($newStatus);
+            $this->em->persist($intervention);
+            $this->em->flush();
+        }
+
         return $this->render('intervention/show.html.twig', [
             'intervention' => $intervention,
         ]);
@@ -73,7 +83,7 @@ class InterventionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('intervention_index');
+            return $this->redirectToRoute('intervention_show', ['id' => $intervention->getId()]);
         }
 
         return $this->render('intervention/edit.html.twig', [

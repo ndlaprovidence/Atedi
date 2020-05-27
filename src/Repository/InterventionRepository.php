@@ -22,6 +22,77 @@ class InterventionRepository extends ServiceEntityRepository
     // /**
     //  * @return Intervention[] Returns an array of Intervention objects
     //  */
+
+    public function findAll()
+    {
+        return $this->findBy(array(), array('id' => 'DESC'));
+    }
+
+    public function findAllOngoing()
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere("i.status != 'Terminée'")
+            ->orderBy('i.status', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findAllByClient($id)
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.client = :id')
+            ->setParameter('id', $id)
+            ->orderBy('i.id', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findAllByEquipment($id)
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.equipment = :id')
+            ->setParameter('id', $id)
+            ->orderBy('i.id', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findAllByOperatingSystem($id)
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.operating_system = :id')
+            ->setParameter('id', $id)
+            ->orderBy('i.id', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findAllByTask($id)
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere(':id MEMBER OF i.tasks')
+            ->setParameter('id', $id)
+            ->orderBy('i.id', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findAllByTechnician($id)
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere(':id MEMBER OF i.technicians')
+            ->setParameter('id', $id)
+            ->orderBy('i.id', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     /*
     public function findByExampleField($value)
     {

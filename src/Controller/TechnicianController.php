@@ -5,10 +5,11 @@ namespace App\Controller;
 use App\Entity\Technician;
 use App\Form\TechnicianType;
 use App\Repository\TechnicianRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\InterventionRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/technician")
@@ -55,10 +56,13 @@ class TechnicianController extends AbstractController
     /**
      * @Route("/{id}", name="technician_show", methods={"GET"})
      */
-    public function show(Technician $technician): Response
+    public function show(Technician $technician, InterventionRepository $interventionRepository): Response
     {
+        $interventions = $interventionRepository->findAllByTechnician($technician->getId());
+
         return $this->render('technician/show.html.twig', [
             'technician' => $technician,
+            'interventions' => $interventions,
         ]);
     }
 

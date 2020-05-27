@@ -1,39 +1,37 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Technician index{% endblock %}
+{% block title %}Liste des techniciens{% endblock %}
 
 {% block body %}
-    <h1>Technician index</h1>
+    <div class='text-center mb-2'>	
+        <div class='h2 mb-3'>Liste des techniciens</div>
+    </div>
+    <div class='text-center mb-2'>	
+        <a href='{{ path('technician_new') }}'><input type='button' value="Ajouter un technicien" class='green-btn f-20 py-2 px-4' /></a>
+    </div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Last_name</th>
-                <th>First_name</th>
-                <th>Email</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
+    <hr>
+
+    <div class='container index-list'>
+        <div class="row tab-head p-2">
+            <div class="col-4">Nom</div>
+            <div class="col-4">Prénom</div>
+            <div class="col-4">Email</div>
+        </div>
+
         {% for technician in technicians %}
-            <tr>
-                <td>{{ technician.id }}</td>
-                <td>{{ technician.lastName }}</td>
-                <td>{{ technician.firstName }}</td>
-                <td>{{ technician.email }}</td>
-                <td>
-                    <a href="{{ path('technician_show', {'id': technician.id}) }}">show</a>
-                    <a href="{{ path('technician_edit', {'id': technician.id}) }}">edit</a>
-                </td>
-            </tr>
+            <a href="{{ path('technician_show', {'id': technician.id}) }}">
+                <div class="row link default p-2">
+                    <div class="col-4 my-auto">{{ technician.lastName }}</div>
+                    <div class="col-4 my-auto">{{ technician.firstName }}</div>
+                    <div class="col-4 my-auto">{{ technician.email ?: "<div class='missing-info'>Non-renseignée</div>" }}</div>
+                </div>
+            </a>
         {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
+            <div class="row">
+                <div class='col text-center alert-label p-2'>Aucun techniciens enregistrés</div>
+            </div>
         {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('technician_new') }}">Create new</a>
+        
+    </div>
 {% endblock %}

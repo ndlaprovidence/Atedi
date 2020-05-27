@@ -29,7 +29,7 @@ class Intervention
     private $return_date;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     private $comment;
 
@@ -70,7 +70,7 @@ class Intervention
         $this->technicians = new ArrayCollection();
         $this->tasks = new ArrayCollection();
         $this->setDepositDate(new \DateTime());
-        $this->setStatus('En cours');
+        $this->setStatus('En attente');
     }
     
 

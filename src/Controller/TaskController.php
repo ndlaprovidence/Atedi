@@ -5,10 +5,11 @@ namespace App\Controller;
 use App\Entity\Task;
 use App\Form\TaskType;
 use App\Repository\TaskRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\InterventionRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/task")
@@ -55,10 +56,13 @@ class TaskController extends AbstractController
     /**
      * @Route("/{id}", name="task_show", methods={"GET"})
      */
-    public function show(Task $task): Response
+    public function show(Task $task, InterventionRepository $interventionRepository): Response
     {
+        $interventions = $interventionRepository->findAllByTask($task->getId());
+
         return $this->render('task/show.html.twig', [
             'task' => $task,
+            'interventions' => $interventions,
         ]);
     }
 

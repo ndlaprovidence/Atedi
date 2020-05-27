@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Technician{% endblock %}
+{% block title %}Nouvelle fiche technicien{% endblock %}
 
 {% block body %}
     <a href="{{ path('technician_index') }}"><i class="fas fa-chevron-left h1 float-left"></i></a>
-    <h1 class='text-center mb-5'>Create new Technician</h1>
+    <h1 class='text-center mb-5'>Nouvelle fiche technicien</h1>
 
     {{ include('technician/_form.html.twig') }}
 {% endblock %}

@@ -4,11 +4,12 @@ namespace App\Controller;
 
 use App\Entity\OperatingSystem;
 use App\Form\OperatingSystemType;
+use App\Repository\InterventionRepository;
 use App\Repository\OperatingSystemRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/operating/system")
@@ -55,10 +56,13 @@ class OperatingSystemController extends AbstractController
     /**
      * @Route("/{id}", name="operating_system_show", methods={"GET"})
      */
-    public function show(OperatingSystem $operatingSystem): Response
+    public function show(OperatingSystem $operatingSystem, InterventionRepository $interventionRepository): Response
     {
+        $interventions = $interventionRepository->findAllByOperatingSystem($operatingSystem->getId());
+
         return $this->render('operating_system/show.html.twig', [
             'operating_system' => $operatingSystem,
+            'interventions' => $interventions,
         ]);
     }
 

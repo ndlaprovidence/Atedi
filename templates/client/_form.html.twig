@@ -4,25 +4,25 @@
         <div class="row justify-content-md-center">
             <div class='col-6'>
                 <div class='col row'>
-                    <h5>{{'Last name'|trans}}</h5>            
+                    <h5>Nom</h5>            
                     {{ form_errors(form.last_name) }}
                     {{ form_widget(form.last_name, {'attr': {'class': 'mb-3'}}) }}
                 </div>
 
                 <div class='col row'>
-                    <h5>{{'First name'|trans}}</h5>            
+                    <h5>Prénom</h5>            
                     {{ form_errors(form.first_name) }}
                     {{ form_widget(form.first_name, {'attr': {'class': 'mb-3'}}) }}
                 </div>
 
                 <div class='col row'>
-                    <h5>{{'Phone'|trans}}</h5>
+                    <h5>Téléphone</h5>
                     {{ form_errors(form.phone) }}
                     {{ form_widget(form.phone, {'attr': {'class': 'mb-3'}}) }}
                 </div>
 
                 <div class='col row'>
-                    <h5>{{'Email'|trans}}</h5>
+                    <h5>Email</h5>
                     {{ form_errors(form.email) }}
                     {{ form_widget(form.email, {'attr': {'class': 'mb-3'}}) }}
                 </div>
@@ -30,26 +30,25 @@
 
             <div class='col-6'>
                 <div class='col row'>
-                    <h5>{{'Street'|trans}}</h5>            
+                    <h5>Adresse</h5>            
                     {{ form_errors(form.street) }}
                     {{ form_widget(form.street, {'attr': {'class': 'mb-3'}}) }}
                 </div>
 
                 <div class='col row'>
-                    <h5>{{'City'|trans}}</h5>            
+                    <h5>Ville</h5>            
                     {{ form_errors(form.city) }}
                     {{ form_widget(form.city, {'attr': {'class': 'mb-3'}}) }}
                 </div>
 
                 <div class='col row'>
-                    <h5>{{'Postal code'|trans}}</h5>            
+                    <h5>Code postal</h5>            
                     {{ form_errors(form.postal_code) }}
                     {{ form_widget(form.postal_code, {'attr': {'class': 'mb-3'}}) }}
                 </div>
             </div>
 
-            <button class="btn btn-success mt-3">{{ button_label|default('Save') }}</button>
-
+            <button class="green-btn py-2 px-4 mt-3">{{ button_label|default('Valider') }}</button>
         </div>
     </div>
 

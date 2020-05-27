@@ -1,35 +1,33 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Task index{% endblock %}
+{% block title %}Liste des tâches{% endblock %}
 
 {% block body %}
-    <h1>Task index</h1>
+    <div class='text-center mb-2'>	
+        <div class='h2 mb-3'>Liste des tâches</div>
+    </div>
+    <div class='text-center mb-2'>	
+        <a href='{{ path('task_new') }}'><input type='button' value="Ajouter une tâche" class='green-btn f-20 py-2 px-4' /></a>
+    </div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
+    <hr>
+
+    <div class='container index-list'>
+        <div class="row tab-head p-2">
+            <div class="col-12">Titre</div>
+        </div>
+
         {% for task in tasks %}
-            <tr>
-                <td>{{ task.id }}</td>
-                <td>{{ task.title }}</td>
-                <td>
-                    <a href="{{ path('task_show', {'id': task.id}) }}">show</a>
-                    <a href="{{ path('task_edit', {'id': task.id}) }}">edit</a>
-                </td>
-            </tr>
+            <a href="{{ path('task_show', {'id': task.id}) }}">
+                <div class="row link default p-2">
+                    <div class="col-12 my-auto">{{ task.title }}</div>
+                </div>
+            </a>
         {% else %}
-            <tr>
-                <td colspan="3">no records found</td>
-            </tr>
+            <div class="row">
+                <div class='col text-center alert-label p-2'>Aucune tâches enregistrées</div>
+            </div>
         {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('task_new') }}">Create new</a>
+        
+    </div>
 {% endblock %}
