@@ -38,6 +38,16 @@ class InterventionRepository extends ServiceEntityRepository
         ;
     }
 
+    public function findOneById($id): ?Intervention
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
     public function findAllByClient($id)
     {
         return $this->createQueryBuilder('i')
