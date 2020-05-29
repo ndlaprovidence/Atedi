@@ -171,6 +171,7 @@ input {
         } 
     }
     .action-btn { border: $darkGrey solid 1px; }
+    .disabled:hover { background-color: $lightGrey; }
 }
 
 

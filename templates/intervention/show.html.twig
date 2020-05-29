@@ -137,7 +137,12 @@
                 <div class='row'>
                     <div class='col'>
                         <form action="" method="post">
-                            <i class="fas fa-download mr-3"></i><input type='submit' name='download' value='Télécharger' class='mx-auto action-btn grey-btn px-4 py-1' />
+                            <i class="fas fa-download mr-3"></i>
+                                {% if intervention.status == 'En cours' %}
+                                    <input type='submit' name='download' value='Télécharger' class='mx-auto action-btn grey-btn px-4 py-1' />
+                                {% else %}
+                                    <input type='submit' name='download' value='Télécharger' class='mx-auto action-btn grey-btn px-4 py-1 disabled' disabled />
+                                {% endif %}
                         </form>
                     </div>
                 </div>

@@ -229,6 +229,10 @@ input:focus {
   border: #afafaf solid 1px;
 }
 
+.show-container .disabled:hover {
+  background-color: #ebebeb;
+}
+
 .tab-head {
   background-color: #264653;
   color: #FFFFFF;

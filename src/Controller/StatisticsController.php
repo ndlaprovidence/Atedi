@@ -20,7 +20,7 @@ class StatisticsController extends AbstractController
     {
         $interventions = $interventionRepository->findAllOngoing();
 
-        return $this->render('index/index.html.twig', [
+        return $this->render('statistics/index.html.twig', [
             'interventions' => $interventions,
         ]);
     }
