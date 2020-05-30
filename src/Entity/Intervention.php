@@ -35,6 +35,7 @@ class Intervention
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\OperatingSystem", inversedBy="interventions")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $operating_system;
 
@@ -46,11 +47,13 @@ class Intervention
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Technician", inversedBy="interventions")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $technicians;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Task", inversedBy="interventions")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $tasks;
 

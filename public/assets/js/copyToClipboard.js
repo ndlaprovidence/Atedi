@@ -6,7 +6,7 @@ $( document ).ready(function() {
     });
 
     $("#copyButton").mouseout(function() {
-        $('#copyButtonLabel').text('Cliquer');
+        $('#copyButtonTooltip').text('Cliquer');
     });
 
     function copyToClipboard(elem) {
@@ -42,7 +42,7 @@ $( document ).ready(function() {
         // clear temporary content
         target.textContent = "";
 
-        $('#copyButtonLabel').text('Copie reussie');
+        $('#copyButtonTooltip').text('Copie reussie');
 
         return succeed;
     }

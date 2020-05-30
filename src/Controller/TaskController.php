@@ -44,7 +44,9 @@ class TaskController extends AbstractController
                 return $this->redirectToRoute('intervention_new');
             }
             
-            return $this->redirectToRoute('task_index');
+            return $this->redirectToRoute('task_show', [
+                'id' => $task->getId(),
+            ]);
         }
 
         return $this->render('task/new.html.twig', [
@@ -76,8 +78,10 @@ class TaskController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('task_index');
+            
+            return $this->redirectToRoute('task_show', [
+                'id' => $task->getId(),
+            ]);
         }
 
         return $this->render('task/edit.html.twig', [

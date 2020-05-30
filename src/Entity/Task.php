@@ -28,6 +28,11 @@ class Task
      */
     private $interventions;
 
+    /**
+     * @ORM\Column(type="string", length=6)
+     */
+    private $color;
+
     public function __construct()
     {
         $this->interventions = new ArrayCollection();
@@ -79,6 +84,18 @@ class Task
             $this->interventions->removeElement($intervention);
             $intervention->removeTask($this);
         }
+
+        return $this;
+    }
+
+    public function getColor(): ?string
+    {
+        return $this->color;
+    }
+
+    public function setColor(string $color): self
+    {
+        $this->color = $color;
 
         return $this;
     }

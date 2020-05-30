@@ -45,7 +45,9 @@ class InterventionController extends AbstractController
             $this->em->persist($intervention);
             $this->em->flush();
 
-            return $this->redirectToRoute('intervention_show', ['id' => $intervention->getId()]);
+            return $this->redirectToRoute('intervention_show', [
+                'id' => $intervention->getId(),
+            ]);
         }
 
         return $this->render('intervention/new.html.twig', [
@@ -124,7 +126,9 @@ class InterventionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('intervention_show', ['id' => $intervention->getId()]);
+            return $this->redirectToRoute('intervention_show', [
+                'id' => $intervention->getId(),
+            ]);
         }
 
         return $this->render('intervention/edit.html.twig', [

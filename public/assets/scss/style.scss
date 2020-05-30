@@ -1,31 +1,7 @@
-// /* raleway-regular - latin */
-// @font-face {
-//     font-family: 'Raleway';
-//     font-style: normal;
-//     font-weight: 400;
-//     src: url('../fonts/raleway-v14-latin-regular.eot'); /* IE9 Compat Modes */
-//     src: local('Raleway'), local('Raleway-Regular'),
-//          url('../fonts/raleway-v14-latin-regular.woff') format('woff') /* Modern Browsers */
-// }
+@import "./appColors";
+@import "./appFont";
 
-$primaryColor: #264653;
-$lightPrimaryColor: #487181;
-$lightGrey: #ebebeb;
-$darkerGrey: #d6d6d6;
-$darkGrey: #afafaf;
-$darkestGrey: #777777;
-$hoverGrey: #75757550;
-$lightGreen: #40913e6c;
-$darkGreen: #02910088;
-$hoverGreen: #047c0070;
-$lightRed: #cf0000cb;
-$darkRed: #9e0000cb;
-$hoverRed: #a10000cb;
-
-body {
-    // font-family: 'Raleway';
-}
-
+// Disable navigators default style
 a {
     color: inherit; /* blue colors for links too */
     text-decoration: inherit; /* no underline */
@@ -35,27 +11,18 @@ a {
         text-decoration: inherit; /* no underline */
         background-color: transparent;
     }
-    &:focus {
-        color: inherit; /* blue colors for links too */
-        text-decoration: inherit; /* no underline */
-        background-color: transparent;
-    }
-    &:active {
-        color: inherit; /* blue colors for links too */
-        text-decoration: inherit; /* no underline */
-        background-color: transparent;
-    }
 }
-.fa-chevron-left:hover { color: $darkestGrey; }
-
 input {
     outline: none;
     &:focus { outline: none; }
 }
 
-.navbar { 
-    background-color: $primaryColor;
-    .active { background-color: $primaryColor; }
+
+
+/////////////////////////////////////////////////
+
+// General stuff
+body { // font-family: 'Raleway'; }
 }
 
 @mixin btn($color,$hoverColor) {
@@ -67,20 +34,83 @@ input {
     border: none; 
     &:hover { background-color: $hoverColor; }
 }
-
 .grey-btn { @include btn($lightGrey,$hoverGrey); }
 .green-btn { @include btn($lightGrey,$hoverGreen); }
 .red-btn { @include btn($lightGrey,$hoverRed); &:hover {color: #FFFFFF;} }
 
+
+
+@mixin infoBtn($tooltipWidth) {
+    position: relative;
+    display: inline-block;
+    &:hover { 
+        color: $primaryColor; 
+        .info-btn-tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+    }
+    .info-btn-tooltip {
+        font-size: 18px;
+        z-index: 1;
+        font-weight: normal;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        visibility: hidden;
+        width: $tooltipWidth;
+        background-color: $primaryColor;
+        color: #FFFFFF;
+        text-align: center;
+        border-radius: 6px;
+        position: absolute;
+        bottom: 170%;
+        left: 50%;
+        margin-left: -$tooltipWidth/2;
+        opacity: 0;
+        transition: opacity 0.2s;
+        &::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: $primaryColor transparent transparent transparent;
+        }
+    }
+}
+.info-btn-300 { @include infoBtn(300px); }
+.info-btn-100 { @include infoBtn(100px); }
+
+.fa-chevron-left:hover { color: $darkestGrey; }
+
+.navbar { 
+    background-color: $primaryColor;
+    .active { background-color: $primaryColor; }
+}
+
 .missing-info { color: $darkRed; }
-.alert-label { background-color: $lightRed; }
+.alert-label { background-color: $lightGrey; }
 
 .f-20 { font-size: 20px; }
 
+.color-box {
+    border-radius: 5px;
+    height: 15px;
+    width: 15px;
+    background-color: #000000;
+}
+
+.chart {
+    min-width: 400px;
+    height: 400px;
+}
 
 
 
+/////////////////////////////////////////////////
 
+// Landing page CSS
 .top-infos-container {
     .top-infos {
         font-size: 20px;
@@ -100,7 +130,7 @@ input {
     }
 }
 
-.interv-list-container {
+.index-list-container {
     overflow: auto;
     max-height: 500px;
     border-top: $darkGrey solid 2px;
@@ -120,17 +150,6 @@ input {
         border-bottom: $darkGrey solid 1px;
         &:hover { cursor: pointer; } 
 
-        .interv-row-tab-1 {
-            .bg-red { background-color: red; }
-            .bg-green { background-color: green; }
-            .bg-blue { background-color: blue; }
-            .bg-white { background-color: white; }
-            .bg-black { background-color: black; }
-            .interv-category {
-                height: 13px;
-                width: 13px;
-            }
-        } 
         .interv-row-tab-2 { border-right: $darkGrey solid 1px; } 
         .interv-row-tab-3 {
             .interv-sub-info {
@@ -148,6 +167,9 @@ input {
 
 
 
+/////////////////////////////////////////////////
+
+// Show pages CSS
 .show-container {
     .info-container {
         background-color: $lightGrey;
@@ -156,45 +178,6 @@ input {
         .status-manager {
             .inactive { background-color: $darkGrey; }
             .active { background-color: $darkGreen; }
-        }
-        .copy-btn {
-            position: relative;
-            display: inline-block;
-            &:hover { 
-                color: $primaryColor; 
-                .copy-btn-label {
-                    visibility: visible;
-                    opacity: 1;
-                }
-            }
-            .copy-btn-label {
-                font-size: 18px;
-                z-index: 1;
-                font-weight: normal;
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-                visibility: hidden;
-                width: 100px;
-                background-color: $primaryColor;
-                color: #FFFFFF;
-                text-align: center;
-                border-radius: 6px;
-                position: absolute;
-                bottom: 170%;
-                left: 50%;
-                margin-left: -50px;
-                opacity: 0;
-                transition: opacity 0.2s;
-                &::after {
-                    content: "";
-                    position: absolute;
-                    top: 100%;
-                    left: 50%;
-                    margin-left: -5px;
-                    border-width: 5px;
-                    border-style: solid;
-                    border-color: $primaryColor transparent transparent transparent;
-                }
-            }
         }
         .comment {
             max-width: 100%;
@@ -221,6 +204,9 @@ input {
 
 
 
+/////////////////////////////////////////////////
+
+// Index pages CSS
 .tab-head {
     background-color: $primaryColor;
     color: #FFFFFF;

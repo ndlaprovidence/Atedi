@@ -44,7 +44,9 @@ class OperatingSystemController extends AbstractController
                 return $this->redirectToRoute('intervention_new');
             }
 
-            return $this->redirectToRoute('operating_system_index');
+            return $this->redirectToRoute('operating_system_show', [
+                'id' => $operatingSystem->getId(),
+            ]);
         }
 
         return $this->render('operating_system/new.html.twig', [
@@ -77,7 +79,9 @@ class OperatingSystemController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('operating_system_index');
+            return $this->redirectToRoute('operating_system_show', [
+                'id' => $operatingSystem->getId(),
+            ]);
         }
 
         return $this->render('operating_system/edit.html.twig', [

@@ -44,7 +44,9 @@ class EquipmentController extends AbstractController
                 return $this->redirectToRoute('intervention_new');
             }
             
-            return $this->redirectToRoute('equipment_index');
+            return $this->redirectToRoute('equipment_show', [
+                'id' => $equipment->getId(),
+            ]);
         }
 
         return $this->render('equipment/new.html.twig', [
@@ -77,7 +79,9 @@ class EquipmentController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('equipment_index');
+            return $this->redirectToRoute('equipment_show', [
+                'id' => $equipment->getId(),
+            ]);
         }
 
         return $this->render('equipment/edit.html.twig', [

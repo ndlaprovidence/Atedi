@@ -2,6 +2,10 @@
 
 {% block title %}Accueil{% endblock %}
 
+{% block javascripts %}        
+    <script src="{{ asset('assets/js/colorFinder.js') }}"></script>
+{% endblock %}
+
 {% block body %}
     <div class='text-center mb-2'>	
         <a href='{{ path('intervention_new') }}'><input type='button' value="Nouvelle demande d'intervention" class='green-btn f-20 w-50 p-2' /></a>
@@ -23,13 +27,13 @@
         </div>
     </div>
 
-    <div class="interv-list-container mb-5">
+    <div class="index-list-container mb-5">
     {% if interventions %}
         {% for intervention in interventions %}
             <a href="{{ path('intervention_show', {'id': intervention.id}) }}">
                 <div class="row justify-content-md-center p-4 interv-row {{ intervStatus(intervention.status) }}">
                     <div class="col-md-auto interv-row-tab-1 my-auto">
-                        <div class="interv-category {{ intervTypes(intervention.tasks) }}"></div>
+                        <div class="color-box" data-color="#{% for task in intervention.tasks %}{{ task.color }}{% endfor %}"></div>
                     </div>
                     <div class="col-6 interv-row-tab-2">
                         <div class="d-flex flex-column">

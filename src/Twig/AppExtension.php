@@ -11,7 +11,6 @@ class AppExtension extends AbstractExtension
     {
         return [
             new TwigFunction('intervStatus', [$this, 'statusFinder']),
-            new TwigFunction('intervTypes', [$this, 'typesFinder']),
         ];
     }
 
@@ -29,31 +28,6 @@ class AppExtension extends AbstractExtension
             case 'Terminée':
                 return 'finished';
                 break;
-        }
-    }
-
-    public function typesFinder($theTypes)
-    {
-        if (sizeof($theTypes) == 1) {
-            switch ($theTypes[0]) {
-                case 'Réparation':
-                    return 'bg-red';
-                    break;
-    
-                case 'Formatage':
-                    return 'bg-green';
-                    break;
-
-                case 'Nettoyage':
-                    return 'bg-blue';
-                    break;
-
-                default:
-                    return 'bg-white';
-                    break;
-            }
-        } else {
-            return 'bg-black';
         }
     }
 }

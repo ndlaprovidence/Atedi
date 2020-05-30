@@ -4,6 +4,7 @@
 
 {% block javascripts %}        
     <script src="{{ asset('assets/js/copyToClipboard.js') }}"></script>
+    <script src="{{ asset('assets/js/colorFinder.js') }}"></script>
 {% endblock %}
 
 {% block body %}
@@ -63,10 +64,10 @@
                 <div class='f-20 text-center'>Informations sur l'intervention</div>
                 <hr>
                 {% if intervention.status == 'Terminée' %}
-                    <div class='row mb-2 status-manager'>
+                    <div class='row mb-2'>
                         <div class='col-md-auto my-auto'>
-                            <i class="fas fa-copy copy-btn fa-lg float-left" id='copyButton'>                                
-                                <span class="copy-btn-label p-2" id="copyButtonLabel">Cliquer</span>
+                            <i class="fas fa-copy info-btn-100 fa-lg float-left" id='copyButton'>                                
+                                <span class="info-btn-tooltip p-2" id="copyButtonTooltip">Cliquer</span>
                             </i>
                         </div>
                         <div class='col'>
@@ -127,8 +128,9 @@
                 </div>
                 <hr>
                 <div class='row mb-2'>
-                    <div class='col-md-auto'><i class="fas fa-wrench"></i></div>
+                    <div class='col-md-auto my-auto'><div class="color-box" data-color="#{% for task in intervention.tasks %}{{ task.color }}{% endfor %}"></div></div>
                     <div class='col'>
+                    
                         <div>
                             {% for task in intervention.tasks %}
                                 {{ task }}{% if not loop.last %}, {% endif %}

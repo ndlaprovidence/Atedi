@@ -44,7 +44,9 @@ class TechnicianController extends AbstractController
                 return $this->redirectToRoute('intervention_new');
             }
             
-            return $this->redirectToRoute('technician_index');
+            return $this->redirectToRoute('technician_show', [
+                'id' => $technician->getId(),
+            ]);
         }
 
         return $this->render('technician/new.html.twig', [
@@ -77,7 +79,9 @@ class TechnicianController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('technician_index');
+            return $this->redirectToRoute('technician_show', [
+                'id' => $technician->getId(),
+            ]);
         }
 
         return $this->render('technician/edit.html.twig', [
