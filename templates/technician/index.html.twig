@@ -12,6 +12,8 @@
 
     <hr>
 
+    <input class='w-100 mb-3 p-2' type="text" id="searchBar" placeholder="Rechercher un technicien">
+
     <div class='container index-list'>
         <div class="row tab-head p-2">
             <div class="col-4">Nom</div>
@@ -20,7 +22,7 @@
         </div>
 
         {% for technician in technicians %}
-            <a href="{{ path('technician_show', {'id': technician.id}) }}">
+            <a class='data-row' href="{{ path('technician_show', {'id': technician.id}) }}">
                 <div class="row link default p-2">
                     <div class="col-4 my-auto">{{ technician.lastName }}</div>
                     <div class="col-4 my-auto">{{ technician.firstName }}</div>

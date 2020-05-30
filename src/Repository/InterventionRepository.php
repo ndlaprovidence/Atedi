@@ -28,11 +28,21 @@ class InterventionRepository extends ServiceEntityRepository
         return $this->findBy(array(), array('id' => 'DESC'));
     }
 
-    public function findAllOngoing()
+    public function findAllOngoingByStatus()
     {
         return $this->createQueryBuilder('i')
             ->andWhere("i.status != 'Terminée'")
             ->orderBy('i.status', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findAllOngoingByDate()
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere("i.status != 'Terminée'")
+            ->orderBy('i.deposit_date', 'DESC')
             ->getQuery()
             ->getResult()
         ;

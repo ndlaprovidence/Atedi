@@ -12,13 +12,15 @@
 
     <hr>
 
+    <input class='w-100 mb-3 p-2' type="text" id="searchBar" placeholder="Rechercher un système d'exploitation">
+
     <div class='container index-list'>
         <div class="row tab-head p-2">
             <div class="col-12">Titre</div>
         </div>
 
         {% for operating_system in operating_systems %}
-            <a href="{{ path('operating_system_show', {'id': operating_system.id}) }}">
+            <a class='data-row' href="{{ path('operating_system_show', {'id': operating_system.id}) }}">
                 <div class="row link default p-2">
                     <div class="col-12 my-auto">{{ operating_system.title }}</div>
                 </div>

@@ -12,6 +12,8 @@
 
     <hr>
 
+    <input class='w-100 mb-3 p-2' type="text" id="searchBar" placeholder="Rechercher un client">
+
     <div class='container index-list'>
         <div class="row tab-head p-2">
             <div class="col-3">Nom</div>
@@ -21,7 +23,7 @@
         </div>
 
         {% for client in clients %}
-            <a href="{{ path('client_show', {'id': client.id}) }}">
+            <a class='data-row' href="{{ path('client_show', {'id': client.id}) }}">
                 <div class="row link default p-2">
                     <div class="col-3 my-auto">{{ client.lastName }}</div>
                     <div class="col-3 my-auto">{{ client.firstName }}</div>

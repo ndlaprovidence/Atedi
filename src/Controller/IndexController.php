@@ -16,12 +16,30 @@ class IndexController extends AbstractController
     /**
      * @Route("/", name="index", methods={"GET"})
      */
-    public function index(InterventionRepository $interventionRepository)
+    public function index(InterventionRepository $interventionRepository, Request $request): Response
     {
-        $interventions = $interventionRepository->findAllOngoing();
+        $interventions = $interventionRepository->findAllOngoingByStatus();
+        $filter = 'status';
+
+        if ($request->query->has('filter')) {
+
+            $filter = $request->query->get('filter');
+            
+            switch ($filter) {
+                case 'status':
+                    $interventions = $interventionRepository->findAllOngoingByStatus();
+                    $filter = 'status';
+                    break;
+                case 'date':
+                    $interventions = $interventionRepository->findAllOngoingByDate();
+                    $filter = 'date';
+                    break;
+            }
+        }
 
         return $this->render('index/index.html.twig', [
             'interventions' => $interventions,
+            'filter' => $filter,
         ]);
     }
 }

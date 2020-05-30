@@ -14,8 +14,12 @@
             <div class='top-infos py-2 px-4'>{{ (interventions|length > 1) ? "Demandes d'interventions :" : "Demande d'intervention :" }} {{ interventions|length }}</div>
         </div>
         <div class="col-md-auto ml-auto">
-            <div class='top-infos py-2 px-3 order-by-btn by-task'><i class="fas fa-wrench"></i></div>
-            <div class='top-infos py-2 px-3 order-by-btn by-date'><i class="fas fa-clock"></i></div>
+            <a href="{{ path('index', {'filter': 'status'}) }}">
+                <div class='top-infos py-2 px-3 order-by-btn by-status {%if filter == 'status' %}active{% endif %}'><i class="fas fa-tasks"></i></div>
+            </a>
+            <a href="{{ path('index', {'filter': 'date'}) }}">
+                <div class='top-infos py-2 px-3 order-by-btn by-date {%if filter == 'date' %}active{% endif %}'><i class="fas fa-clock"></i></div>
+            </a>
         </div>
     </div>
 

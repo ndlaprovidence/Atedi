@@ -58,13 +58,28 @@
             <div class="info-container mb-auto col-4 p-4">
                 <div class='f-20 text-center'>Informations sur l'intervention</div>
                 <hr>
+                {% if intervention.status == 'Terminée' %}
+                    <div class='row mb-2 status-manager'>
+                        <div class='col-md-auto my-auto'>
+                            <i class="fas fa-copy copy-btn fa-lg float-left" id='copyButton'>                                
+                                <span class="copy-btn-label p-2" id="copyButtonLabel">Cliquer</span>
+                            </i>
+                        </div>
+                        <div class='col'>
+                            <div class='comment p-2'>
+                                <div id='copyTarget'>{{ intervention.client }}, votre {{ intervention.equipment }} est disponible dans notre boutique.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                {% endif %}
                 <div class='row mb-2 status-manager'>
                     <div class='col-md-auto my-auto'><i class="fas fa-hourglass-half"></i></div>
                     <div class='col'>
                         <form action="" method="post">
-                            <input type='submit' name='status' value='En attente' class='py-1 px-2 action-btn grey-btn {% if intervention.status == 'En attente' %}inactive{% endif %}' />
-                            <input type='submit' name='status' value='En cours' class='py-1 px-2 action-btn green-btn {% if intervention.status == 'En cours' %}active{% endif %}' />
-                            <input type='submit' name='status' value='Terminée' class='py-1 px-2 action-btn grey-btn {% if intervention.status == 'Terminée' %}inactive{% endif %}' />
+                            <input type='submit' name='status' value='En attente' class='py-1 px-2 action-btn grey-btn {% if intervention.status == 'En attente' %}inactive{% endif %}' {% if intervention.status == 'En attente' %}disabled{% endif %} />
+                            <input type='submit' name='status' value='En cours' class='py-1 px-2 action-btn green-btn {% if intervention.status == 'En cours' %}active{% endif %}' {% if intervention.status == 'En cours' %}disabled{% endif %}/>
+                            <input type='submit' name='status' value='Terminée' class='py-1 px-2 action-btn grey-btn {% if intervention.status == 'Terminée' %}inactive{% endif %}' {% if intervention.status == 'Terminée' %}disabled{% endif %}/>
                         </form>
                     </div>
                 </div>
@@ -82,7 +97,7 @@
                             <div class='col-md-auto'>
                                 <div class="d-flex flex-column text-center">
                                     <div>Date de retour</div>
-                                    <div>{{ intervention.returnDate ? intervention.returnDate|date('d-m-Y H:i:s') : "<div class='missing-info'>Non-renseignée</div>" }}</div>
+                                    <div>{{ intervention.returnDate ? intervention.returnDate|date('d-m-Y') : "<div class='missing-info'>Non-renseignée</div>" }}</div>
                                 </div>
                             </div>
                         </div>
@@ -138,10 +153,10 @@
                     <div class='col'>
                         <form action="" method="post">
                             <i class="fas fa-download mr-3"></i>
-                                {% if intervention.status == 'En cours' %}
-                                    <input type='submit' name='download' value='Télécharger' class='mx-auto action-btn grey-btn px-4 py-1' />
-                                {% else %}
+                                {% if intervention.status == 'En attente' %}
                                     <input type='submit' name='download' value='Télécharger' class='mx-auto action-btn grey-btn px-4 py-1 disabled' disabled />
+                                {% else %}
+                                    <input type='submit' name='download' value='Télécharger' class='mx-auto action-btn grey-btn px-4 py-1' />
                                 {% endif %}
                         </form>
                     </div>

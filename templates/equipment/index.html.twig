@@ -12,13 +12,15 @@
 
     <hr>
 
+    <input class='w-100 mb-3 p-2' type="text" id="searchBar" placeholder="Rechercher un equipement">
+
     <div class='container index-list'>
         <div class="row tab-head p-2">
             <div class="col-12">Titre</div>
         </div>
 
         {% for equipment in equipments %}
-            <a href="{{ path('equipment_show', {'id': equipment.id}) }}">
+            <a class='data-row' href="{{ path('equipment_show', {'id': equipment.id}) }}">
                 <div class="row link default p-2">
                     <div class="col-12 my-auto">{{ equipment.title }}</div>
                 </div>

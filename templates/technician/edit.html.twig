@@ -3,8 +3,8 @@
 {% block title %}Modifier la fiche technicien{% endblock %}
 
 {% block body %}
-    <a href="{{ path('client_show', {'id': client.id}) }}"><i class="fas fa-chevron-left h1 float-left"></i></a>
+    <a href="{{ path('technician_show', {'id': technician.id}) }}"><i class="fas fa-chevron-left h1 float-left"></i></a>
     <h1 class='text-center mb-5'>Modifier la fiche technicien</h1>
 
-    {{ include('client/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+    {{ include('technician/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
 {% endblock %}
