@@ -1,35 +1,35 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Equipment index{% endblock %}
+{% block title %}Liste des equipements{% endblock %}
 
 {% block body %}
-    <h1>Equipment index</h1>
+    <div class='text-center mb-2'>	
+        <div class='h2 mb-3'>Liste des equipements</div>
+    </div>
+    <div class='text-center mb-2'>	
+        <a href='{{ path('equipment_new') }}'><input type='button' value="Ajouter un equipement" class='green-btn f-20 py-2 px-4' /></a>
+    </div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for equipment in equipment %}
-            <tr>
-                <td>{{ equipment.id }}</td>
-                <td>{{ equipment.title }}</td>
-                <td>
-                    <a href="{{ path('equipment_show', {'id': equipment.id}) }}">show</a>
-                    <a href="{{ path('equipment_edit', {'id': equipment.id}) }}">edit</a>
-                </td>
-            </tr>
+    <hr>
+
+    <input class='w-100 mb-3 p-2' type="text" id="searchBar" placeholder="Rechercher un equipement">
+
+    <div class='container index-list'>
+        <div class="row tab-head p-2">
+            <div class="col-12">Titre</div>
+        </div>
+
+        {% for equipment in equipments %}
+            <a class='data-row' href="{{ path('equipment_show', {'id': equipment.id}) }}">
+                <div class="row link default p-2">
+                    <div class="col-12 my-auto">{{ equipment.title }}</div>
+                </div>
+            </a>
         {% else %}
-            <tr>
-                <td colspan="3">no records found</td>
-            </tr>
+            <div class="row">
+                <div class='col text-center alert-label p-2'>Aucun equipements enregistrés</div>
+            </div>
         {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('equipment_new') }}">Create new</a>
+        
+    </div>
 {% endblock %}

@@ -1,47 +1,41 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Client index{% endblock %}
+{% block title %}Liste des clients{% endblock %}
 
 {% block body %}
-    <h1>Client index</h1>
+    <div class='text-center mb-2'>	
+        <div class='h2 mb-3'>Liste des clients</div>
+    </div>
+    <div class='text-center mb-2'>	
+        <a href='{{ path('client_new') }}'><input type='button' value="Ajouter une fiche client" class='green-btn f-20 py-2 px-4' /></a>
+    </div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Last_name</th>
-                <th>First_name</th>
-                <th>Phone</th>
-                <th>Email</th>
-                <th>Street</th>
-                <th>City</th>
-                <th>Postal_code</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
+    <hr>
+
+    <input class='w-100 mb-3 p-2' type="text" id="searchBar" placeholder="Rechercher un client">
+
+    <div class='container index-list'>
+        <div class="row tab-head p-2">
+            <div class="col-3">Nom</div>
+            <div class="col-3">Prénom</div>
+            <div class="col-2">Phone</div>
+            <div class="col-4">Email</div>
+        </div>
+
         {% for client in clients %}
-            <tr>
-                <td>{{ client.id }}</td>
-                <td>{{ client.lastName }}</td>
-                <td>{{ client.firstName }}</td>
-                <td>{{ client.phone }}</td>
-                <td>{{ client.email }}</td>
-                <td>{{ client.street }}</td>
-                <td>{{ client.city }}</td>
-                <td>{{ client.postalCode }}</td>
-                <td>
-                    <a href="{{ path('client_show', {'id': client.id}) }}">show</a>
-                    <a href="{{ path('client_edit', {'id': client.id}) }}">edit</a>
-                </td>
-            </tr>
+            <a class='data-row' href="{{ path('client_show', {'id': client.id}) }}">
+                <div class="row link default p-2">
+                    <div class="col-3 my-auto">{{ client.lastName }}</div>
+                    <div class="col-3 my-auto">{{ client.firstName }}</div>
+                    <div class="col-2 my-auto">{{ client.phone }}</div>
+                    <div class="col-4 my-auto">{{ client.email ?: "<div class='missing-info'>Non-renseignée</div>" }}</div>
+                </div>
+            </a>
         {% else %}
-            <tr>
-                <td colspan="10">no records found</td>
-            </tr>
+            <div class="row">
+                <div class='col text-center alert-label p-2'>Aucun clients enregistrés</div>
+            </div>
         {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('client_new') }}">Create new</a>
+        
+    </div>
 {% endblock %}

@@ -22,6 +22,12 @@ class TaskRepository extends ServiceEntityRepository
     // /**
     //  * @return Task[] Returns an array of Task objects
     //  */
+
+    public function findAll()
+    {
+        return $this->findBy(array(), array('id' => 'DESC'));
+    }
+
     /*
     public function findByExampleField($value)
     {

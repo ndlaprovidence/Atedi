@@ -1,13 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Technician{% endblock %}
+{% block title %}Modifier la fiche technicien{% endblock %}
 
 {% block body %}
-    <h1>Edit Technician</h1>
+    <a href="{{ path('technician_show', {'id': technician.id}) }}"><i class="fas fa-chevron-left h1 float-left"></i></a>
+    <h1 class='text-center mb-5'>Modifier la fiche technicien</h1>
 
-    {{ include('technician/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('technician_index') }}">back to list</a>
-
-    {{ include('technician/_delete_form.html.twig') }}
+    {{ include('technician/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
 {% endblock %}

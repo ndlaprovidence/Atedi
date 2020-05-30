@@ -1,39 +1,42 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Intervention index{% endblock %}
+{% block title %}Liste des interventions{% endblock %}
 
 {% block body %}
-    <h1>Intervention index</h1>
+    <div class='text-center mb-2'>	
+        <div class='h2 mb-3'>Liste des interventions</div>
+    </div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Deposit_date</th>
-                <th>Return_date</th>
-                <th>Comment</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
+    <hr>
+
+    <input class='w-100 mb-3 p-2' type="text" id="searchBar" placeholder="Rechercher une intervention">
+
+    <div class='container index-list'>
+        <div class="row tab-head p-2">
+            <div class="col-2">Date d'ouverture</div>
+            <div class="col-2">Client</div>
+            <div class="col-2">Téléphone</div>
+            <div class="col-2">Techniciens</div>
+            <div class="col-2">Tâches</div>
+            <div class="col-2">Status</div>
+        </div>
+
         {% for intervention in interventions %}
-            <tr>
-                <td>{{ intervention.id }}</td>
-                <td>{{ intervention.depositDate ? intervention.depositDate|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ intervention.returnDate ? intervention.returnDate|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ intervention.comment }}</td>
-                <td>
-                    <a href="{{ path('intervention_show', {'id': intervention.id}) }}">show</a>
-                    <a href="{{ path('intervention_edit', {'id': intervention.id}) }}">edit</a>
-                </td>
-            </tr>
+            <a class='data-row' href="{{ path('intervention_show', {'id': intervention.id}) }}">
+                <div class="row {{ intervStatus(intervention.status) }} link p-2">
+                    <div class="col-2 my-auto">{{ intervention.depositDate ? intervention.depositDate|date('d-m-Y') : '' }}</div>
+                    <div class="col-2 my-auto">{{ intervention.client }}</div>
+                    <div class="col-2 my-auto">{{ intervention.client.phone }}</div>
+                    <div class="col-2 my-auto">{% for technician in intervention.technicians %}{{ technician }}{% if not loop.last %}, {% endif %}{% endfor %}</div>
+                    <div class="col-2 my-auto">{% for task in intervention.tasks %}{{ task }}{% if not loop.last %}, {% endif %}{% endfor %}</div>
+                    <div class="col-2 my-auto">{{ intervention.status }}</div>
+                </div>
+            </a>
         {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
+            <div class="row">
+                <div class='col text-center alert-label p-2'>Aucunes demandes d'intervention enregistrées</div>
+            </div>
         {% endfor %}
-        </tbody>
-    </table>
+    </div>
 
-    <a href="{{ path('intervention_new') }}">Create new</a>
 {% endblock %}

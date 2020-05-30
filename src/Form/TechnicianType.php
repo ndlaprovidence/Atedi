@@ -15,7 +15,6 @@ class TechnicianType extends AbstractType
             ->add('last_name')
             ->add('first_name')
             ->add('email')
-            ->add('interventions')
         ;
     }
 
