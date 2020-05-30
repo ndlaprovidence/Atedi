@@ -6,10 +6,11 @@ namespace App\Controller;
 use App\Entity\Client;
 use App\Form\ClientType;
 use App\Repository\ClientRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\InterventionRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/client")
@@ -42,7 +43,7 @@ class ClientController extends AbstractController
             $entityManager->persist($client);
             $entityManager->flush();
 
-            if ( $request->query->get('i') == 'new') {
+            if ( $request->query->has('s') == 'intervention') {
                 return $this->redirectToRoute('intervention_new');
             }
 
@@ -58,10 +59,13 @@ class ClientController extends AbstractController
     /**
      * @Route("/{id}", name="client_show", methods={"GET"})
      */
-    public function show(Client $client): Response
+    public function show(Client $client, InterventionRepository $interventionRepository): Response
     {
+        $interventions = $interventionRepository->findAllByClient($client->getId());
+
         return $this->render('client/show.html.twig', [
             'client' => $client,
+            'interventions' => $interventions,
         ]);
     }
 

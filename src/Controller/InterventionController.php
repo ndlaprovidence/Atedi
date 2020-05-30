@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use App\Entity\Intervention;
 use App\Form\InterventionType;
 use App\Repository\ClientRepository;
@@ -43,7 +45,7 @@ class InterventionController extends AbstractController
             $this->em->persist($intervention);
             $this->em->flush();
 
-            return $this->redirectToRoute('intervention_index');
+            return $this->redirectToRoute('intervention_show', ['id' => $intervention->getId()]);
         }
 
         return $this->render('intervention/new.html.twig', [
@@ -53,10 +55,59 @@ class InterventionController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="intervention_show", methods={"GET"})
+     * @Route("/{id}", name="intervention_show", methods={"GET","POST"})
      */
-    public function show(Intervention $intervention): Response
+    public function show(Request $request, Intervention $intervention, EntityManagerInterface $em): Response
     {
+        $theStatus = $intervention->getStatus();
+
+        if ($request->request->has('status')) {
+            $newStatus = $request->request->get('status');
+
+            if ($theStatus != $newStatus) {
+                $this->em = $em;
+
+                $intervention->setStatus($newStatus);
+
+                if ( $newStatus == 'Terminée' ) {
+                    $intervention->setReturnDate(new \DateTime());
+                }
+                $this->em->persist($intervention);
+                $this->em->flush();
+            }
+        }
+
+        if ($theStatus == 'En cours' || $theStatus == 'Terminée' ) {
+            if ($request->request->has('download')) {
+                // Configure Dompdf according to your needs
+                $pdfOptions = new Options();
+                $pdfOptions->set('defaultFont', 'Arial');
+
+                // Instantiate Dompdf with our options
+                $dompdf = new Dompdf($pdfOptions);
+
+                // Retrieve the HTML generated in our twig file
+                $html = $this->renderView('intervention/pdf.html.twig', [
+                    'intervention' => $intervention,
+                ]);
+
+                // Load HTML to Dompdf
+                $dompdf->loadHtml($html);
+
+                // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+                $dompdf->setPaper('A4', 'portrait');
+
+                // Render the HTML as PDF
+                $dompdf->render();
+
+                $pdfName = $intervention->getClient()->getLastName().'-'.time().'.pdf';
+                // Output the generated PDF to Browser (force download)
+                $dompdf->stream($pdfName, [
+                    "Attachment" => true
+                ]);
+            }
+        }
+
         return $this->render('intervention/show.html.twig', [
             'intervention' => $intervention,
         ]);
@@ -73,7 +124,7 @@ class InterventionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('intervention_index');
+            return $this->redirectToRoute('intervention_show', ['id' => $intervention->getId()]);
         }
 
         return $this->render('intervention/edit.html.twig', [

@@ -1,4 +1,15 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class='col-12'>
+                <h5>Titre</h5>            
+                {{ form_errors(form.title) }}
+                {{ form_widget(form.title, {'attr': {'class': 'mb-3'}}) }}
+            </div>
+
+            <button class="green-btn py-2 px-4 mt-3">{{ button_label|default('Valider') }}</button>
+        </div>
+    </div>
+
 {{ form_end(form) }}

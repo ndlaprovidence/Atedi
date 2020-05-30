@@ -22,6 +22,12 @@ class TechnicianRepository extends ServiceEntityRepository
     // /**
     //  * @return Technician[] Returns an array of Technician objects
     //  */
+
+    public function findAll()
+    {
+        return $this->findBy(array(), array('id' => 'DESC'));
+    }
+
     /*
     public function findByExampleField($value)
     {

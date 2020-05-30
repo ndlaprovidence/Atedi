@@ -1,4 +1,66 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class='col-8'>
+                <div class='col row'>
+                    {% if app.request.attributes.get('_route') != 'intervention_edit' %}
+                        <a href="{{ path('client_new', {'s': 'intervention'}) }}"><i class="fas fa-plus-circle fa-lg mr-2"></i></a>
+                    {% endif %}
+                    <h5>Client</h5>
+                    {{ form_errors(form.client) }}
+                    {{ form_widget(form.client, {'attr': {'class': 'mb-3', 'required': 'required'}}) }}
+                </div>
+
+                <div class='col row'>
+                    {% if app.request.attributes.get('_route') != 'intervention_edit' %}
+                        <a href="{{ path('operating_system_new', {'s': 'intervention'}) }}"><i class="fas fa-plus-circle fa-lg mr-2"></i></a>
+                    {% endif %}
+                    <h5>Système d'exploitation</h5>            
+                    {{ form_errors(form.operating_system) }}
+                    {{ form_widget(form.operating_system, {'attr': {'class': 'mb-3', 'required': 'required'}}) }}
+                </div>
+
+                <div class='col row'>
+                    {% if app.request.attributes.get('_route') != 'intervention_edit' %}
+                        <a href="{{ path('equipment_new', {'s': 'intervention'}) }}"><i class="fas fa-plus-circle fa-lg mr-2"></i></a>
+                    {% endif %}
+                    <h5>Equipement</h5>            
+                    {{ form_errors(form.equipment) }}
+                    {{ form_widget(form.equipment, {'attr': {'class': 'mb-3', 'required': 'required'}}) }}
+                </div>
+
+                <div class='col row'>
+                    <h5>Commentaire</h5>
+                    {{ form_errors(form.comment) }}
+                    {{ form_widget(form.comment, {'attr': {'class': 'mb-3', 'placeholder': 'Observations supplémentaires (facultatif)', 'rows': '5'}}) }}
+                </div>
+            </div>
+
+            <div class='col-4'>
+                <div class='col row'>
+                    {% if app.request.attributes.get('_route') != 'intervention_edit' %}
+                        <a href="{{ path('technician_new', {'s': 'intervention'}) }}"><i class="fas fa-plus-circle fa-lg mr-2"></i></a>
+                    {% endif %}
+                    
+                    <h5>Technicien(s)</h5>            
+                    {{ form_errors(form.technicians) }}
+                    {{ form_widget(form.technicians, {'attr': {'class': 'mb-3', 'required': 'required'}}) }}
+                </div>
+
+                <div class='col row'>
+                    {% if app.request.attributes.get('_route') != 'intervention_edit' %}
+                        <a href="{{ path('task_new', {'s': 'intervention'}) }}"><i class="fas fa-plus-circle fa-lg mr-2"></i></a>
+                    {% endif %}
+                    <h5>Tâche(s)</h5>            
+                    {{ form_errors(form.tasks) }}
+                    {{ form_widget(form.tasks, {'attr': {'class': 'mb-3', 'required': 'required'}}) }}
+                </div>
+            </div>
+
+            <button class="green-btn py-2 px-4 mt-3">{{ button_label|default('Valider') }}</button>
+
+        </div>
+    </div>
+
 {{ form_end(form) }}

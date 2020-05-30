@@ -6,38 +6,56 @@
         {% block stylesheets %}
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
             <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+            <link rel="stylesheet" href="{{ asset('assets/scss/style.css') }}"/>
         {% endblock %}
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
         <script src="https://kit.fontawesome.com/f5c457ed93.js" crossorigin="anonymous"></script>
+        <script src="{{ asset('assets/js/main.js') }}"></script>
     </head>
 
     <body>
 
-        <nav class="navbar navbar-expand-md navbar-dark bg-primary">
+        <nav class="navbar navbar-expand-md navbar-dark">
             <a class="navbar-brand" href="/">GDI</a>
 
             <div class="collapse navbar-collapse" id="navbarsExampleDefault">
                 
-                <ul class="navbar-nav px-5">
-                    <li class="nav-item active px-4">
-                        <a class="nav-link" href="/">{{ 'Home'|trans }}</a>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item {% if app.request.get('_route') starts with 'index' %} active {% endif %} px-4">
+                        <a class="nav-link" href="/">Accueil</a>
                     </li>
-                    <li class="nav-item dropdown px-4">
+                    <li class="nav-item {% if app.request.get('_route') starts with 'intervention' %} active {% endif %} px-4">
+                        <a class="nav-link" href="{{ path('intervention_index') }}">Interventions</a>
+                    </li>
+                    <li class="nav-item {% if app.request.get('_route') starts with 'client' %} active {% endif %} px-4">
+                        <a class="nav-link" href="{{ path('client_index') }}">Clients</a>
+                    </li>
+
+                    <li class="nav-item dropdown 
+                        {% if (app.request.get('_route') starts with 'equipment') 
+                            or (app.request.get('_route') starts with 'operating_system') 
+                            or (app.request.get('_route') starts with 'task') 
+                            or (app.request.get('_route') starts with 'technician') 
+                            or (app.request.get('_route') starts with 'user') 
+                        %} active {% endif %} px-4">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Outils</a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ path('client_index') }}">{{ 'Client'|trans }}</a>
-                            <a class="dropdown-item" href="{{ path('equipment_index') }}">{{ 'Equipment'|trans }}</a>
-                            <a class="dropdown-item" href="{{ path('intervention_index') }}">{{ 'intervention'|trans }}</a>
-                            <a class="dropdown-item" href="{{ path('operating_system_index') }}">{{ 'OperatingSystem'|trans }}</a>
-                            <a class="dropdown-item" href="{{ path('task_index') }}">{{ 'Task'|trans }}</a>
-                            <a class="dropdown-item" href="{{ path('technician_index') }}">{{ 'Technician'|trans }}</a>
-                            <a class="dropdown-item" href="{{ path('user_index') }}">{{ 'User'|trans }}</a>
+                            <a class="dropdown-item {% if app.request.get('_route') starts with 'equipment' %} active {% endif %}" href="{{ path('equipment_index') }}">Equipements</a>
+                            <a class="dropdown-item {% if app.request.get('_route') starts with 'operating_system' %} active {% endif %}" href="{{ path('operating_system_index') }}">Systèmes d'exploitations</a>
+                            <a class="dropdown-item {% if app.request.get('_route') starts with 'task' %} active {% endif %}" href="{{ path('task_index') }}">Tâches</a>
+                            <a class="dropdown-item {% if app.request.get('_route') starts with 'technician' %} active {% endif %}" href="{{ path('technician_index') }}">Techniciens</a>
+                            <hr>
+                            <a class="dropdown-item {% if app.request.get('_route') starts with 'user' %} active {% endif %}" href="{{ path('user_index') }}">Utilisateurs</a>
+                            <a class="dropdown-item {% if app.request.get('_route') starts with 'statistics' %} active {% endif %}" href="{{ path('statistics_index') }}">Statistiques</a>
                         </div>
                     </li>
-                    <li class="nav-item px-4">
-                        <a class="nav-link" href="" data-toggle="modal" data-target="#about">{{ 'About'|trans }}</a>
+                    <li class="nav-item px-2">
+                        <a class="nav-link" href="" data-toggle="modal" data-target="#about"><i class="fas fa-info-circle"></i></a>
+                    </li>
+                    <li class="nav-item px-2">
+                        <a class="nav-link" href="{{ path('app_logout') }}"><i class="fas fa-sign-out-alt"></i></a>
                     </li>
                 </ul>
                 
@@ -50,28 +68,28 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h2 class="modal-title">{{'About GDI'|trans}}</h2>
+                            <h2 class="modal-title"><i class="fas fa-info-circle mr-3"></i>A propos de GDI</h2>
                             <button type="button" class="close" data-dismiss="modal">
                                 <span>&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
-                            <p>{{'GDI is a free software under an'|trans}} <a href='https://cecill.info/'>CeCILL</a> {{'license. It is developped with Symfony 4.'|trans}}</p>
+                            <p>GDI est un logiciel libre sous licence <a href='https://cecill.info/'>CeCILL</a>. Il est entièrement développé avec Symfony 4.</p>
                             <hr>
-                            <h5>{{'Software developped by :'|trans}}</h5>
+                            <h5>Logiciel développé par :</h5>
                             <p>2020 - HOCHET Dylan & LEYSENNE Rémi</p>
                             <hr>
-                            <h5>{{'Version :'|trans}}</h5>
-                            <label class='w-100'>1.0.0</label>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary mx-auto" data-dismiss="modal">{{'Close'|trans}}</button>
+                            <h5>Librairies utilisées</h5>
+                            <p>dompdf/dompdf</p>
+                            <hr>
+                            <h5>Version</h5>
+                            <p>1.0.0</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="starter-template mt-5">
+            <div class="starter-template mt-5 mb-5">
                 {% block body %}{% endblock %}
             </div>
 

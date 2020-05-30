@@ -1,35 +1,35 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}OperatingSystem index{% endblock %}
+{% block title %}Liste des systèmes d'exploitation{% endblock %}
 
 {% block body %}
-    <h1>OperatingSystem index</h1>
+    <div class='text-center mb-2'>	
+        <div class='h2 mb-3'>Liste des systèmes d'exploitation</div>
+    </div>
+    <div class='text-center mb-2'>	
+        <a href='{{ path('operating_system_new') }}'><input type='button' value="Ajouter un système d'exploitation" class='green-btn f-20 py-2 px-4' /></a>
+    </div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
+    <hr>
+
+    <input class='w-100 mb-3 p-2' type="text" id="searchBar" placeholder="Rechercher un système d'exploitation">
+
+    <div class='container index-list'>
+        <div class="row tab-head p-2">
+            <div class="col-12">Titre</div>
+        </div>
+
         {% for operating_system in operating_systems %}
-            <tr>
-                <td>{{ operating_system.id }}</td>
-                <td>{{ operating_system.title }}</td>
-                <td>
-                    <a href="{{ path('operating_system_show', {'id': operating_system.id}) }}">show</a>
-                    <a href="{{ path('operating_system_edit', {'id': operating_system.id}) }}">edit</a>
-                </td>
-            </tr>
+            <a class='data-row' href="{{ path('operating_system_show', {'id': operating_system.id}) }}">
+                <div class="row link default p-2">
+                    <div class="col-12 my-auto">{{ operating_system.title }}</div>
+                </div>
+            </a>
         {% else %}
-            <tr>
-                <td colspan="3">no records found</td>
-            </tr>
+            <div class="row">
+                <div class='col text-center alert-label p-2'>Aucun systèmes d'exploitation enregistrés</div>
+            </div>
         {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('operating_system_new') }}">Create new</a>
+        
+    </div>
 {% endblock %}

@@ -22,6 +22,12 @@ class OperatingSystemRepository extends ServiceEntityRepository
     // /**
     //  * @return OperatingSystem[] Returns an array of OperatingSystem objects
     //  */
+
+    public function findAll()
+    {
+        return $this->findBy(array(), array('id' => 'DESC'));
+    }
+
     /*
     public function findByExampleField($value)
     {

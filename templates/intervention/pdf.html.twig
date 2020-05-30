@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>PDF - Intervention</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="{{ asset('assets/scss/style.css') }}"/>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    </head>
+
+    <style type="text/css">
+        .font-b{ font-weight: bold; }
+        .font-25 { font-size: 25px; }
+        .font-21 { font-size: 21px; }
+        .border-around { 
+            border: solid 1px #5c5c5c;
+        }
+        .big-checkbox { 
+            margin-right: 10px;
+            margin-left: 10px;
+            -ms-transform: scale(2); /* IE */
+            -moz-transform: scale(2); /* FF */
+            -webkit-transform: scale(2); /* Safari and Chrome */
+            -o-transform: scale(2); /* Opera */
+            transform: scale(2);
+        }
+        .checkbox-text { 
+            padding-left: 10px;
+            display: inline;
+        }
+        .border-b { border-bottom: #5c5c5c 1px solid; }
+        .mr-20 { margin-right: 200px; }
+
+        hr { 
+            border: 1px solid rgb(210, 210, 210);
+        }
+
+        .main-container { max-width: 703px; }
+
+        .header {
+            border: solid 1px #264653;
+            background-color: #264653;
+            color: #FFFFFF;
+        }
+        .header-title { 
+            text-align: center;
+        }
+
+        .dual-tab {
+            margin-top: 10px;
+            padding: 10px;
+        }
+        .half-container {
+            width: 339px;
+            display: inline-block; 
+            vertical-align: top;
+        }
+        .tab-title { 
+            color: #FFFFFF;
+            border: solid 1px #264653;
+            background-color: #264653;
+            text-align: center; 
+        }
+        .tab { width: 100%; }
+        .tab-label {
+            padding-right: 10px;
+            text-align: center;
+        }
+        .tab-content {
+            padding-left: 10px;
+        }
+
+        .large-container {
+            padding: 10px;
+        }
+
+    </style>
+
+    <body>
+        <div class='main-container'>
+            <div class='p-2 header'>
+                <div class='header-title font-weight-bold'>DEMANDE D'INTERVENTION</div>
+            </div>
+
+            <div class='dual-tab'>
+                <div class='half-container'>
+                    <table class='tab'>
+                        <tbody>
+                            <tr>
+                                <td class='tab-title font-weight-bold' colspan="2">Informations client</td>
+                            </tr>
+                            <tr>
+                                <td class='border-around tab-label'>Client</td>
+                                <td class='border-around tab-content font-b font-21'>{{ intervention.client }}</td>
+                            </tr>
+                            <tr>
+                                <td class='border-around tab-label'>Téléphone</td>
+                                <td class='border-around tab-content'>{{ intervention.client.phone }}</td>
+                            </tr>
+                            <tr>
+                                <td class='border-around tab-label'>Mail</td>
+                                <td class='border-around tab-content'>{{ intervention.client.email }}</td>
+                            </tr>
+                            <tr>
+                                <td class='border-around tab-label'>Adresse</td>
+                                <td class='border-around tab-content'>{{ intervention.client.phone }}</td>
+                            </tr>
+                            <tr>
+                                <td class='border-around tab-label'>Ville</td>
+                                <td class='border-around tab-content'>{{ intervention.client.city }}</td>
+                            </tr>
+                            <tr>
+                                <td class='border-around tab-label'>Code postal</td>
+                                <td class='border-around tab-content'>{{ intervention.client.postalCode }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class='half-container'>
+                    <table class='tab'>
+                        <tbody>
+                            <tr>
+                                <td class='tab-title font-weight-bold' colspan="2">Informations intervention</td>
+                            </tr>
+                            <tr>
+                                <td class='border-around  tab-label'>Date de dépôt</td>
+                                <td class='border-around tab-content font-b font-21'>{{ intervention.depositDate ? intervention.depositDate|date('d-m-Y') : "" }}</td>
+                            </tr>
+                            <tr>
+                                <td class='border-around  tab-label'>Date de restitution</td>
+                                <td class='border-around tab-content font-b font-25'>{{ intervention.returnDate ? intervention.returnDate|date('d-m-Y') : "" }}</td>
+                            </tr>
+                            <tr>
+                                <td class='border-around  tab-label'>Équipement</td>
+                                <td class='border-around tab-content font-b font-21'>{{ intervention.equipment }}</td>
+                            </tr>
+                            <tr>
+                                <td class='border-around  tab-label'>Système d'exploitation</td>
+                                <td class='border-around tab-content'>{{ intervention.operatingSystem }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class='large-container'>
+                <table class='tab'>
+                    <tbody>
+                        <tr>
+                            <td class='tab-title font-weight-bold' colspan="2">A faire</td>
+                        </tr>
+                        <tr>
+                            <td class='border-around tab-label'>Tâches</td>
+                            <td class='border-around tab-content font-b font-25'>{% for task in intervention.tasks %}{{ task }}{% if not loop.last %}, {% endif %}{% endfor %}</td>
+                        </tr>
+                        <tr>
+                            <td class='border-around tab-label'>Commentaire</td>
+                            <td class='border-around tab-content'>{{ intervention.comment }}</td>
+                        </tr>
+                        <tr>
+                            <td class='border-around tab-label'>Techniciens</td>
+                            <td class='border-around tab-content font-b font-21'>{% for technician in intervention.technicians %}{{ technician }}{% if not loop.last %}, {% endif %}{% endfor %}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class='large-container'>
+                <table class='tab'>
+                    <tbody>
+                        <tr>
+                            <td class='tab-title font-weight-bold' colspan="4">Opérations effectuées</td>
+                        </tr>
+                        <tr>
+                            <td class='border-around'></td>
+                            <td class='border-around text-center'>Analyse externe</td>
+                            <td class='border-around text-center'>Analyse interne</td>
+                            <td class='border-around text-center'>Informations complémentaires</td>
+                        </tr>
+                        <tr>
+                            <td class='border-around tab-label text-right'>Virus</td>
+                            <td class='border-around'></td>
+                            <td class='border-around'></td>
+                            <td class='border-around'>
+                                <div class='w-100'><input class='big-checkbox' type="checkbox"/><span class='checkbox-text'>ADWC</span> <input class='big-checkbox' type="checkbox"/><span class='checkbox-text'>RK</span></div>
+                                <div class='w-100'><input class='big-checkbox' type="checkbox"/><span class='checkbox-text'>CC</span> <input class='big-checkbox' type="checkbox"/><span class='checkbox-text'>JRT</span> <input class='big-checkbox' type="checkbox"/><span class='checkbox-text'>ZHP</span></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class='border-around tab-label text-right'>Malwares</td>
+                            <td class='border-around'></td>
+                            <td class='border-around'></td>
+                            <td class='border-around'>
+                                <div class='w-100'><input class='big-checkbox' type="checkbox"/><span class='checkbox-text'>Optimisation au démarrage</span></div>
+                                <div class='w-100'><input class='big-checkbox' type="checkbox"/><span class='checkbox-text'>RàZ navigateurs</span></div>
+                                <div class='w-100'><input class='big-checkbox' type="checkbox"/><span class='checkbox-text'>Suppression proxy</span></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class='border-around tab-label text-right'>Spywares</td>
+                            <td class='border-around'></td>
+                            <td class='border-around'></td>
+                            <td class='border-around'><input class='big-checkbox' type="checkbox"/><span class='checkbox-text'>Scan au redémarrage</span></td>
+                        </tr>
+                        <tr>
+                            <td class='border-around' colspan="4"></td>
+                        </tr>
+                        <tr>
+                            <td class='border-around' colspan="4"></td>
+                        </tr>
+                        <tr>
+                            <td class='border-around' colspan="3"></td>
+                            <td class='border-around'><input class='big-checkbox' type="checkbox"/><span class='checkbox-text'>Suppression de l'antivirus client</span></td>
+                        </tr>
+                        <tr>
+                            <td class='border-around' colspan="3"></td>
+                            <td class='border-around'><input class='big-checkbox' type="checkbox"/><span class='checkbox-text'>Installation d'un antivirus</span></td>
+                        </tr>
+                        <tr>
+                            <td class='border-around' colspan="3"></td>
+                            <td class='border-around'><input class='big-checkbox' type="checkbox"/><span class='checkbox-text'>Mise à jour de l'antivirus</span></td>
+                        </tr>
+                        <tr>
+                            <td class='border-around' colspan="3"></td>
+                            <td class='border-around'><input class='big-checkbox' type="checkbox"/><span class='checkbox-text'>Installation d'un spybot</span></td>
+                        </tr>
+                        <tr>
+                            <td class='border-around' colspan="3"></td>
+                            <td class='border-around'><input class='big-checkbox' type="checkbox"/><span class='checkbox-text'>Mise à jour du spybot</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class='large-container'>
+                <p class='font-b font-25'>Observations : </p>
+            </div>
+
+        </div>
+    </body>
+</html>

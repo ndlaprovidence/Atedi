@@ -22,6 +22,12 @@ class EquipmentRepository extends ServiceEntityRepository
     // /**
     //  * @return Equipment[] Returns an array of Equipment objects
     //  */
+
+    public function findAll()
+    {
+        return $this->findBy(array(), array('id' => 'DESC'));
+    }
+
     /*
     public function findByExampleField($value)
     {
