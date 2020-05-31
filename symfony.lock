@@ -20,6 +20,9 @@
     "doctrine/common": {
         "version": "2.12.0"
     },
+    "doctrine/data-fixtures": {
+        "version": "1.4.2"
+    },
     "doctrine/dbal": {
         "version": "v2.10.1"
     },
@@ -36,6 +39,18 @@
             "./config/packages/prod/doctrine.yaml",
             "./src/Entity/.gitignore",
             "./src/Repository/.gitignore"
+        ]
+    },
+    "doctrine/doctrine-fixtures-bundle": {
+        "version": "3.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.0",
+            "ref": "fc52d86631a6dfd9fdf3381d0b7e3df2069e51b3"
+        },
+        "files": [
+            "./src/DataFixtures/AppFixtures.php"
         ]
     },
     "doctrine/doctrine-migrations-bundle": {
@@ -75,6 +90,12 @@
     "doctrine/reflection": {
         "version": "v1.1.0"
     },
+    "doctrine/sql-formatter": {
+        "version": "1.1.0"
+    },
+    "dompdf/dompdf": {
+        "version": "v0.8.5"
+    },
     "easycorp/easy-log-handler": {
         "version": "1.0",
         "recipe": {
@@ -93,17 +114,41 @@
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },
+    "laminas/laminas-code": {
+        "version": "3.4.1"
+    },
+    "laminas/laminas-dependency-plugin": {
+        "version": "1.0.4"
+    },
+    "laminas/laminas-eventmanager": {
+        "version": "3.2.1"
+    },
+    "laminas/laminas-json": {
+        "version": "3.1.2"
+    },
+    "laminas/laminas-zendframework-bridge": {
+        "version": "1.0.4"
+    },
     "monolog/monolog": {
         "version": "1.25.3"
     },
     "nikic/php-parser": {
         "version": "v4.3.0"
     },
+    "ob/highcharts-bundle": {
+        "version": "1.7"
+    },
     "ocramius/package-versions": {
         "version": "1.5.1"
     },
     "ocramius/proxy-manager": {
         "version": "2.2.3"
+    },
+    "phenx/php-font-lib": {
+        "version": "0.5.2"
+    },
+    "phenx/php-svg-lib": {
+        "version": "v0.3.3"
     },
     "php": {
         "version": "7.3"
@@ -129,6 +174,9 @@
     "psr/log": {
         "version": "1.1.2"
     },
+    "sabberworm/php-css-parser": {
+        "version": "8.3.0"
+    },
     "sensio/framework-extra-bundle": {
         "version": "5.2",
         "recipe": {
@@ -139,6 +187,18 @@
         },
         "files": [
             "./config/packages/sensio_framework_extra.yaml"
+        ]
+    },
+    "symfony/apache-pack": {
+        "version": "1.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.0",
+            "ref": "410b9325a37ef86f1e47262c61738f6202202bca"
+        },
+        "files": [
+            "./public/.htaccess"
         ]
     },
     "symfony/asset": {
@@ -498,11 +558,5 @@
     },
     "webmozart/assert": {
         "version": "1.7.0"
-    },
-    "zendframework/zend-code": {
-        "version": "3.4.1"
-    },
-    "zendframework/zend-eventmanager": {
-        "version": "3.2.1"
     }
 }

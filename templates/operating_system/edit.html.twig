@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier le système d'exploitation{% endblock %}
+
+{% block body %}
+    <a href="{{ path('operating_system_show', {'id': operating_system.id}) }}"><i class="fas fa-chevron-left h1 float-left"></i></a>
+    <h1 class='text-center mb-5'>Modifier le système d'exploitation</h1>
+
+    {{ include('operating_system/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+{% endblock %}

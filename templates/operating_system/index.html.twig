@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des systèmes d'exploitation{% endblock %}
+
+{% block javascripts %}        
+    <script src="{{ asset('assets/js/searchBar.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+    <div class='text-center mb-2'>	
+        <div class='h2 mb-3'>Liste des systèmes d'exploitation</div>
+    </div>
+    <div class='text-center mb-2'>	
+        <a href='{{ path('operating_system_new') }}'><input type='button' value="Ajouter un système d'exploitation" class='green-btn f-20 py-2 px-4' /></a>
+    </div>
+
+    <hr>
+
+    <input class='w-100 mb-3 p-2' type="text" id="searchBar" placeholder="Rechercher un système d'exploitation">
+
+    <div class='container index-list'>
+        <div class="row tab-head p-2">
+            <div class="col-12">Titre</div>
+        </div>
+
+        {% for operating_system in operating_systems %}
+            <a class='data-row' href="{{ path('operating_system_show', {'id': operating_system.id}) }}">
+                <div class="row link default p-2">
+                    <div class="col-12 my-auto">{{ operating_system.title }}</div>
+                </div>
+            </a>
+        {% else %}
+            <div class="row">
+                <div class='col text-center alert-label p-2'>Aucun systèmes d'exploitation enregistrés</div>
+            </div>
+        {% endfor %}
+        
+    </div>
+{% endblock %}

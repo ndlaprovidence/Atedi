@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier la fiche client{% endblock %}
+
+{% block body %}
+    <a href="{{ path('client_show', {'id': client.id}) }}"><i class="fas fa-chevron-left h1 float-left"></i></a>
+    <h1 class='text-center mb-5'>Modifier la fiche client</h1>
+
+    {{ include('client/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+{% endblock %}

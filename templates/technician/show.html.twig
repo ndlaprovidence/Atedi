@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion de la fiche technicien{% endblock %}
+
+{% block body %}
+    <div class='text-center'>	
+        <div class='h2 mb-3'>Gestion de la fiche technicien</div>
+        <a class="grey-btn f-20 px-4 py-2" href="{{ path('technician_edit', {'id': technician.id}) }}">Modifier</a>
+        {{ include('technician/_delete_form.html.twig') }}
+    </div>
+    <hr>
+
+    <div class="container show-container">
+        <div class="row justify-content-around">
+            <div class="info-container col-md-auto mb-auto mr-5 p-4">
+                <div class='f-20 text-center'>Le technicien</div>
+                <hr>
+                <div class='row mb-2'>
+                    <div class='col-md-auto'><i class="fas fa-user"></i></div>
+                    <div class='col'>{{ technician.lastName }} {{ technician.firstName }}</div>
+                </div>
+                <hr>
+                <div class='row mb-2'>
+                    <div class='col-md-auto'><i class="fas fa-at"></i></div>
+                    <div class='col'>{{ technician.email ?: "<div class='missing-info'>Email non-renseignée</div>" }}</div>
+                </div>
+            </div>
+
+
+
+            <div class="info-container list col mb-auto p-4">
+                <div class='f-20 text-center'>Liste des interventions effectuées par {{ technician }}</div>
+                <hr>
+                <div class='container'>
+                    <div class="row py-2 tab-head">
+                        <div class="col-2">Ouverture</div>
+                        <div class="col-3">Client</div>
+                        <div class="col-3">Equipement</div>
+                        <div class="col-4">Tâches</div>
+                    </div>
+                    {% for intervention in interventions %}
+                        <a href="{{ path('intervention_show', {'id': intervention.id}) }}">
+                            <div class="row link py-1">
+                                <div class="col-2 my-auto">{{ intervention.depositDate ? intervention.depositDate|date('d-m-Y') : '' }}</div>
+                                <div class="col-3 my-auto">{{ intervention.client }}</div>
+                                <div class="col-3 my-auto">{{ intervention.equipment }}</div>
+                                <div class="col-4 my-auto">{% for task in intervention.tasks %}{{ task }}{% if not loop.last %}, {% endif %}{% endfor %}</div>
+                            </div>
+                        </a>
+                    {% else %}
+                        <div class="row">
+                            <div class='col text-center p-2'>Aucunes interventions effectués par ce technicien enregistrées</div>
+                        </div>
+                    {% endfor %}
+                <div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

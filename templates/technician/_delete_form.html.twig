@@ -1,0 +1,5 @@
+<form method="post" action="{{ path('technician_delete', {'id': technician.id}) }}" onsubmit="return confirm('Voulez-vous vraiment supprimer ce technicien ?');" class='d-inline'>
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ technician.id) }}">
+    <button class="red-btn f-20 px-4 py-2">Supprimer</button>
+</form>

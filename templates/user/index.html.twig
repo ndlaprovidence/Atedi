@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des utilisateurs{% endblock %}
+
+{% block body %}
+    <div class='text-center mb-2'>	
+        <div class='h2 mb-3'>Liste des utilisateurs</div>
+    </div>
+    <div class='text-center mb-2'>	
+        <a href='{{ path('user_register') }}'><input type='button' value="Ajouter un utilisateur" class='green-btn f-20 py-2 px-4' /></a>
+    </div>
+
+    <hr>
+
+    <div class='container index-list'>
+        <div class="row tab-head p-2">
+            <div class="col-5">Adresse mail</div>
+            <div class="col-5">Rôles</div>
+            <div class="col-2">Action</div>
+        </div>
+
+        {% for user in users %}
+            <div class="row {% if app.user.username == user.email %}active{% endif %} link p-2">
+                <div class="col-5 my-auto">{{ user.email }}</div>
+                <div class="col-5 my-auto">{{ user.roles ? user.roles|json_encode : "<div class='missing-info'>Aucun rôles attribués</div>" }}</div>
+                <div class="col-2 my-auto">{{ include('user/_delete_form.html.twig') }}</div>
+            </div>
+        {% else %}
+            <div class="row">
+                <div class='col text-center alert-label p-2'>Aucun utilisateurs enregistrés</div>
+            </div>
+        {% endfor %}
+        
+    </div>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des techniciens{% endblock %}
+
+{% block javascripts %}        
+    <script src="{{ asset('assets/js/searchBar.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+    <div class='text-center mb-2'>	
+        <div class='h2 mb-3'>Liste des techniciens</div>
+    </div>
+    <div class='text-center mb-2'>	
+        <a href='{{ path('technician_new') }}'><input type='button' value="Ajouter un technicien" class='green-btn f-20 py-2 px-4' /></a>
+    </div>
+
+    <hr>
+
+    <input class='w-100 mb-3 p-2' type="text" id="searchBar" placeholder="Rechercher un technicien">
+
+    <div class='container index-list'>
+        <div class="row tab-head p-2">
+            <div class="col-4">Nom</div>
+            <div class="col-4">Prénom</div>
+            <div class="col-4">Email</div>
+        </div>
+
+        {% for technician in technicians %}
+            <a class='data-row' href="{{ path('technician_show', {'id': technician.id}) }}">
+                <div class="row link default p-2">
+                    <div class="col-4 my-auto">{{ technician.lastName }}</div>
+                    <div class="col-4 my-auto">{{ technician.firstName }}</div>
+                    <div class="col-4 my-auto">{{ technician.email ?: "<div class='missing-info'>Non-renseignée</div>" }}</div>
+                </div>
+            </a>
+        {% else %}
+            <div class="row">
+                <div class='col text-center alert-label p-2'>Aucun techniciens enregistrés</div>
+            </div>
+        {% endfor %}
+        
+    </div>
+{% endblock %}

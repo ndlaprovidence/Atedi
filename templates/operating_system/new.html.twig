@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveau système d'exploitation{% endblock %}
+
+{% block body %}
+    <a href="{{ path('operating_system_index') }}"><i class="fas fa-chevron-left h1 float-left"></i></a>
+    <h1 class='text-center mb-5'>Nouveau système d'exploitation</h1>
+
+    {{ include('operating_system/_form.html.twig') }}
+{% endblock %}
