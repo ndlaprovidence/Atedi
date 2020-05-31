@@ -56,6 +56,12 @@
                     {{ form_errors(form.tasks) }}
                     {{ form_widget(form.tasks, {'attr': {'class': 'mb-3', 'required': 'required'}}) }}
                 </div>
+
+                <div class='col row'>
+                    <h5>Date de retour</h5>            
+                    {{ form_errors(form.return_date) }}
+                    {{ form_widget(form.return_date, {'attr': {'class': 'mb-3'}}) }}
+                </div>
             </div>
 
             <button class="green-btn py-2 px-4 mt-3">{{ button_label|default('Valider') }}</button>

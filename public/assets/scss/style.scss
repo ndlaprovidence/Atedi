@@ -22,8 +22,10 @@ input {
 /////////////////////////////////////////////////
 
 // General stuff
-body { // font-family: 'Raleway'; }
+body {  
+    // font-family: 'Raleway'; 
 }
+
 
 @mixin btn($color,$hoverColor) {
     outline: none;
@@ -85,6 +87,8 @@ body { // font-family: 'Raleway'; }
 .fa-chevron-left:hover { color: $darkestGrey; }
 
 .navbar { 
+    padding-left: 100px;
+    padding-right: 100px;
     background-color: $primaryColor;
     .active { background-color: $primaryColor; }
 }
@@ -207,6 +211,14 @@ body { // font-family: 'Raleway'; }
 /////////////////////////////////////////////////
 
 // Index pages CSS
+#searchBar {
+    border-top: 0px;
+    border-right: 0px;
+    border-bottom: 3px;
+    border-left: 0px;
+    border-color: $primaryColor;
+    border-style: solid; 
+}
 .tab-head {
     background-color: $primaryColor;
     color: #FFFFFF;

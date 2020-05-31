@@ -19,10 +19,10 @@
         </div>
         <div class="col-md-auto ml-auto">
             <a href="{{ path('index', {'filter': 'status'}) }}">
-                <div class='top-infos py-2 px-3 order-by-btn by-status {%if filter == 'status' %}active{% endif %}'><i class="fas fa-tasks"></i></div>
+                <div class='top-infos py-2 px-3 order-by-btn by-status info-btn-100 {%if filter == 'status' %}active{% endif %}'><span class="info-btn-tooltip p-2">Trier par status</span><i class="fas fa-tasks"></i></div>
             </a>
             <a href="{{ path('index', {'filter': 'date'}) }}">
-                <div class='top-infos py-2 px-3 order-by-btn by-date {%if filter == 'date' %}active{% endif %}'><i class="fas fa-clock"></i></div>
+                <div title="Trier par date" class='top-infos py-2 px-3 order-by-btn by-date info-btn-100 {%if filter == 'date' %}active{% endif %}'><span class="info-btn-tooltip p-2">Trier par date</span><i class="fas fa-clock"></i></div>
             </a>
         </div>
     </div>

@@ -170,6 +170,8 @@ input:focus {
 }
 
 .navbar {
+  padding-left: 100px;
+  padding-right: 100px;
   background-color: #264653;
 }
 
@@ -308,6 +310,15 @@ input:focus {
 
 .show-container .disabled:hover {
   background-color: #ebebeb;
+}
+
+#searchBar {
+  border-top: 0px;
+  border-right: 0px;
+  border-bottom: 3px;
+  border-left: 0px;
+  border-color: #264653;
+  border-style: solid;
 }
 
 .tab-head {
