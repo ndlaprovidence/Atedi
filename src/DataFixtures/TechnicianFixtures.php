@@ -12,15 +12,15 @@ class TechnicianFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $data = new Technician();
-        $data->setLastName('HOCHET');
-        $data->setFirstName('Dylan');
-        $data->setEmail('dylanhochet@gmail.com');
+        $data->setLastName('DORIAUX');
+        $data->setFirstName('Marc');
+        $data->setEmail('doriauxM50@gmail.com');
         $manager->persist($data);
 
         $data = new Technician();
-        $data->setLastName('LEYSENNE');
-        $data->setFirstName('Remi');
-        $data->setEmail('remiley@gmail.com');
+        $data->setLastName('GOUDAL');
+        $data->setFirstName('Yannis');
+        $data->setEmail('yannisgoudal@hotmail.com');
         $manager->persist($data);
 
         $manager->flush();
