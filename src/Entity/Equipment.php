@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\EquipmentRepository")
+ * @ORM\Table(name="tbl_equipment")
  */
 class Equipment
 {
