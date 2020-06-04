@@ -89,7 +89,7 @@ class InterventionController extends AbstractController
                 $dompdf = new Dompdf($pdfOptions);
 
                 // Retrieve the HTML generated in our twig file
-                $html = $this->renderView('intervention/pdf.html.twig', [
+                $html = $this->renderView('intervention/request_pdf.html.twig', [
                     'intervention' => $intervention,
                 ]);
 
@@ -112,6 +112,28 @@ class InterventionController extends AbstractController
 
         return $this->render('intervention/show.html.twig', [
             'intervention' => $intervention,
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/actions", name="intervention_actions", methods={"GET","POST"})
+     */
+    public function manage(Request $request, Intervention $intervention): Response
+    {
+        $form = $this->createForm(InterventionType::class, $intervention);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('intervention_show', [
+                'id' => $intervention->getId(),
+            ]);
+        }
+
+        return $this->render('intervention/edit.html.twig', [
+            'intervention' => $intervention,
+            'form' => $form->createView(),
         ]);
     }
 
