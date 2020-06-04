@@ -15,6 +15,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class InterventionType extends AbstractType
 {
@@ -41,6 +42,12 @@ class InterventionType extends AbstractType
                     return $er->createQueryBuilder('e')
                         ->orderBy('e.id', 'DESC');
                 }
+            ])
+            ->add('equipment_complete', ChoiceType::class, [
+                'choices' => [
+                    'Oui' => 'Oui',
+                    'Non' => 'Non',
+                ],
             ])
             ->add('comment')
             ->add('technicians')
