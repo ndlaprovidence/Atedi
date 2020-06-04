@@ -25,7 +25,10 @@ class InterventionRepository extends ServiceEntityRepository
 
     public function findAll()
     {
-        return $this->findBy(array(), array('id' => 'DESC'));
+        return $this->findBy(
+            [],
+            ['id' => 'DESC'],
+        );
     }
 
     public function findAllOngoingByStatus()
@@ -112,30 +115,4 @@ class InterventionRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
-
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('i')
-            ->andWhere('i.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('i.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Intervention
-    {
-        return $this->createQueryBuilder('i')
-            ->andWhere('i.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

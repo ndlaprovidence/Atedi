@@ -6,7 +6,7 @@ $( document ).ready(function() {
     });
 
     $("#copyButton").mouseout(function() {
-        $('#copyButtonTooltip').text('Cliquer');
+        $('#copyButtonTooltip').text('Copier ?');
     });
 
     function copyToClipboard(elem) {
