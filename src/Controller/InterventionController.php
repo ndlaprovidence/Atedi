@@ -116,24 +116,12 @@ class InterventionController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/actions", name="intervention_actions", methods={"GET","POST"})
+     * @Route("/{id}/proceed", name="intervention_proceed", methods={"GET","POST"})
      */
-    public function manage(Request $request, Intervention $intervention): Response
+    public function proceed(Request $request, Intervention $intervention): Response
     {
-        $form = $this->createForm(InterventionType::class, $intervention);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('intervention_show', [
-                'id' => $intervention->getId(),
-            ]);
-        }
-
-        return $this->render('intervention/edit.html.twig', [
-            'intervention' => $intervention,
-            'form' => $form->createView(),
+        return $this->render('intervention/proceed.html.twig', [
+            'intervention' => $intervention
         ]);
     }
 

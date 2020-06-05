@@ -28,20 +28,23 @@ body {
 
 
 
-@mixin btn($color,$hoverColor) {
+@mixin btn($bgHoverColor,$color) {
     outline: none;
     border-radius: 10px;
     font-size: 16px;
-    background-color: $color;
+    background-color: $lightGrey;
     outline: none;
-    border: none; 
-    &:hover { background-color: $hoverColor; }
+    border: $darkGrey solid 1px;
+    &:hover { 
+        background-color: $bgHoverColor; 
+        color: $color;
+    }
 }
-.grey-btn { @include btn($lightGrey,$hoverGrey); }
-.green-btn { @include btn($lightGrey,$hoverGreen); }
-.red-btn { @include btn($lightGrey,$hoverRed); &:hover {color: #FFFFFF;} }
-
-
+.primary-btn { @include btn($primaryColor,#FFFFFF); }
+.grey-btn { @include btn($hoverGrey,#000000); }
+.green-btn { @include btn($hoverGreen,#000000); }
+.red-btn { @include btn($hoverRed,#FFFFFF); }
+.disabled-btn { @include btn($lightGrey,rgba(16, 16, 16, 0.3)); }
 
 @mixin infoBtn($tooltipWidth) {
     position: relative;
@@ -112,6 +115,11 @@ body {
     height: 400px;
 }
 
+.container-background {
+    background-color: $hoverPrimaryColor;
+    border: $primaryColor solid 3px;
+    border-radius: 10px;
+}
 
 
 /////////////////////////////////////////////////
@@ -125,8 +133,6 @@ body {
         background-color: $lightGrey;
         display: inline-block;
     }
-    .tooltip-arrow,
-    .order-by-btn + .tooltip > .tooltip-inner {background-color: #f00;}
     .order-by-btn:hover {
         background-color: $lightPrimaryColor;
         color: #FFFFFF;
@@ -141,7 +147,7 @@ body {
 .index-list-container {
     overflow: auto;
     max-height: 500px;
-    border-top: $darkGrey solid 2px;
+    border-top: $primaryColor solid 2px;
 
     .active { 
         background-color: $lightGreen; 
@@ -180,9 +186,6 @@ body {
 // Show pages CSS
 .show-container {
     .info-container {
-        background-color: $lightGrey;
-        border-radius: 10px;
-
         .status-manager {
             .inactive { background-color: $darkGrey; }
             .active { background-color: $darkGreen; }
@@ -201,12 +204,11 @@ body {
         .link { 
             border-bottom: $darkGrey solid 1px; 
             &:hover { 
-                background-color: $darkerGrey;
+                background-color: $hoverPrimaryColor;
                 cursor: pointer;
             }
         } 
     }
-    .action-btn { border: $darkGrey solid 1px; }
     .disabled:hover { background-color: $lightGrey; }
 }
 

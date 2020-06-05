@@ -34,17 +34,32 @@ body {
   font-family: 'Segoe';
 }
 
+.primary-btn {
+  outline: none;
+  border-radius: 10px;
+  font-size: 16px;
+  background-color: #ebebeb;
+  outline: none;
+  border: #afafaf solid 1px;
+}
+
+.primary-btn:hover {
+  background-color: #264653;
+  color: #FFFFFF;
+}
+
 .grey-btn {
   outline: none;
   border-radius: 10px;
   font-size: 16px;
   background-color: #ebebeb;
   outline: none;
-  border: none;
+  border: #afafaf solid 1px;
 }
 
 .grey-btn:hover {
   background-color: #75757550;
+  color: #000000;
 }
 
 .green-btn {
@@ -53,11 +68,12 @@ body {
   font-size: 16px;
   background-color: #ebebeb;
   outline: none;
-  border: none;
+  border: #afafaf solid 1px;
 }
 
 .green-btn:hover {
   background-color: #047c0070;
+  color: #000000;
 }
 
 .red-btn {
@@ -66,15 +82,26 @@ body {
   font-size: 16px;
   background-color: #ebebeb;
   outline: none;
-  border: none;
+  border: #afafaf solid 1px;
 }
 
 .red-btn:hover {
   background-color: #a10000cb;
+  color: #FFFFFF;
 }
 
-.red-btn:hover {
-  color: #FFFFFF;
+.disabled-btn {
+  outline: none;
+  border-radius: 10px;
+  font-size: 16px;
+  background-color: #ebebeb;
+  outline: none;
+  border: #afafaf solid 1px;
+}
+
+.disabled-btn:hover {
+  background-color: #ebebeb;
+  color: rgba(16, 16, 16, 0.3);
 }
 
 .info-btn-75 {
@@ -160,17 +187,18 @@ body {
   height: 400px;
 }
 
+.container-background {
+  background-color: #4871811f;
+  border: #264653 solid 3px;
+  border-radius: 10px;
+}
+
 .top-infos-container .top-infos {
   font-size: 20px;
   font-family: inherit;
   border-radius: 10px 10px 0 0;
   background-color: #ebebeb;
   display: inline-block;
-}
-
-.top-infos-container .tooltip-arrow,
-.top-infos-container .order-by-btn + .tooltip > .tooltip-inner {
-  background-color: #f00;
 }
 
 .top-infos-container .order-by-btn:hover {
@@ -187,7 +215,7 @@ body {
 .index-list-container {
   overflow: auto;
   max-height: 500px;
-  border-top: #afafaf solid 2px;
+  border-top: #264653 solid 2px;
 }
 
 .index-list-container .active {
@@ -230,11 +258,6 @@ body {
   margin: 0;
 }
 
-.show-container .info-container {
-  background-color: #ebebeb;
-  border-radius: 10px;
-}
-
 .show-container .info-container .status-manager .inactive {
   background-color: #afafaf;
 }
@@ -262,12 +285,8 @@ body {
 }
 
 .show-container .list .link:hover {
-  background-color: #d6d6d6;
+  background-color: #4871811f;
   cursor: pointer;
-}
-
-.show-container .action-btn {
-  border: #afafaf solid 1px;
 }
 
 .show-container .disabled:hover {

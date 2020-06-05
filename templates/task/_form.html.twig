@@ -1,31 +1,33 @@
 {{ form_start(form) }}
 
-    <div class="container">
-        <div class="row justify-content-md-center">
-            <div class='col-8 mb-3'>
-                <h5>Titre</h5>            
-                {{ form_errors(form.title) }}
-                {{ form_widget(form.title, {'attr': {'class': ''}}) }}
-            </div>
-            <div class='col-4'>
-                <h5><i class="fas fa-info-circle mr-2 info-btn-300"><span class="info-btn-tooltip p-2">Veuillez entrer un code couleur au format HEX sans le # </br> (Ex: 2443a6)</span></i>Couleur</h5>            
-                {{ form_errors(form.color) }}
-                <div class='row'>
-                    <div class='col'>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text">#</div>
+    <div class="p-4 form container-background">
+        <div class="container">
+            <div class="row justify-content-md-center">
+                <div class='col-8 mb-3'>
+                    <h5>Titre</h5>            
+                    {{ form_errors(form.title) }}
+                    {{ form_widget(form.title, {'attr': {'class': ''}}) }}
+                </div>
+                <div class='col-4'>
+                    <h5><i class="fas fa-info-circle mr-2 info-btn-300"><span class="info-btn-tooltip p-2">Veuillez entrer un code couleur au format HEX sans le # </br> (Ex: 2443a6)</span></i>Couleur</h5>            
+                    {{ form_errors(form.color) }}
+                    <div class='row'>
+                        <div class='col'>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">#</div>
+                                </div>
+                                {{ form_widget(form.color, {'attr': {'maxlength': '6', 'class': 'color-picker'}}) }}
                             </div>
-                            {{ form_widget(form.color, {'attr': {'maxlength': '6', 'class': 'color-picker'}}) }}
+                        </div>
+                        <div class='col-md-auto my-auto'>
+                            <div class='color-box' data-color='#{{ form.vars.value.color }}'></div>
                         </div>
                     </div>
-                    <div class='col-md-auto my-auto'>
-                        <div class='color-box' data-color='#{{ form.vars.value.color }}'></div>
-                    </div>
                 </div>
-            </div>
 
-            <button class="green-btn py-2 px-4 mt-3">{{ button_label|default('Valider') }}</button>
+                <button class="green-btn py-2 px-4 mt-3">{{ button_label|default('Valider') }}</button>
+            </div>
         </div>
     </div>
 
