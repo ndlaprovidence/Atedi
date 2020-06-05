@@ -193,6 +193,16 @@ body {
   border-radius: 10px;
 }
 
+#searchBar {
+  background-color: transparent;
+  border-top: 0px;
+  border-right: 0px;
+  border-bottom: 3px;
+  border-left: 0px;
+  border-color: #264653;
+  border-style: solid;
+}
+
 .top-infos-container .top-infos {
   font-size: 20px;
   font-family: inherit;
@@ -300,13 +310,9 @@ body {
   overflow: auto;
 }
 
-#searchBar {
-  border-top: 0px;
-  border-right: 0px;
-  border-bottom: 3px;
-  border-left: 0px;
-  border-color: #264653;
-  border-style: solid;
+.report-container .content input[type="checkbox"] {
+  height: 15px;
+  width: 15px;
 }
 
 .tab-head {
@@ -314,31 +320,31 @@ body {
   color: #FFFFFF;
 }
 
-.index-list .link {
+.list .link {
   border-bottom: #afafaf solid 1px;
 }
 
-.index-list .active {
+.list .active {
   background-color: #40913e6c;
 }
 
-.index-list .active:hover {
+.list .active:hover {
   background-color: #047c0070;
 }
 
-.index-list .waiting {
+.list .waiting {
   background-color: #d6d6d6;
 }
 
-.index-list .waiting:hover {
+.list .waiting:hover {
   background-color: #afafaf;
 }
 
-.index-list .finished, .index-list .default {
+.list .finished, .list .default {
   background-color: #FFFFFF;
 }
 
-.index-list .finished:hover, .index-list .default:hover {
+.list .finished:hover, .list .default:hover {
   background-color: #ebebeb;
 }
 /*# sourceMappingURL=style.css.map */

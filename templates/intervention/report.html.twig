@@ -4,7 +4,8 @@
 
 {% block javascripts %}        
     <script src="{{ asset('assets/js/colorFinder.js') }}"></script>
-    <script src="{{ asset('assets/js/menuExpend.js') }}"></script>
+    <script src="{{ asset('assets/js/menuExpend.js') }}"></script>     
+    <script src="{{ asset('assets/js/searchBar.js') }}"></script>
 {% endblock %}
 
 {% block body %}
@@ -128,30 +129,38 @@
         </div>
 
 
+        <form method="post" action="{{ path('intervention_report', {'id': intervention.id}) }}">
 
-        <div class="row justify-content-around mb-3 report-container">
-            <div class='f-20 w-100'>Logiciels de netoyage utilisés</div>
-            <div class="container-background col px-4 py-2 content">
-                {% for software in softwares %}
-                    <div class='f-20 w-100'>{{ software.title }}</div>
-                {% endfor %}
+            <div class="row justify-content-around mb-3 report-container">
+                <div class='f-20 w-100'>Logiciels de netoyage utilisés</div>
+                <div class="container-background col p-4 content list">
+                    <input class='w-100 mb-3 p-2' type="text" id="searchBar" placeholder="Rechercher une intervention">
+                    {% for software in softwares %}
+                        <div class='data-row row'>
+                            <div class='col-md-auto my-auto'><input type="checkbox" name="cleaning-software[]" value="{{ software.id }}"></div>
+                            <div class='col'><div class='f-20 w-100'>{{ software.title }}</div></div>
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
-        </div>
 
-        <div class="row justify-content-around mb-3 report-container">
-            <div class='f-20 w-100'>Opérations effectuées</div>
-            <div class="container-background col p-4"></div>
-        </div>
+            <button class="grey-btn px-3 float-left mr-3">Valider</button>
+            {# <div class="row justify-content-around mb-3 report-container">
+                <div class='f-20 w-100'>Opérations effectuées</div>
+                <div class="container-background col p-4"></div>
+            </div>
 
-        <div class="row justify-content-around mb-3 report-container">
-            <div class='f-20 w-100'>Sous-partie Windows</div>
-            <div class="container-background col p-4"></div>
-        </div>
+            <div class="row justify-content-around mb-3 report-container">
+                <div class='f-20 w-100'>Sous-partie Windows</div>
+                <div class="container-background col p-4"></div>
+            </div>
 
-        <div class="row justify-content-around mb-3 report-container">
-            <div class='f-20 w-100'>Observation</div>
-            <div class="container-background col p-4"></div>
-        </div>
+            <div class="row justify-content-around mb-3 report-container">
+                <div class='f-20 w-100'>Observation</div>
+                <div class="container-background col p-4"></div>
+            </div> #}
+
+        </form>
 
     </div>
 {% endblock %}

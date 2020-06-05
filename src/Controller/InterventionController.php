@@ -128,6 +128,10 @@ class InterventionController extends AbstractController
      */
     public function report(Request $request, Intervention $intervention, SoftwareRepository $sr): Response
     {
+        if ($request->request->has('action')) {
+            
+        }
+
         $softwares = $sr->findAllByType('Nettoyage');
 
         return $this->render('intervention/report.html.twig', [
