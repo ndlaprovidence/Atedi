@@ -69,21 +69,6 @@
                     </div>
                     <hr>
                 {% endif %}
-                {% if intervention.status == 'Terminée' %}
-                    <div class='row mb-2'>
-                        <div class='col-md-auto my-auto'>
-                            <i class="fas fa-copy info-btn-75 fa-lg float-left" id='copyButton'>                                
-                                <span class="info-btn-tooltip p-2" id="copyButtonTooltip">Copier</span>
-                            </i>
-                        </div>
-                        <div class='col'>
-                            <div class='comment p-2'>
-                                <div id='copyTarget'>{{ intervention.client }}, votre {{ intervention.equipment }} est disponible dans notre boutique.</div>
-                            </div>
-                        </div>
-                    </div>
-                    <hr>
-                {% endif %}
                 <div class='row mb-2 {% if intervention.status == 'En cours' %}color-green{% else %}color-grey{% endif %}'>
                     <div class='col-md-auto my-auto'><i class="fas fa-circle"></i></div>
                     <div class='col'>{{ intervention.status }}</div>
@@ -99,6 +84,21 @@
                     </div>
                 </div>
                 <hr>
+                {% if intervention.status == 'Terminée' %}
+                    <div class='row mb-2'>
+                        <div class='col-md-auto my-auto'>
+                            <i class="fas fa-copy info-btn-75 fa-lg float-left" id='copyButton'>                                
+                                <span class="info-btn-tooltip p-2" id="copyButtonTooltip">Copier</span>
+                            </i>
+                        </div>
+                        <div class='col'>
+                            <div class='comment p-2'>
+                                <div id='copyTarget'>{{ intervention.client }}, votre {{ intervention.equipment }} est disponible dans notre boutique.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                {% endif %}
                 <div class='row'>
                     <div class='col-md-auto my-auto'><i class="fas fa-clock"></i></div>
                     <div class='col'>
