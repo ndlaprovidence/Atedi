@@ -122,6 +122,7 @@ body {
 }
 
 
+
 /////////////////////////////////////////////////
 
 // Landing page CSS
@@ -201,7 +202,12 @@ body {
             }
         } 
     }
-    .disabled:hover { background-color: $lightGrey; }
+    .more-infos-chevron {
+        -moz-transition: transform 0.3s;
+        -webkit-transition: transform 0.3s;
+        transition: transform 0.3s;
+    }
+    .flip { transform: rotate(-180deg); }
 }
 
 

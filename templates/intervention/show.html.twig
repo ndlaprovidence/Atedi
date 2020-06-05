@@ -5,6 +5,7 @@
 {% block javascripts %}        
     <script src="{{ asset('assets/js/copyToClipboard.js') }}"></script>
     <script src="{{ asset('assets/js/colorFinder.js') }}"></script>
+    <script src="{{ asset('assets/js/menuExpend.js') }}"></script>
 {% endblock %}
 
 {% block body %}
@@ -21,7 +22,7 @@
                 <div class='f-20 text-center'>Informations sur le client</div>
                 <hr>
                 <div class='row text-center'>
-                    <div class='col'><a href="{{ path('client_show', {'id': intervention.client.id}) }}" class='mx-auto  grey-btn px-4 py-1' /><i class="fas fa-link mr-3"></i>Accéder à la fiche client</a></div>
+                    <div class='col'><a href="{{ path('client_show', {'id': intervention.client.id}) }}" class='mx-auto grey-btn px-4 py-1' /><i class="fas fa-link mr-3"></i>Accéder à la fiche client</a></div>
                 </div>
                 <hr>
                 <div class='row mb-2'>
@@ -100,62 +101,70 @@
                     <hr>
                 {% endif %}
                 <div class='row'>
-                    <div class='col-md-auto my-auto'><i class="fas fa-clock"></i></div>
-                    <div class='col'>
-                        <div class='row'>
-                            <div class='col-md-auto'>
-                                <div class="d-flex flex-column text-center">
-                                    <div>Date de dépôt</div>
-                                    <div>{{ intervention.depositDate ? intervention.depositDate|date('d-m-Y') : "<div class='missing-info'>Non-renseignée</div>" }}</div>
-                                </div>
-                            </div>
-                            <div class='col-md-auto'>
-                                <div class="d-flex flex-column text-center">
-                                    <div>Date de retour</div>
-                                    <div>{{ intervention.returnDate ? intervention.returnDate|date('d-m-Y') : "<div class='missing-info'>Non-renseignée</div>" }}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <hr>
-                <div class='row'>
-                    <div class='col-md-auto my-auto'><i class="fas fa-users-cog"></i></div>
-                    <div class='col'>
-                        <div>
-                            {% for technician in intervention.technicians %}
-                                {{ technician }}{% if not loop.last %}, {% endif %}
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
-                <hr>
-                <div class='row mb-2'>
-                    <div class='col-md-auto ml-1 my-auto'><div class="color-box" data-color="#{% for task in intervention.tasks %}{{ task.color }}{% endfor %}"></div></div>
-                    <div class='col'>
-                        <div>
-                            {% for task in intervention.tasks %}
-                                {{ task }}{% if not loop.last %}, {% endif %}
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
-                <hr>
-                <div class='row mb-2'>
-                    <div class='col-md-auto my-auto'><i class="fas fa-desktop"></i></div>
-                    <div class='col'>
-                        <div class="d-flex flex-column">
-                            <div>{{ intervention.equipment }}</div>
-                            <div>{{ intervention.operatingSystem }}</div>
-                            <div>Matériel complet : {{ intervention.equipmentComplete }}</div>
-                        </div>
-                    </div>
-                </div>
-                <hr>
-                <div class='row'>
                     <div class='col-md-auto my-auto'><i class="fas fa-comment-dots"></i></div>
                     <div class='col'>
                         <div class='comment p-2'>{{ intervention.comment ?: "<div>Pas de commentaire</div>" }}</div>
+                    </div>
+                </div>
+                <hr>
+                <div class='row'>
+                    <div class='col text-center'>
+                        <a class="w-100 p-2 more-infos" data-toggle="collapse" href="#moreInfos" aria-expanded="false">Plus d'informations<i class="ml-2 fas fa-chevron-down more-infos-chevron"></i></a>
+                        <hr>
+                    </div>
+                </div>
+                <div class="collapse" id="moreInfos">
+                    <div class='row'>
+                        <div class='col-md-auto my-auto'><i class="fas fa-clock"></i></div>
+                        <div class='col'>
+                            <div class='row'>
+                                <div class='col-md-auto'>
+                                    <div class="d-flex flex-column text-center">
+                                        <div>Date de dépôt</div>
+                                        <div>{{ intervention.depositDate ? intervention.depositDate|date('d-m-Y') : "<div class='missing-info'>Non-renseignée</div>" }}</div>
+                                    </div>
+                                </div>
+                                <div class='col-md-auto'>
+                                    <div class="d-flex flex-column text-center">
+                                        <div>Date de retour</div>
+                                        <div>{{ intervention.returnDate ? intervention.returnDate|date('d-m-Y') : "<div class='missing-info'>Non-renseignée</div>" }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class='row'>
+                        <div class='col-md-auto my-auto'><i class="fas fa-users-cog"></i></div>
+                        <div class='col'>
+                            <div>
+                                {% for technician in intervention.technicians %}
+                                    {{ technician }}{% if not loop.last %}, {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class='row mb-2'>
+                        <div class='col-md-auto ml-1 my-auto'><div class="color-box" data-color="#{% for task in intervention.tasks %}{{ task.color }}{% endfor %}"></div></div>
+                        <div class='col'>
+                            <div>
+                                {% for task in intervention.tasks %}
+                                    {{ task }}{% if not loop.last %}, {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class='row mb-2'>
+                        <div class='col-md-auto my-auto'><i class="fas fa-desktop"></i></div>
+                        <div class='col'>
+                            <div class="d-flex flex-column">
+                                <div>{{ intervention.equipment }}</div>
+                                <div>{{ intervention.operatingSystem }}</div>
+                                <div>Matériel complet : {{ intervention.equipmentComplete }}</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
