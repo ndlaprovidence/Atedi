@@ -73,6 +73,12 @@ class Intervention
      */
     private $equipment_complete;
 
+    /**
+     * @ORM\OneToOne(targetEntity=InterventionReport::class, inversedBy="intervention", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $intervention_report;
+
     public function __construct()
     {
         $this->technicians = new ArrayCollection();
@@ -231,6 +237,18 @@ class Intervention
     public function setEquipmentComplete(string $equipment_complete): self
     {
         $this->equipment_complete = $equipment_complete;
+
+        return $this;
+    }
+
+    public function getInterventionReport(): ?InterventionReport
+    {
+        return $this->intervention_report;
+    }
+
+    public function setInterventionReport(InterventionReport $intervention_report): self
+    {
+        $this->intervention_report = $intervention_report;
 
         return $this;
     }

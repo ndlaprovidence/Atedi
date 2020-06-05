@@ -214,6 +214,19 @@ body {
 
 /////////////////////////////////////////////////
 
+// Report page CSS
+.report-container {  
+    .content { 
+        border-radius: 0;
+        max-height: 500px;
+        overflow: auto; 
+    }
+}
+
+
+
+/////////////////////////////////////////////////
+
 // Index pages CSS
 #searchBar {
     border-top: 0px;

@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveau logiciel{% endblock %}
+
+{% block body %}
+    <a href="{{ path('software_index') }}"><i class="fas fa-chevron-left h1 float-left"></i></a>
+    <h1 class='text-center mb-5'>Nouveau logiciel</h1>
+
+    {{ include('software/_form.html.twig') }}
+{% endblock %}

@@ -47,6 +47,7 @@
                             <a class="dropdown-item {% if app.request.get('_route') starts with 'operating_system' %} active {% endif %}" href="{{ path('operating_system_index') }}">Systèmes d'exploitations</a>
                             <a class="dropdown-item {% if app.request.get('_route') starts with 'task' %} active {% endif %}" href="{{ path('task_index') }}">Tâches</a>
                             <a class="dropdown-item {% if app.request.get('_route') starts with 'technician' %} active {% endif %}" href="{{ path('technician_index') }}">Techniciens</a>
+                            <a class="dropdown-item {% if app.request.get('_route') starts with 'software' %} active {% endif %}" href="{{ path('software_index') }}">Logiciels</a>
                             <hr>
                             <a class="dropdown-item {% if app.request.get('_route') starts with 'user' %} active {% endif %}" href="{{ path('user_index') }}">Utilisateurs</a>
                             <a class="dropdown-item {% if app.request.get('_route') starts with 'statistics' %} active {% endif %}" href="{{ path('statistics_index') }}">Statistiques</a>

@@ -6,7 +6,9 @@ use Dompdf\Dompdf;
 use Dompdf\Options;
 use App\Entity\Intervention;
 use App\Form\InterventionType;
+use App\Entity\InterventionReport;
 use App\Repository\ClientRepository;
+use App\Repository\SoftwareRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\InterventionRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,11 +39,17 @@ class InterventionController extends AbstractController
         $this->em = $em;
 
         $intervention = new Intervention();
+        $interventionReport = new InterventionReport();
 
         $form = $this->createForm(InterventionType::class, $intervention);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $this->em->persist($interventionReport);
+            $this->em->flush();
+
+            $intervention->setInterventionReport($interventionReport);
             $this->em->persist($intervention);
             $this->em->flush();
 
@@ -116,12 +124,15 @@ class InterventionController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/proceed", name="intervention_proceed", methods={"GET","POST"})
+     * @Route("/{id}/report", name="intervention_report", methods={"GET","POST"})
      */
-    public function proceed(Request $request, Intervention $intervention): Response
+    public function report(Request $request, Intervention $intervention, SoftwareRepository $sr): Response
     {
-        return $this->render('intervention/proceed.html.twig', [
-            'intervention' => $intervention
+        $softwares = $sr->findAllByType('Nettoyage');
+
+        return $this->render('intervention/report.html.twig', [
+            'intervention' => $intervention,
+            'softwares' => $softwares,
         ]);
     }
 

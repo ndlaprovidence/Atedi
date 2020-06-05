@@ -1,8 +1,7 @@
 $( document ).ready(function() {
     
     $(".more-infos").click( function() {
-        $(".more-infos-chevron").toggleClass('flip');
-        sleep(300);
+        $(this).find(".more-infos-chevron").toggleClass('flip');
     });
 
 });
