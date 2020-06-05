@@ -84,13 +84,17 @@
                     </div>
                     <hr>
                 {% endif %}
+                <div class='row mb-2 {% if intervention.status == 'En cours' %}color-green{% else %}color-grey{% endif %}'>
+                    <div class='col-md-auto my-auto'><i class="fas fa-circle"></i></div>
+                    <div class='col'>{{ intervention.status }}</div>
+                </div>
                 <div class='row mb-2'>
                     <div class='col-md-auto my-auto'><i class="fas fa-hourglass-half"></i></div>
-                    <div class='col status-manager'>
+                    <div class='col'>
                         <form action="" method="post">
                             <input type='submit' name='status' value='En attente' class='py-1 px-2 {% if intervention.status == 'En attente' %}disabled-btn' disabled {% else %} grey-btn''{% endif %} />
                             <input type='submit' name='status' value='En cours' class='py-1 px-2 {% if intervention.status == 'En cours' %}disabled-btn' disabled {% else %} grey-btn''{% endif %} />
-                            <input type='submit' name='status' value='Terminée' class='py-1 px-2 {% if intervention.status == 'En terminée' %}disabled-btn' disabled {% else %} grey-btn''{% endif %} />
+                            <input type='submit' name='status' value='Terminée' class='py-1 px-2 {% if intervention.status == 'Terminée' %}disabled-btn' disabled {% else %} grey-btn''{% endif %} />
                         </form>
                     </div>
                 </div>

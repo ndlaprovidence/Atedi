@@ -89,7 +89,7 @@ body {
 
 
 
-.fa-chevron-left:hover { color: $darkestGrey; }
+.fa-chevron-left:hover { color: $lightPrimaryColor; }
 
 .navbar { 
     padding-left: 100px;
@@ -185,20 +185,12 @@ body {
 
 // Show pages CSS
 .show-container {
-    .info-container {
-        .status-manager {
-            .inactive { background-color: $darkGrey; }
-            .active { background-color: $darkGreen; }
-        }
-        .comment {
-            max-width: 100%;
-            border-radius: 5px;
-            background-color: $darkerGrey;
-        }
-        .btn {
-            background-color: $darkerGrey;
-            &:hover { background-color: $hoverGreen; }
-        }
+    .color-grey { color: $darkestGrey; }
+    .color-green { color: $lighterGreen; }
+    .comment {
+        max-width: 100%;
+        border-radius: 5px;
+        background-color: $hoverPrimaryColor;
     }
     .list { 
         .link { 

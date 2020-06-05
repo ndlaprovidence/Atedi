@@ -150,7 +150,7 @@ body {
 }
 
 .fa-chevron-left:hover {
-  color: #777777;
+  color: #487181;
 }
 
 .navbar {
@@ -258,26 +258,18 @@ body {
   margin: 0;
 }
 
-.show-container .info-container .status-manager .inactive {
-  background-color: #afafaf;
+.show-container .color-grey {
+  color: #555555;
 }
 
-.show-container .info-container .status-manager .active {
-  background-color: #02910088;
+.show-container .color-green {
+  color: #028f00;
 }
 
-.show-container .info-container .comment {
+.show-container .comment {
   max-width: 100%;
   border-radius: 5px;
-  background-color: #d6d6d6;
-}
-
-.show-container .info-container .btn {
-  background-color: #d6d6d6;
-}
-
-.show-container .info-container .btn:hover {
-  background-color: #047c0070;
+  background-color: #4871811f;
 }
 
 .show-container .list .link {
