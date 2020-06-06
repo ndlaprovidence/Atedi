@@ -44,9 +44,15 @@ class InterventionReport
      */
     private $windows_install = [];
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Booklet::class, inversedBy="interventionReports")
+     */
+    private $booklets;
+
     public function __construct()
     {
         $this->softwares = new ArrayCollection();
+        $this->booklets = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -115,6 +121,32 @@ class InterventionReport
     public function setWindowsInstall(?array $windows_install): self
     {
         $this->windows_install = $windows_install;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Booklet[]
+     */
+    public function getBooklets(): Collection
+    {
+        return $this->booklets;
+    }
+
+    public function addBooklet(Booklet $booklet): self
+    {
+        if (!$this->booklets->contains($booklet)) {
+            $this->booklets[] = $booklet;
+        }
+
+        return $this;
+    }
+
+    public function removeBooklet(Booklet $booklet): self
+    {
+        if ($this->booklets->contains($booklet)) {
+            $this->booklets->removeElement($booklet);
+        }
 
         return $this;
     }

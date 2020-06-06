@@ -111,6 +111,15 @@
                     {% endfor %}
                 </div>
             </div>
+        {% elseif step == 5 %}
+            <div class="row justify-content-around mb-3 report-container">
+                <div class='col-12 justify-content-center row step-title p-2 mb-3'>
+                    <div class='f-20'>Observation sur l'intervention</div>
+                </div>
+                <div class="container-background col p-4 content list">
+                    <textarea class='w-100 p-2' name='comment' placeholder="Observations sur l'intervention (facultatif)" rows="5"></textarea>
+                </div>
+            </div>
         {% endif %}
 
         <input type='hidden' name='action' value='submit' />

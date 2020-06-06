@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20200606013848 extends AbstractMigration
+final class Version20200606115123 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -29,6 +29,7 @@ final class Version20200606013848 extends AbstractMigration
         $this->addSql('CREATE TABLE intervention_technician (intervention_id INT NOT NULL, technician_id INT NOT NULL, INDEX IDX_B0B993458EAE3863 (intervention_id), INDEX IDX_B0B99345E6C5D496 (technician_id), PRIMARY KEY(intervention_id, technician_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE intervention_task (intervention_id INT NOT NULL, task_id INT NOT NULL, INDEX IDX_5DC1C3E78EAE3863 (intervention_id), INDEX IDX_5DC1C3E78DB60186 (task_id), PRIMARY KEY(intervention_id, task_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE intervention_report (id INT AUTO_INCREMENT NOT NULL, comment LONGTEXT DEFAULT NULL, step INT NOT NULL, severity VARCHAR(255) DEFAULT NULL, windows_install LONGTEXT DEFAULT NULL COMMENT \'(DC2Type:array)\', PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE intervention_report_booklet (intervention_report_id INT NOT NULL, booklet_id INT NOT NULL, INDEX IDX_73D84037430C5E9 (intervention_report_id), INDEX IDX_73D84037668144B3 (booklet_id), PRIMARY KEY(intervention_report_id, booklet_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE operating_system (id INT AUTO_INCREMENT NOT NULL, title VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE software (id INT AUTO_INCREMENT NOT NULL, title VARCHAR(255) NOT NULL, type VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE software_intervention_report (id INT AUTO_INCREMENT NOT NULL, software_id INT NOT NULL, intervention_report_id INT NOT NULL, action VARCHAR(255) NOT NULL, INDEX IDX_6C2B1332D7452741 (software_id), INDEX IDX_6C2B1332430C5E9 (intervention_report_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
@@ -43,6 +44,8 @@ final class Version20200606013848 extends AbstractMigration
         $this->addSql('ALTER TABLE intervention_technician ADD CONSTRAINT FK_B0B99345E6C5D496 FOREIGN KEY (technician_id) REFERENCES technician (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE intervention_task ADD CONSTRAINT FK_5DC1C3E78EAE3863 FOREIGN KEY (intervention_id) REFERENCES intervention (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE intervention_task ADD CONSTRAINT FK_5DC1C3E78DB60186 FOREIGN KEY (task_id) REFERENCES task (id) ON DELETE CASCADE');
+        $this->addSql('ALTER TABLE intervention_report_booklet ADD CONSTRAINT FK_73D84037430C5E9 FOREIGN KEY (intervention_report_id) REFERENCES intervention_report (id) ON DELETE CASCADE');
+        $this->addSql('ALTER TABLE intervention_report_booklet ADD CONSTRAINT FK_73D84037668144B3 FOREIGN KEY (booklet_id) REFERENCES booklet (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE software_intervention_report ADD CONSTRAINT FK_6C2B1332D7452741 FOREIGN KEY (software_id) REFERENCES software (id)');
         $this->addSql('ALTER TABLE software_intervention_report ADD CONSTRAINT FK_6C2B1332430C5E9 FOREIGN KEY (intervention_report_id) REFERENCES intervention_report (id)');
     }
@@ -52,11 +55,13 @@ final class Version20200606013848 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
+        $this->addSql('ALTER TABLE intervention_report_booklet DROP FOREIGN KEY FK_73D84037668144B3');
         $this->addSql('ALTER TABLE intervention DROP FOREIGN KEY FK_D11814AB19EB6921');
         $this->addSql('ALTER TABLE intervention DROP FOREIGN KEY FK_D11814AB517FE9FE');
         $this->addSql('ALTER TABLE intervention_technician DROP FOREIGN KEY FK_B0B993458EAE3863');
         $this->addSql('ALTER TABLE intervention_task DROP FOREIGN KEY FK_5DC1C3E78EAE3863');
         $this->addSql('ALTER TABLE intervention DROP FOREIGN KEY FK_D11814AB430C5E9');
+        $this->addSql('ALTER TABLE intervention_report_booklet DROP FOREIGN KEY FK_73D84037430C5E9');
         $this->addSql('ALTER TABLE software_intervention_report DROP FOREIGN KEY FK_6C2B1332430C5E9');
         $this->addSql('ALTER TABLE intervention DROP FOREIGN KEY FK_D11814ABA391D4AD');
         $this->addSql('ALTER TABLE software_intervention_report DROP FOREIGN KEY FK_6C2B1332D7452741');
@@ -69,6 +74,7 @@ final class Version20200606013848 extends AbstractMigration
         $this->addSql('DROP TABLE intervention_technician');
         $this->addSql('DROP TABLE intervention_task');
         $this->addSql('DROP TABLE intervention_report');
+        $this->addSql('DROP TABLE intervention_report_booklet');
         $this->addSql('DROP TABLE operating_system');
         $this->addSql('DROP TABLE software');
         $this->addSql('DROP TABLE software_intervention_report');

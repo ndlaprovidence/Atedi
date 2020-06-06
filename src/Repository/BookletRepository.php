@@ -26,4 +26,14 @@ class BookletRepository extends ServiceEntityRepository
             ['id' => 'DESC'],
         );
     }
+
+    public function findOneById($id)
+    {
+        return $this->createQueryBuilder('b')
+            ->andWhere('b.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getSingleResult()
+        ;
+    }
 }

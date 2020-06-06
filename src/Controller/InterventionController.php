@@ -239,11 +239,15 @@ class InterventionController extends AbstractController
             case 4:
                 if ($request->request->has('action')) {
 
-                    if ($request->request->has('windows-install')) {
-                        $windowsInstalls = $request->request->get('windows-install');
-                        $interventionReport->setWindowsInstall($windowsInstalls);
-                    }
+                    if ($request->request->has('booklets')) {
+                        $booklets = $request->request->get('booklets');
 
+                        foreach ( $booklets as $booklet ) {
+                            $booklet = $br->findOneById($booklet);
+                            $interventionReport->addBooklet($booklet);
+                            $this->em->persist($interventionReport);
+                        }
+                    }
                     $interventionReport->setStep($step+1);
                     $this->em->persist($interventionReport);
                     $this->em->flush();
@@ -253,6 +257,24 @@ class InterventionController extends AbstractController
                     ]);
                 }
                 break;
+
+                case 5:
+                    if ($request->request->has('action')) {
+    
+                        if ($request->request->has('comment')) {
+                            $comment = $request->request->get('comment');
+    
+                            $interventionReport->setComment($comment);
+                        }
+                        $interventionReport->setStep($step+1);
+                        $this->em->persist($interventionReport);
+                        $this->em->flush();
+    
+                        return $this->redirectToRoute('intervention_report', [
+                            'id' => $intervention->getId(),
+                        ]);
+                    }
+                    break;
         }
 
         return $this->render('intervention/report.html.twig', [
