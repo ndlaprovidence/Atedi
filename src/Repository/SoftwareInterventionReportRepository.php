@@ -19,32 +19,4 @@ class SoftwareInterventionReportRepository extends ServiceEntityRepository
         parent::__construct($registry, SoftwareInterventionReport::class);
     }
 
-    // /**
-    //  * @return SoftwareInterventionReport[] Returns an array of SoftwareInterventionReport objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?SoftwareInterventionReport
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

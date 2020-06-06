@@ -19,10 +19,6 @@ class TechnicianRepository extends ServiceEntityRepository
         parent::__construct($registry, Technician::class);
     }
 
-    // /**
-    //  * @return Technician[] Returns an array of Technician objects
-    //  */
-
     public function findAll()
     {
         return $this->findBy(

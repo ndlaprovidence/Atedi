@@ -19,10 +19,6 @@ class InterventionRepository extends ServiceEntityRepository
         parent::__construct($registry, Intervention::class);
     }
 
-    // /**
-    //  * @return Intervention[] Returns an array of Intervention objects
-    //  */
-
     public function findAll()
     {
         return $this->findBy(
