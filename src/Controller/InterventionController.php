@@ -8,6 +8,7 @@ use App\Entity\Intervention;
 use App\Form\InterventionType;
 use App\Entity\InterventionReport;
 use App\Repository\ClientRepository;
+use App\Repository\BookletRepository;
 use App\Repository\SoftwareRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\SoftwareInterventionReport;
@@ -128,13 +129,26 @@ class InterventionController extends AbstractController
     /**
      * @Route("/{id}/report", name="intervention_report", methods={"GET","POST"})
      */
-    public function report(Request $request, EntityManagerInterface $em, Intervention $intervention, SoftwareRepository $sr): Response
+    public function report(Request $request, EntityManagerInterface $em, Intervention $intervention, SoftwareRepository $sr, BookletRepository $br): Response
     {
         $this->em = $em;
 
         $interventionReport = $intervention->getInterventionReport();
         $step = $interventionReport->getStep();
+        
+        if ($request->query->has('step')) {
+
+            $interventionReport->setStep($step-1);
+            $this->em->persist($interventionReport);
+            $this->em->flush();
+
+            return $this->redirectToRoute('intervention_report', [
+                'id' => $intervention->getId(),
+            ]);
+        }
+        
         $softwares = [];
+        $booklets = $br->findAll();
 
         switch ($step) {
             case 1:
@@ -221,11 +235,30 @@ class InterventionController extends AbstractController
                     ]);
                 }
                 break;
+
+            case 4:
+                if ($request->request->has('action')) {
+
+                    if ($request->request->has('windows-install')) {
+                        $windowsInstalls = $request->request->get('windows-install');
+                        $interventionReport->setWindowsInstall($windowsInstalls);
+                    }
+
+                    $interventionReport->setStep($step+1);
+                    $this->em->persist($interventionReport);
+                    $this->em->flush();
+
+                    return $this->redirectToRoute('intervention_report', [
+                        'id' => $intervention->getId(),
+                    ]);
+                }
+                break;
         }
 
         return $this->render('intervention/report.html.twig', [
             'intervention' => $intervention,
             'softwares' => $softwares,
+            'booklets' => $booklets,
         ]);
     }
 

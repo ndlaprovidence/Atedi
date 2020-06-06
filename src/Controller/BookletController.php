@@ -49,16 +49,6 @@ class BookletController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="booklet_show", methods={"GET"})
-     */
-    public function show(Booklet $booklet): Response
-    {
-        return $this->render('booklet/show.html.twig', [
-            'booklet' => $booklet,
-        ]);
-    }
-
-    /**
      * @Route("/{id}/edit", name="booklet_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Booklet $booklet): Response

@@ -309,6 +309,11 @@ body {
           transform: rotate(-180deg);
 }
 
+.report-container .step-title {
+  background-color: #264653;
+  color: #FFFFFF;
+}
+
 .report-container .content {
   border-radius: 0;
   max-height: 500px;

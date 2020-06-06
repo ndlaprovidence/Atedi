@@ -231,6 +231,10 @@ body {
 
 // Report page CSS
 .report-container {  
+    .step-title {
+        background-color: $primaryColor;
+        color: #FFFFFF;
+    }
     .content { 
         border-radius: 0;
         max-height: 500px;
@@ -240,12 +244,8 @@ body {
             width: 15px;
         }
     }
-    .more-content { 
-        display: none; 
-    }
-    .data-row {
-        border-bottom: $hoverPrimaryColor solid 1px;
-    }
+    .more-content { display: none; }
+    .data-row { border-bottom: $hoverPrimaryColor solid 1px; }
 }
 
 

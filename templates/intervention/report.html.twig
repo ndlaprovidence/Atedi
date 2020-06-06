@@ -6,140 +6,27 @@
     <script src="{{ asset('assets/js/colorFinder.js') }}"></script>
     <script src="{{ asset('assets/js/menuExpend.js') }}"></script>     
     <script src="{{ asset('assets/js/searchBar.js') }}"></script>
+    <script src="{{ asset('assets/js/resetSelection.js') }}"></script>     
 {% endblock %}
 
 {% block body %}
     <a href="{{ path('intervention_show', {'id': intervention.id}) }}"><i class="fas fa-chevron-left h1 float-left"></i></a>
     <h1 class='text-center mb-5'>Rapport d'intervention</h1>
 
-    <div class="container show-container">
-        <div class="row justify-content-around mb-5">
-            <div class="container-background col-md-auto mb-auto p-4">
-                <div class='row'>
-                    <div class='col text-center'>
-                        <a class="w-100 p-2 more-infos f-20" data-toggle="collapse" href="#moreInfosClient" aria-expanded="false">Rappel des informations client<i class="ml-2 fas fa-chevron-down more-infos-chevron"></i></a>
-                        <hr>
-                    </div>
-                </div>
-                <div class="collapse" id="moreInfosClient">
-                    <div class='row mb-2'>
-                        <div class='col-md-auto my-auto'><i class="fas fa-user"></i></div>
-                        <div class='col'>{{ intervention.client.lastName }} {{ intervention.client.firstName }}</div>
-                    </div>
-                    <hr>
-                    <div class='row mb-2'>
-                        <div class='col-md-auto my-auto'><i class="fas fa-phone"></i></div>
-                        <div class='col'>{{ intervention.client.phone }}</div>
-                    </div>
-                    <hr>
-                    <div class='row mb-2'>
-                        <div class='col-md-auto my-auto'><i class="fas fa-at"></i></div>
-                        <div class='col'>{{ intervention.client.email ?: "<div class='missing-info'>Email non-renseignée</div>" }}</div>
-                    </div>
-                    <hr>
-                    <div class='row'>
-                        <div class='col-md-auto my-auto'><i class="fas fa-map-marker-alt"></i></div>
-                        <div class='col'>
-                            <div class="d-flex flex-column">
-                                {% if (intervention.client.street) or (intervention.client.city) or (intervention.client.postalCode) %}
-                                    {% if intervention.client.street %}
-                                        <div>{{ intervention.client.street }}</div>
-                                    {% endif %}
-                                    {% if (intervention.client.city) or (intervention.client.postalCode) %}
-                                        <div>{{ intervention.client.city }} {{ intervention.client.postalCode }}</div>
-                                    {% endif %}
-                                {% else %}
-                                    <div class='missing-info'>Adresse non-renseignée</div>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="container-background col-md-auto mb-auto p-4">
-                <div class='row'>
-                    <div class='col text-center'>
-                        <a class="w-100 p-2 more-infos f-20" data-toggle="collapse" href="#moreInfosIntervention" aria-expanded="false">Rappel des informations de l'intervention<i class="ml-2 fas fa-chevron-down more-infos-chevron"></i></a>
-                        <hr>
-                    </div>
-                </div>
-                <div class="collapse" id="moreInfosIntervention">
-                    <div class='row'>
-                        <div class='col-md-auto my-auto'><i class="fas fa-comment-dots"></i></div>
-                        <div class='col'>
-                            <div class='comment p-2'>{{ intervention.comment ?: "<div>Pas de commentaire</div>" }}</div>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class='row'>
-                        <div class='col-md-auto my-auto'><i class="fas fa-clock"></i></div>
-                        <div class='col'>
-                            <div class='row'>
-                                <div class='col-md-auto'>
-                                    <div class="d-flex flex-column text-center">
-                                        <div>Date de dépôt</div>
-                                        <div>{{ intervention.depositDate ? intervention.depositDate|date('d-m-Y') : "<div class='missing-info'>Non-renseignée</div>" }}</div>
-                                    </div>
-                                </div>
-                                <div class='col-md-auto'>
-                                    <div class="d-flex flex-column text-center">
-                                        <div>Date de retour</div>
-                                        <div>{{ intervention.returnDate ? intervention.returnDate|date('d-m-Y') : "<div class='missing-info'>Non-renseignée</div>" }}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class='row'>
-                        <div class='col-md-auto my-auto'><i class="fas fa-users-cog"></i></div>
-                        <div class='col'>
-                            <div>
-                                {% for technician in intervention.technicians %}
-                                    {{ technician }}{% if not loop.last %}, {% endif %}
-                                {% endfor %}
-                            </div>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class='row mb-2'>
-                        <div class='col-md-auto ml-1 my-auto'><div class="color-box" data-color="#{% for task in intervention.tasks %}{{ task.color }}{% endfor %}"></div></div>
-                        <div class='col'>
-                            <div>
-                                {% for task in intervention.tasks %}
-                                    {{ task }}{% if not loop.last %}, {% endif %}
-                                {% endfor %}
-                            </div>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class='row mb-2'>
-                        <div class='col-md-auto my-auto'><i class="fas fa-desktop"></i></div>
-                        <div class='col'>
-                            <div class="d-flex flex-column">
-                                <div>{{ intervention.equipment }}</div>
-                                <div>{{ intervention.operatingSystem }}</div>
-                                <div>Matériel complet : {{ intervention.equipmentComplete }}</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <form method="post" action="{{ path('intervention_report', {'id': intervention.id}) }}">
+    <form method="post" action="{{ path('intervention_report', {'id': intervention.id}) }}">
 
         {% set step = intervention.interventionReport.step %}
 
-        <h4 class='h4 text-center'>Étape {{ step }}/?</h4>
+        <h4 class='h4 text-center'>
+            {% if step > 1 %}<a href="{{ path('intervention_report', {'id': intervention.id, 'step': 'go-back'}) }}"><i class="fas fa-arrow-left mr-3"></i></a>{% endif %}Étape {{ step }}/?
+        </h4>
+        <div class='text-center'></div>
         <hr>
 
         {% if step == 1 %}
             <div class="row justify-content-around mb-3 report-container">
-                <div class='w-100 row'>
-                    <a href="{{ path('software_new', {'s': 'report', 'id': intervention.id}) }}" class='my-auto'><i class="float-left fas fa-plus-circle fa-lg mr-2"></i></a><div class='f-20 mb-2'>Logiciels de netoyage utilisés</div>
+                <div class='col-12 justify-content-center row step-title p-2 mb-3'>
+                    <a href="{{ path('software_new', {'s': 'report', 'id': intervention.id}) }}" class='my-auto'><i class="float-left fas fa-plus-circle fa-lg mr-2"></i></a><div class='f-20'>Logiciels de netoyage utilisés</div>
                 </div>
                 <div class="container-background col p-4 content list">
                     <div class='row justify-content-center'>
@@ -161,8 +48,8 @@
             </div>
         {% elseif step == 2 %}
             <div class="row justify-content-around mb-3 report-container">
-                <div class='w-100 row'>
-                    <a href="{{ path('software_new', {'s': 'report', 'id': intervention.id}) }}" class='my-auto'><i class="float-left fas fa-plus-circle fa-lg mr-2"></i></a><div class='f-20 mb-2'>Logiciels installé ou mis à jour</div>
+                <div class='col-12 justify-content-center row step-title p-2 mb-3'>
+                    <a href="{{ path('software_new', {'s': 'report', 'id': intervention.id}) }}" class='my-auto'><i class="float-left fas fa-plus-circle fa-lg mr-2"></i></a><div class='f-20'>Logiciels installé ou mis à jour</div>
                 </div>
                 <input class='w-100 mb-3 p-2' type="text" id="searchBar" placeholder="Rechercher un logiciel">
 
@@ -171,7 +58,9 @@
                         <div class='row justify-content-center tab-head p-2'>
                             <div class='col-1 text-center'>Installé</div>
                             <div class='col-2 text-center'>Mis à jour</div>
-                            <div class='col-9'>Titre</div>
+                            <div class='col'>Titre</div>
+                            <div class='col-md-auto my-auto'><i id="resetSelection" class="float-right fas fa-redo"></i></div>
+                            
                         </div>
                         {% for software in softwares %}
                             <div class='data-row row'>
@@ -186,8 +75,8 @@
         {% elseif step == 3 %}
             {% if isWindows(intervention.operatingSystem.title) == true %}
                 <div class="row justify-content-around mb-3 report-container">
-                    <div class='w-100 row'>
-                        <div class='f-20 mb-2'>Sous-partie Windows</div>
+                    <div class='col-12 justify-content-center row step-title p-2 mb-3'>
+                        <div class='f-20'>Sous-partie Windows</div>
                     </div>
                     <div class="container-background col p-4 content list">
                         <div class='row justify-content-center'>
@@ -207,12 +96,26 @@
                     </div>
                 </div>
             {% endif %}
+        {% elseif step == 4 %}
+            <div class="row justify-content-around mb-3 report-container">
+                <div class='col-12 justify-content-center row step-title p-2 mb-3'>
+                    <div class='f-20'>Brochures à donner</div>
+                </div>
+                <input class='w-100 mb-3 p-2' type="text" id="searchBar" placeholder="Rechercher une brochure">
+                <div class="container-background col p-4 content list">
+                    {% for booklet in booklets %}
+                        <div class='data-row row'>
+                            <div class='col-md-auto my-auto'><input type="checkbox" name="booklets[]" value="{{ booklet.id }}"></div>
+                            <div class='col'><div class='f-20 w-100'>{{ booklet.title }}</div></div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
         {% endif %}
 
-            <input type='hidden' name='action' value='submit' />
-            <div class='text-center'><button class="green-btn f-20 px-4 py-2">Valider</button></div>
-    
-        </form>
+        <input type='hidden' name='action' value='submit' />
+        <div class='text-center'><button class="green-btn f-20 px-4 py-2">Étape suivante</button></div>
 
-    </div>
+    </form>
+
 {% endblock %}
