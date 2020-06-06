@@ -163,6 +163,11 @@ body {
   background-color: #264653;
 }
 
+.tab-head {
+  background-color: #264653;
+  color: #FFFFFF;
+}
+
 .missing-info {
   color: #9e0000cb;
 }
@@ -315,9 +320,12 @@ body {
   width: 15px;
 }
 
-.tab-head {
-  background-color: #264653;
-  color: #FFFFFF;
+.report-container .more-content {
+  display: none;
+}
+
+.report-container .data-row {
+  border-bottom: #4871811f solid 1px;
 }
 
 .list .link {

@@ -10,6 +10,7 @@ use App\Entity\InterventionReport;
 use App\Repository\ClientRepository;
 use App\Repository\SoftwareRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\SoftwareInterventionReport;
 use App\Repository\InterventionRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -46,6 +47,7 @@ class InterventionController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $interventionReport->setStep(1);
             $this->em->persist($interventionReport);
             $this->em->flush();
 
@@ -126,13 +128,100 @@ class InterventionController extends AbstractController
     /**
      * @Route("/{id}/report", name="intervention_report", methods={"GET","POST"})
      */
-    public function report(Request $request, Intervention $intervention, SoftwareRepository $sr): Response
+    public function report(Request $request, EntityManagerInterface $em, Intervention $intervention, SoftwareRepository $sr): Response
     {
-        if ($request->request->has('action')) {
-            
-        }
+        $this->em = $em;
 
-        $softwares = $sr->findAllByType('Nettoyage');
+        $interventionReport = $intervention->getInterventionReport();
+        $step = $interventionReport->getStep();
+        $softwares = [];
+
+        switch ($step) {
+            case 1:
+                $softwares = $sr->findAllByType('Nettoyage');
+
+                if ($request->request->has('action')) {
+                    if ($request->request->has('cleaning-software')) {
+
+                        $cleaningSoftwares = $request->request->get('cleaning-software');
+
+                        foreach ( $cleaningSoftwares as $softwareId ) {
+                        
+                            $software = $sr->findOneById($softwareId);
+                            $softwareOperation = new SoftwareInterventionReport();
+                            $softwareOperation->setSoftware($software);
+                            $softwareOperation->setInterventionReport($interventionReport);
+                            $softwareOperation->setAction('Nettoyage');
+                            $this->em->persist($softwareOperation);
+                        }
+                    }
+                    
+                    $severity = $request->request->get('severity');
+                    $interventionReport->setSeverity($severity);
+                    $interventionReport->setStep($step+1);
+                    $this->em->persist($interventionReport);
+                    $this->em->flush();
+
+                    return $this->redirectToRoute('intervention_report', [
+                        'id' => $intervention->getId(),
+                    ]);
+                }
+                break;
+
+            case 2:
+                $softwares = $sr->findAll();
+
+                if ($request->request->has('action')) {
+
+                    $parametersList = $request->request->all();
+                    $parametersLength = count($parametersList);
+
+                    $parametersList = array_slice($parametersList, 0, $parametersLength-1, true);
+                    $parametersLength--;
+
+                    $parametersKeys = array_keys($parametersList);
+                    
+                    for ($i = 0; $i < $parametersLength; $i++) {
+                        $parameter = explode("-", $parametersKeys[$i]);
+                        $softwareId = $parameter[1];
+                        $action = $parametersList[$parametersKeys[$i]];
+
+                        $software = $sr->findOneById($softwareId);
+                        $softwareOperation = new SoftwareInterventionReport();
+                        $softwareOperation->setSoftware($software);
+                        $softwareOperation->setInterventionReport($interventionReport);
+                        $softwareOperation->setAction($action);
+                        $this->em->persist($softwareOperation);
+                    }
+
+                    $interventionReport->setStep($step+1);
+                    $this->em->persist($interventionReport);
+                    $this->em->flush();
+
+                    return $this->redirectToRoute('intervention_report', [
+                        'id' => $intervention->getId(),
+                    ]);
+                }
+                break;
+
+            case 3:
+                if ($request->request->has('action')) {
+
+                    if ($request->request->has('windows-install')) {
+                        $windowsInstalls = $request->request->get('windows-install');
+                        $interventionReport->setWindowsInstall($windowsInstalls);
+                    }
+
+                    $interventionReport->setStep($step+1);
+                    $this->em->persist($interventionReport);
+                    $this->em->flush();
+
+                    return $this->redirectToRoute('intervention_report', [
+                        'id' => $intervention->getId(),
+                    ]);
+                }
+                break;
+        }
 
         return $this->render('intervention/report.html.twig', [
             'intervention' => $intervention,

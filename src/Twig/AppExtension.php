@@ -11,6 +11,7 @@ class AppExtension extends AbstractExtension
     {
         return [
             new TwigFunction('intervStatus', [$this, 'statusFinder']),
+            new TwigFunction('isWindows', [$this, 'windowsFinder']),
         ];
     }
 
@@ -29,5 +30,16 @@ class AppExtension extends AbstractExtension
                 return 'finished';
                 break;
         }
+    }
+
+    public function windowsFinder($theOperatingSystem)
+    {
+        $isWindows = false;
+
+        if (preg_match('/Windows|windows/', $theOperatingSystem)) {
+            $isWindows = true;
+        }
+
+        return $isWindows;
     }
 }
