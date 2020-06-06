@@ -39,6 +39,12 @@ class SoftwareController extends AbstractController
             $entityManager->persist($software);
             $entityManager->flush();
 
+            if ( $request->query->has('s') == 'report') {
+                return $this->redirectToRoute('intervention_report', [
+                    'id' => $request->query->get('id'),
+                ]);
+            }
+
             return $this->redirectToRoute('software_index');
         }
 

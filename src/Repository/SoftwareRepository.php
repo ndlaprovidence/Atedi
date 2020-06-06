@@ -37,4 +37,14 @@ class SoftwareRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+    public function findOneById($id)
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getSingleResult()
+        ;
+    }
 }

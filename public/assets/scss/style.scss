@@ -98,6 +98,11 @@ body {
     .active { background-color: $primaryColor; }
 }
 
+.tab-head {
+    background-color: $primaryColor;
+    color: #FFFFFF;
+}    
+
 .missing-info { color: $darkRed; }
 .alert-label { background-color: $lightGrey; }
 
@@ -235,6 +240,12 @@ body {
             width: 15px;
         }
     }
+    .more-content { 
+        display: none; 
+    }
+    .data-row {
+        border-bottom: $hoverPrimaryColor solid 1px;
+    }
 }
 
 
@@ -242,10 +253,6 @@ body {
 /////////////////////////////////////////////////
 
 // Index pages CSS
-.tab-head {
-    background-color: $primaryColor;
-    color: #FFFFFF;
-}    
 .list {
     .link { border-bottom: $darkGrey solid 1px; }
     .active { 

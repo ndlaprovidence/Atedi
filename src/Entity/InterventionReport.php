@@ -30,9 +30,19 @@ class InterventionReport
     private $intervention;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Software::class, inversedBy="interventionReports")
+     * @ORM\Column(type="integer")
      */
-    private $softwares;
+    private $step;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $severity;
+
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $windows_install = [];
 
     public function __construct()
     {
@@ -73,28 +83,38 @@ class InterventionReport
         return $this;
     }
 
-    /**
-     * @return Collection|Software[]
-     */
-    public function getSoftwares(): Collection
+    public function getStep(): ?int
     {
-        return $this->softwares;
+        return $this->step;
     }
 
-    public function addSoftware(Software $software): self
+    public function setStep(int $step): self
     {
-        if (!$this->softwares->contains($software)) {
-            $this->softwares[] = $software;
-        }
+        $this->step = $step;
 
         return $this;
     }
 
-    public function removeSoftware(Software $software): self
+    public function getSeverity(): ?string
     {
-        if ($this->softwares->contains($software)) {
-            $this->softwares->removeElement($software);
-        }
+        return $this->severity;
+    }
+
+    public function setSeverity(?string $severity): self
+    {
+        $this->severity = $severity;
+
+        return $this;
+    }
+
+    public function getWindowsInstall(): ?array
+    {
+        return $this->windows_install;
+    }
+
+    public function setWindowsInstall(?array $windows_install): self
+    {
+        $this->windows_install = $windows_install;
 
         return $this;
     }

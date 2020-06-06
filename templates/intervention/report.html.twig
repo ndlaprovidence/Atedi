@@ -131,35 +131,87 @@
 
         <form method="post" action="{{ path('intervention_report', {'id': intervention.id}) }}">
 
+        {% set step = intervention.interventionReport.step %}
+
+        <h4 class='h4 text-center'>Étape {{ step }}/?</h4>
+        <hr>
+
+        {% if step == 1 %}
             <div class="row justify-content-around mb-3 report-container">
-                <div class='f-20 w-100'>Logiciels de netoyage utilisés</div>
+                <div class='w-100 row'>
+                    <a href="{{ path('software_new', {'s': 'report', 'id': intervention.id}) }}" class='my-auto'><i class="float-left fas fa-plus-circle fa-lg mr-2"></i></a><div class='f-20 mb-2'>Logiciels de netoyage utilisés</div>
+                </div>
                 <div class="container-background col p-4 content list">
-                    <input class='w-100 mb-3 p-2' type="text" id="searchBar" placeholder="Rechercher une intervention">
-                    {% for software in softwares %}
-                        <div class='data-row row'>
-                            <div class='col-md-auto my-auto'><input type="checkbox" name="cleaning-software[]" value="{{ software.id }}"></div>
-                            <div class='col'><div class='f-20 w-100'>{{ software.title }}</div></div>
-                        </div>
-                    {% endfor %}
+                    <div class='row justify-content-center'>
+                        <div class='col-md-auto'><input class='mr-2' type="radio" name="severity" value="Matériel non infecté" required checked />Matériel non infecté</div>
+                        <div class='col-md-auto'><input class='mr-2' type="radio" name="severity" value="Matériel infecté par des virus et/ou spywares" />Matériel infecté par des virus et/ou spywares</div>
+                        <div class='col-md-auto'><input class='mr-2' type="radio" name="severity" value="Matériel infecté par de nombreux virus et/ou spywares" />Matériel infecté par de nombreux virus et/ou spywares</div>
+                    </div>
+                    
+                    <div class='more-content'>
+                        <input class='w-100 my-3 p-2' type="text" id="searchBar" placeholder="Rechercher un logiciel">
+                        {% for software in softwares %}
+                            <div class='data-row row'>
+                                <div class='col-md-auto my-auto'><input type="checkbox" name="cleaning-software[]" value="{{ software.id }}"></div>
+                                <div class='col'><div class='f-20 w-100'>{{ software.title }}</div></div>
+                            </div>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
-
-            <button class="grey-btn px-3 float-left mr-3">Valider</button>
-            {# <div class="row justify-content-around mb-3 report-container">
-                <div class='f-20 w-100'>Opérations effectuées</div>
-                <div class="container-background col p-4"></div>
-            </div>
-
+        {% elseif step == 2 %}
             <div class="row justify-content-around mb-3 report-container">
-                <div class='f-20 w-100'>Sous-partie Windows</div>
-                <div class="container-background col p-4"></div>
+                <div class='w-100 row'>
+                    <a href="{{ path('software_new', {'s': 'report', 'id': intervention.id}) }}" class='my-auto'><i class="float-left fas fa-plus-circle fa-lg mr-2"></i></a><div class='f-20 mb-2'>Logiciels installé ou mis à jour</div>
+                </div>
+                <input class='w-100 mb-3 p-2' type="text" id="searchBar" placeholder="Rechercher un logiciel">
+
+                <div class="container-background col content list">
+                    <div>
+                        <div class='row justify-content-center tab-head p-2'>
+                            <div class='col-1 text-center'>Installé</div>
+                            <div class='col-2 text-center'>Mis à jour</div>
+                            <div class='col-9'>Titre</div>
+                        </div>
+                        {% for software in softwares %}
+                            <div class='data-row row'>
+                                <div class='col-1 text-center my-auto'><input type="radio" name="software-{{ software.id }}" value="Installé"></div>
+                                <div class='col-2 text-center my-auto'><input type="radio" name="software-{{ software.id }}" value="Mis à jour"></div>
+                                <div class='col-9'><div class='f-20 w-100'>{{ software.title }}</div></div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
+        {% elseif step == 3 %}
+            {% if isWindows(intervention.operatingSystem.title) == true %}
+                <div class="row justify-content-around mb-3 report-container">
+                    <div class='w-100 row'>
+                        <div class='f-20 mb-2'>Sous-partie Windows</div>
+                    </div>
+                    <div class="container-background col p-4 content list">
+                        <div class='row justify-content-center'>
+                            <div class='col-md-auto'><input class='mr-2' type="checkbox" name="windows-install[]" value="Installation des mises à jours Windows" />Installation des mises à jours Windows</div>
+                            <div class='col-md-auto'><input class='mr-2' type="checkbox" name="windows-install[]" value="Service Pack Windows installé(s)" />Service Pack Windows installé(s)</div>
+                            <div class='col-md-auto'><input class='mr-2' type="checkbox" name="windows-install[]" value="Activation Windows" />Activation Windows</div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="row justify-content-around mb-3 report-container">
+                    <div class='w-100 row'>
+                        <div class='f-20 mb-2'>Sous-partie Windows</div>
+                    </div>
+                    <div class="container-background col p-4 content list">
+                        <div class='row justify-content-center missing-info font-weight-bold'>Votre matériel ne concerne pas un Windows ({{ intervention.operatingSystem }})</div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endif %}
 
-            <div class="row justify-content-around mb-3 report-container">
-                <div class='f-20 w-100'>Observation</div>
-                <div class="container-background col p-4"></div>
-            </div> #}
-
+            <input type='hidden' name='action' value='submit' />
+            <div class='text-center'><button class="green-btn f-20 px-4 py-2">Valider</button></div>
+    
         </form>
 
     </div>
