@@ -19,4 +19,15 @@ class SoftwareInterventionReportRepository extends ServiceEntityRepository
         parent::__construct($registry, SoftwareInterventionReport::class);
     }
 
+    public function findAllByReportAndAction($id,$title)
+    {
+        return $this->createQueryBuilder('sir')
+            ->andWhere('sir.intervention_report = :id')
+            ->andWhere('sir.action = :title')
+            ->setParameter('id', $id)
+            ->setParameter('title', $title)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

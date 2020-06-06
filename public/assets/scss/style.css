@@ -72,7 +72,7 @@ body {
 }
 
 .green-btn:hover {
-  background-color: #047c0070;
+  background-color: #3f913e57;
   color: #000000;
 }
 
@@ -227,49 +227,49 @@ body {
   color: #FFFFFF;
 }
 
-.index-list-container {
+.list-container {
   overflow: auto;
   max-height: 500px;
   border-top: #264653 solid 2px;
 }
 
-.index-list-container .active {
-  background-color: #40913e6c;
+.list-container .active {
+  background-color: #3f913e36;
 }
 
-.index-list-container .active:hover {
-  background-color: #047c0070;
+.list-container .active:hover {
+  background-color: #3f913e57;
 }
 
-.index-list-container .waiting {
+.list-container .waiting {
   background-color: #ebebeb;
 }
 
-.index-list-container .waiting:hover {
+.list-container .waiting:hover {
   background-color: #75757550;
 }
 
-.index-list-container .interv-row {
+.list-container .interv-row {
   margin: 0;
   border-bottom: #afafaf solid 1px;
 }
 
-.index-list-container .interv-row:hover {
+.list-container .interv-row:hover {
   cursor: pointer;
 }
 
-.index-list-container .interv-row .interv-row-tab-2 {
+.list-container .interv-row .interv-row-tab-2 {
   border-right: #afafaf solid 1px;
 }
 
-.index-list-container .interv-row .interv-row-tab-3 .interv-sub-info {
+.list-container .interv-row .interv-row-tab-3 .interv-sub-info {
   color: #0000009f;
   font-style: italic;
   font-size: 16px;
 }
 
-.index-list-container .alert-label {
-  background-color: #40913e6c;
+.list-container .alert-label {
+  background-color: #3f913e36;
   margin: 0;
 }
 
@@ -309,6 +309,13 @@ body {
           transform: rotate(-180deg);
 }
 
+.report-navigation button {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  padding: 0 0 0 0;
+}
+
 .report-container .step-title {
   background-color: #264653;
   color: #FFFFFF;
@@ -338,19 +345,19 @@ body {
 }
 
 .list .active {
-  background-color: #40913e6c;
+  background-color: #3f913e36;
 }
 
 .list .active:hover {
-  background-color: #047c0070;
+  background-color: #3f913e57;
 }
 
 .list .waiting {
-  background-color: #d6d6d6;
+  background-color: #ebebeb;
 }
 
 .list .waiting:hover {
-  background-color: #afafaf;
+  background-color: #75757550;
 }
 
 .list .finished, .list .default {

@@ -160,7 +160,7 @@ body {
     }
 }
 
-.index-list-container {
+.list-container {
     overflow: auto;
     max-height: 500px;
     border-top: $primaryColor solid 2px;
@@ -230,6 +230,14 @@ body {
 /////////////////////////////////////////////////
 
 // Report page CSS
+.report-navigation {
+    button {
+        background-color: transparent;
+        border: none;
+        outline: none;
+        padding: 0 0 0 0;
+    }
+}
 .report-container {  
     .step-title {
         background-color: $primaryColor;
@@ -260,8 +268,8 @@ body {
         &:hover { background-color: $hoverGreen; }
     }
     .waiting { 
-        background-color: $darkerGrey; 
-        &:hover { background-color: $darkGrey; }
+        background-color: $lightGrey; 
+        &:hover { background-color: $hoverGrey; }
     }
     .finished, .default { 
         background-color: #FFFFFF; 

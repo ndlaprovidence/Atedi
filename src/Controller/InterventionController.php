@@ -7,6 +7,7 @@ use Dompdf\Options;
 use App\Entity\Intervention;
 use App\Form\InterventionType;
 use App\Entity\InterventionReport;
+use App\Repository\ActionRepository;
 use App\Repository\ClientRepository;
 use App\Repository\BookletRepository;
 use App\Repository\SoftwareRepository;
@@ -16,6 +17,7 @@ use App\Repository\InterventionRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Repository\SoftwareInterventionReportRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
@@ -129,7 +131,7 @@ class InterventionController extends AbstractController
     /**
      * @Route("/{id}/report", name="intervention_report", methods={"GET","POST"})
      */
-    public function report(Request $request, EntityManagerInterface $em, Intervention $intervention, SoftwareRepository $sr, BookletRepository $br): Response
+    public function report(Request $request, EntityManagerInterface $em, Intervention $intervention, SoftwareRepository $sr, BookletRepository $br, ActionRepository $ar, SoftwareInterventionReportRepository $sirr): Response
     {
         $this->em = $em;
 
@@ -138,27 +140,60 @@ class InterventionController extends AbstractController
         
         if ($request->query->has('step')) {
 
-            $interventionReport->setStep($step-1);
-            $this->em->persist($interventionReport);
-            $this->em->flush();
+            $setup = $request->query->get('step');
 
-            return $this->redirectToRoute('intervention_report', [
-                'id' => $intervention->getId(),
-            ]);
-        }
+            switch ($setup) {
+                case "next":
+                    $interventionReport->setStep($step+1);
+                    $this->em->persist($interventionReport);
+                    $this->em->flush();
         
+                    return $this->redirectToRoute('intervention_report', [
+                        'id' => $intervention->getId(),
+                    ]);
+                    break;
+
+                case "previous":
+                    $interventionReport->setStep($step-1);
+                    $this->em->persist($interventionReport);
+                    $this->em->flush();
+        
+                    return $this->redirectToRoute('intervention_report', [
+                        'id' => $intervention->getId(),
+                    ]);
+                    break;
+                
+                case "restart":
+                    $interventionReport->setStep(1);
+                    $this->em->persist($interventionReport);
+                    $this->em->flush();
+        
+                    return $this->redirectToRoute('intervention_report', [
+                        'id' => $intervention->getId(),
+                    ]);
+                    break;
+            }
+        } 
+            
         $softwares = [];
         $booklets = $br->findAll();
+        $actions = $ar->findAll();
 
         switch ($step) {
             case 1:
+                $irSoftwares = $sirr->findAllByReportAndAction($interventionReport->getId(),"Nettoyage");
+                foreach ( $irSoftwares as $ele ) {
+                    $this->em->remove($ele);
+                }
+                $this->em->flush();
+
                 $softwares = $sr->findAllByType('Nettoyage');
 
-                if ($request->request->has('action')) {
+                if ($request->request->has('data')) {
+
                     if ($request->request->has('cleaning-software')) {
 
                         $cleaningSoftwares = $request->request->get('cleaning-software');
-
                         foreach ( $cleaningSoftwares as $softwareId ) {
                         
                             $software = $sr->findOneById($softwareId);
@@ -168,6 +203,11 @@ class InterventionController extends AbstractController
                             $softwareOperation->setAction('Nettoyage');
                             $this->em->persist($softwareOperation);
                         }
+                    }
+
+                    if ($request->request->has('severity-problem')) {
+                        $severityProblems = $request->request->get('severity-problem');
+                        $interventionReport->setSeverityProblem($severityProblems);
                     }
                     
                     $severity = $request->request->get('severity');
@@ -183,15 +223,55 @@ class InterventionController extends AbstractController
                 break;
 
             case 2:
+                $irActions = $interventionReport->getActions();
+                foreach ( $irActions as $irAction ) {
+                    $interventionReport->removeAction($irAction);
+                }
+                $this->em->flush();
+
+                if ($request->request->has('data')) {
+
+                    if ($request->request->has('actions')) {
+                        $actions = $request->request->get('actions');
+
+                        foreach ( $actions as $action ) {
+                            $action = $ar->findOneById($action);
+                            $interventionReport->addAction($action);
+                            $this->em->persist($interventionReport);
+                        }
+                    }
+
+                    $interventionReport->setStep($step+1);
+                    $this->em->persist($interventionReport);
+                    $this->em->flush();
+
+                    return $this->redirectToRoute('intervention_report', [
+                        'id' => $intervention->getId(),
+                    ]);
+                }
+                break;
+
+            case 3:
+                $irSoftwares = $sirr->findAllByReportAndAction($interventionReport->getId(),"Installé");
+                foreach ( $irSoftwares as $ele ) {
+                    $this->em->remove($ele);
+                }
+                $irSoftwares = $sirr->findAllByReportAndAction($interventionReport->getId(),"Mis à jour");
+                foreach ( $irSoftwares as $ele ) {
+                    $this->em->remove($ele);
+                }
+                $this->em->flush();
+
                 $softwares = $sr->findAll();
 
-                if ($request->request->has('action')) {
+                if ($request->request->has('data')) {
 
                     $parametersList = $request->request->all();
                     $parametersLength = count($parametersList);
 
                     $parametersList = array_slice($parametersList, 0, $parametersLength-1, true);
-                    $parametersLength--;
+                    $parametersList = array_slice($parametersList, 1, $parametersLength, true);
+                    $parametersLength = count($parametersList);
 
                     $parametersKeys = array_keys($parametersList);
                     
@@ -218,8 +298,8 @@ class InterventionController extends AbstractController
                 }
                 break;
 
-            case 3:
-                if ($request->request->has('action')) {
+            case 4:
+                if ($request->request->has('data')) {
 
                     if ($request->request->has('windows-install')) {
                         $windowsInstalls = $request->request->get('windows-install');
@@ -236,8 +316,14 @@ class InterventionController extends AbstractController
                 }
                 break;
 
-            case 4:
-                if ($request->request->has('action')) {
+            case 5:
+                $irBooklets = $interventionReport->getBooklets();
+                foreach ( $irBooklets as $irBooklet ) {
+                    $interventionReport->removeBooklet($irBooklet);
+                }
+                $this->em->flush();
+
+                if ($request->request->has('data')) {
 
                     if ($request->request->has('booklets')) {
                         $booklets = $request->request->get('booklets');
@@ -258,29 +344,30 @@ class InterventionController extends AbstractController
                 }
                 break;
 
-                case 5:
-                    if ($request->request->has('action')) {
-    
-                        if ($request->request->has('comment')) {
-                            $comment = $request->request->get('comment');
-    
-                            $interventionReport->setComment($comment);
-                        }
-                        $interventionReport->setStep($step+1);
-                        $this->em->persist($interventionReport);
-                        $this->em->flush();
-    
-                        return $this->redirectToRoute('intervention_report', [
-                            'id' => $intervention->getId(),
-                        ]);
+            case 6:
+                if ($request->request->has('data')) {
+
+                    if ($request->request->has('comment')) {
+                        $comment = $request->request->get('comment');
+
+                        $interventionReport->setComment($comment);
                     }
-                    break;
+                    $interventionReport->setStep($step+1);
+                    $this->em->persist($interventionReport);
+                    $this->em->flush();
+
+                    return $this->redirectToRoute('intervention_report', [
+                        'id' => $intervention->getId(),
+                    ]);
+                }
+                break;
         }
 
         return $this->render('intervention/report.html.twig', [
             'intervention' => $intervention,
             'softwares' => $softwares,
             'booklets' => $booklets,
+            'actions' => $actions,
         ]);
     }
 

@@ -49,10 +49,21 @@ class InterventionReport
      */
     private $booklets;
 
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $severity_problem = [];
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Action::class, inversedBy="interventionReports")
+     */
+    private $actions;
+
     public function __construct()
     {
         $this->softwares = new ArrayCollection();
         $this->booklets = new ArrayCollection();
+        $this->actions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -146,6 +157,44 @@ class InterventionReport
     {
         if ($this->booklets->contains($booklet)) {
             $this->booklets->removeElement($booklet);
+        }
+
+        return $this;
+    }
+
+    public function getSeverityProblem(): ?array
+    {
+        return $this->severity_problem;
+    }
+
+    public function setSeverityProblem(?array $severity_problem): self
+    {
+        $this->severity_problem = $severity_problem;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Action[]
+     */
+    public function getActions(): Collection
+    {
+        return $this->actions;
+    }
+
+    public function addAction(Action $action): self
+    {
+        if (!$this->actions->contains($action)) {
+            $this->actions[] = $action;
+        }
+
+        return $this;
+    }
+
+    public function removeAction(Action $action): self
+    {
+        if ($this->actions->contains($action)) {
+            $this->actions->removeElement($action);
         }
 
         return $this;
