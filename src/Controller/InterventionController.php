@@ -172,6 +172,12 @@ class InterventionController extends AbstractController
                         'id' => $intervention->getId(),
                     ]);
                     break;
+
+                case "finish":
+                    return $this->redirectToRoute('intervention_show', [
+                        'id' => $intervention->getId(),
+                    ]);
+                    break;
             }
         } 
             

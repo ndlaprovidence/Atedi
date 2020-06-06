@@ -39,6 +39,12 @@ class BookletController extends AbstractController
             $entityManager->persist($booklet);
             $entityManager->flush();
 
+            if ( $request->query->has('s') == 'report') {
+                return $this->redirectToRoute('intervention_report', [
+                    'id' => $request->query->get('id'),
+                ]);
+            }
+            
             return $this->redirectToRoute('booklet_index');
         }
 
