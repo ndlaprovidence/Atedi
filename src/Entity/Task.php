@@ -35,6 +35,11 @@ class Task
      */
     private $color;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $price;
+
     public function __construct()
     {
         $this->interventions = new ArrayCollection();
@@ -98,6 +103,18 @@ class Task
     public function setColor(string $color): self
     {
         $this->color = $color;
+
+        return $this;
+    }
+
+    public function getPrice(): ?string
+    {
+        return $this->price;
+    }
+
+    public function setPrice(string $price): self
+    {
+        $this->price = $price;
 
         return $this;
     }
