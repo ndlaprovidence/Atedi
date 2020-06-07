@@ -70,22 +70,30 @@
                     </div>
                     <hr>
                 {% endif %}
-                <div class='row mb-2 {% if intervention.status == 'En cours' %}color-green{% else %}color-grey{% endif %}'>
-                    <div class='col-md-auto my-auto'><i class="fas fa-circle"></i></div>
-                    <div class='col'>{{ intervention.status }}</div>
-                </div>
                 <div class='row mb-2'>
                     <div class='col-md-auto my-auto'><i class="fas fa-hourglass-half"></i></div>
-                    <div class='col'>
-                        <form action="" method="post">
-                            <input type='submit' name='status' value='En attente' class='py-1 px-2 {% if intervention.status == 'En attente' %}disabled-btn' disabled {% else %} grey-btn''{% endif %} />
-                            <input type='submit' name='status' value='En cours' class='py-1 px-2 {% if intervention.status == 'En cours' %}disabled-btn' disabled {% else %} grey-btn''{% endif %} />
-                            <input type='submit' name='status' value='Terminée' class='py-1 px-2 {% if intervention.status == 'Terminée' %}disabled-btn' disabled {% else %} grey-btn''{% endif %} />
-                        </form>
+                    <div class='col text-center'>
+                        <div class="d-flex flex-column bd-highlight">
+                            <div>
+                                <form action="" method="post">
+                                    <input type='submit' name='status' value='En attente' class='py-1 px-2 {% if intervention.status == 'En attente' %}disabled-btn active' disabled {% else %} grey-btn''{% endif %} />
+                                    <input type='submit' name='status' value='En cours' class='py-1 px-2 {% if intervention.status == 'En cours' %}disabled-btn active' disabled {% else %} grey-btn''{% endif %} />
+                                    {% if (intervention.interventionReport.step != 7) or (not intervention.returnDate) %}
+                                        <input type='submit' name='status' value='Terminée' class='py-1 px-2 disabled-btn' disabled />
+                                    {% else %}
+                                        {% if intervention.status == 'Terminée' %}
+                                            <input type='submit' name='status' value='Terminée' class='py-1 px-2 disabled-btn active' disabled />
+                                        {% else %}
+                                            <input type='submit' name='status' value='Terminée' class='py-1 px-2 grey-btn' />
+                                        {% endif %}
+                                    {% endif %}
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <hr>
-                {% if intervention.status == 'Terminée' %}
+                {% if (intervention.status == 'En cours') and (intervention.interventionReport.step == 7) %}
                     <div class='row mb-2'>
                         <div class='col-md-auto my-auto'>
                             <i class="fas fa-copy info-btn-75 fa-lg float-left" id='copyButton'>                                
@@ -96,6 +104,13 @@
                             <div class='comment p-2'>
                                 <div id='copyTarget'>{{ intervention.client }}, votre {{ intervention.equipment }} est disponible dans notre boutique.</div>
                             </div>
+                            {% if (not intervention.returnDate) and (intervention.interventionReport.step == 7) %}
+                                <div class='mt-2'>
+                                    <form action="" method="post">
+                                        <button type='submit' name='return-date' class='py-1 px-2 grey-btn'>Retour le {{ "now"|date("d/m/Y") }}</button>
+                                    </form>
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
                     <hr>
@@ -117,7 +132,7 @@
                     <div class='row'>
                         <div class='col-md-auto my-auto'><i class="fas fa-clock"></i></div>
                         <div class='col'>
-                            <div class='row'>
+                            <div class='row justify-content-center'>
                                 <div class='col-md-auto'>
                                     <div class="d-flex flex-column text-center">
                                         <div>Date de dépôt</div>

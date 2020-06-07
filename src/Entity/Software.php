@@ -31,9 +31,15 @@ class Software
      */
     private $type;
 
+    /**
+     * @ORM\OneToMany(targetEntity=SoftwareInterventionReport::class, mappedBy="software", orphanRemoval=true)
+     */
+    private $softwareInterventionReports;
+
     public function __construct()
     {
         $this->interventionReports = new ArrayCollection();
+        $this->softwareInterventionReports = new ArrayCollection();
     }
 
     public function __toString()
@@ -66,6 +72,37 @@ class Software
     public function setType(string $type): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|SoftwareInterventionReport[]
+     */
+    public function getSoftwareInterventionReports(): Collection
+    {
+        return $this->softwareInterventionReports;
+    }
+
+    public function addSoftwareInterventionReport(SoftwareInterventionReport $softwareInterventionReport): self
+    {
+        if (!$this->softwareInterventionReports->contains($softwareInterventionReport)) {
+            $this->softwareInterventionReports[] = $softwareInterventionReport;
+            $softwareInterventionReport->setSoftware($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSoftwareInterventionReport(SoftwareInterventionReport $softwareInterventionReport): self
+    {
+        if ($this->softwareInterventionReports->contains($softwareInterventionReport)) {
+            $this->softwareInterventionReports->removeElement($softwareInterventionReport);
+            // set the owning side to null (unless already changed)
+            if ($softwareInterventionReport->getSoftware() === $this) {
+                $softwareInterventionReport->setSoftware(null);
+            }
+        }
 
         return $this;
     }

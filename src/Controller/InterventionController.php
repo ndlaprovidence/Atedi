@@ -74,22 +74,42 @@ class InterventionController extends AbstractController
      */
     public function show(Request $request, Intervention $intervention, EntityManagerInterface $em): Response
     {
+        $this->em = $em;
         $theStatus = $intervention->getStatus();
 
         if ($request->request->has('status')) {
             $newStatus = $request->request->get('status');
 
             if ($theStatus != $newStatus) {
-                $this->em = $em;
+                $correct = true;
 
-                $intervention->setStatus($newStatus);
+                switch ($newStatus) {
+                    case "En attente":
+                        $intervention->getInterventionReport()->setStep(1);
+                        $intervention->setReturnDate(null);
+                    break;
 
-                if ( $newStatus == 'Terminée' ) {
-                    $intervention->setReturnDate(new \DateTime());
+                    case "Terminée":
+                        if ( $intervention->getInterventionReport()->getStep() != 7 ) {
+                            $correct = false;
+                        }
+                        break;
                 }
-                $this->em->persist($intervention);
-                $this->em->flush();
+        
+                if ($correct) {
+                    $intervention->setStatus($newStatus);
+                    $this->em->persist($intervention);
+                    $this->em->flush();
+                }
             }
+        }
+
+        if ($request->request->has('return-date')) {
+            $returnDate = $request->request->get('return-date');
+            $intervention->setReturnDate(new \DateTime());
+        
+            $this->em->persist($intervention);
+            $this->em->flush();  
         }
 
         if ($theStatus == 'En cours' || $theStatus == 'Terminée' ) {
@@ -172,12 +192,6 @@ class InterventionController extends AbstractController
                         'id' => $intervention->getId(),
                     ]);
                     break;
-
-                case "finish":
-                    return $this->redirectToRoute('intervention_show', [
-                        'id' => $intervention->getId(),
-                    ]);
-                    break;
             }
         } 
             
@@ -187,6 +201,7 @@ class InterventionController extends AbstractController
 
         switch ($step) {
             case 1:
+                $intervention->getInterventionReport()->setSeverityProblem([]);
                 $irSoftwares = $sirr->findAllByReportAndAction($interventionReport->getId(),"Nettoyage");
                 foreach ( $irSoftwares as $ele ) {
                     $this->em->remove($ele);
@@ -305,6 +320,8 @@ class InterventionController extends AbstractController
                 break;
 
             case 4:
+                $intervention->getInterventionReport()->setWindowsInstall([]);
+
                 if ($request->request->has('data')) {
 
                     if ($request->request->has('windows-install')) {

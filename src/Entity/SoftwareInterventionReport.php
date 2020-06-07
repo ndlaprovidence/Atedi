@@ -23,16 +23,21 @@ class SoftwareInterventionReport
     private $action;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Software::class)
+     * @ORM\ManyToOne(targetEntity=Software::class, inversedBy="softwareInterventionReports")
      * @ORM\JoinColumn(nullable=false)
      */
     private $software;
 
     /**
-     * @ORM\ManyToOne(targetEntity=InterventionReport::class)
+     * @ORM\ManyToOne(targetEntity=InterventionReport::class, inversedBy="softwareInterventionReports")
      * @ORM\JoinColumn(nullable=false)
      */
     private $intervention_report;
+
+    public function __toString()
+    {
+        return $this->getSoftware()->getTitle();
+    }
 
     public function getId(): ?int
     {

@@ -17,7 +17,7 @@ class SoftwareType extends AbstractType
             ->add('type', ChoiceType::class, [
                 'choices' => [
                     'Nettoyage' => 'Nettoyage',
-                    'Autre' => 'Autre',
+                    'Installation/Mise à jour' => 'Installation/Mise à jour',
                 ],
             ])
         ;

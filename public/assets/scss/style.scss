@@ -126,6 +126,12 @@ body {
     border-radius: 10px;
 }
 
+.comment {
+    max-width: 100%;
+    border-radius: 5px;
+    background-color: $hoverPrimaryColor;
+}
+
 #searchBar {
     background-color: transparent;
     border-top: 0px;
@@ -135,6 +141,13 @@ body {
     border-color: $primaryColor;
     border-style: solid; 
 }
+
+.more-infos-chevron {
+    -moz-transition: transform 0.3s;
+    -webkit-transition: transform 0.3s;
+    transition: transform 0.3s;
+}
+.flip { transform: rotate(-180deg); }
 
 
 
@@ -201,13 +214,9 @@ body {
 
 // Show pages CSS
 .show-container {
+    .active { background-color: $lightGreen; }
     .color-grey { color: $darkestGrey; }
     .color-green { color: $lighterGreen; }
-    .comment {
-        max-width: 100%;
-        border-radius: 5px;
-        background-color: $hoverPrimaryColor;
-    }
     .list { 
         .link { 
             border-bottom: $darkGrey solid 1px; 
@@ -217,12 +226,6 @@ body {
             }
         } 
     }
-    .more-infos-chevron {
-        -moz-transition: transform 0.3s;
-        -webkit-transition: transform 0.3s;
-        transition: transform 0.3s;
-    }
-    .flip { transform: rotate(-180deg); }
 }
 
 
@@ -254,6 +257,13 @@ body {
     }
     .more-content { display: none; }
     .data-row { border-bottom: $hoverPrimaryColor solid 1px; }
+
+    @mixin height($maxHeight) {
+        max-height: $maxHeight;
+        overflow: auto;
+    }
+    .h-100 { @include height(100px); }
+    .h-200 { @include height(200px); }
 }
 
 

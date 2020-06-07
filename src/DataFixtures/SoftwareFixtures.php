@@ -38,67 +38,67 @@ class SoftwareFixtures extends Fixture
 
         $data = new Software();
         $data->setTitle('MSE');
-        $data->setType('Autre');
+        $data->setType('Installation/Mise à jour');
         $manager->persist($data);
 
         $data = new Software();
         $data->setTitle('VLC');
-        $data->setType('Autre');
+        $data->setType('Installation/Mise à jour');
         $manager->persist($data);
 
         $data = new Software();
         $data->setTitle('Skype');
-        $data->setType('Autre');
+        $data->setType('Installation/Mise à jour');
         $manager->persist($data);
 
         $data = new Software();
         $data->setTitle('Chrome');
-        $data->setType('Autre');
+        $data->setType('Installation/Mise à jour');
         $manager->persist($data);
 
         $data = new Software();
         $data->setTitle('Open Office');
-        $data->setType('Autre');
+        $data->setType('Installation/Mise à jour');
         $manager->persist($data);
 
         $data = new Software();
         $data->setTitle('Avast');
-        $data->setType('Autre');
+        $data->setType('Installation/Mise à jour');
         $manager->persist($data);
 
         $data = new Software();
         $data->setTitle('Firefox');
-        $data->setType('Autre');
+        $data->setType('Installation/Mise à jour');
         $manager->persist($data);
 
         $data = new Software();
         $data->setTitle('Win Defender');
-        $data->setType('Autre');
+        $data->setType('Installation/Mise à jour');
         $manager->persist($data);
 
         $data = new Software();
         $data->setTitle('Super Antispyware');
-        $data->setType('Autre');
+        $data->setType('Installation/Mise à jour');
         $manager->persist($data);
 
         $data = new Software();
         $data->setTitle('Opera');
-        $data->setType('Autre');
+        $data->setType('Installation/Mise à jour');
         $manager->persist($data);
 
         $data = new Software();
         $data->setTitle('Ninite Win 7');
-        $data->setType('Autre');
+        $data->setType('Installation/Mise à jour');
         $manager->persist($data);
 
         $data = new Software();
         $data->setTitle('Ninite Win 8');
-        $data->setType('Autre');
+        $data->setType('Installation/Mise à jour');
         $manager->persist($data);
 
         $data = new Software();
         $data->setTitle('Ninite Win 10');
-        $data->setType('Autre');
+        $data->setType('Installation/Mise à jour');
         $manager->persist($data);
 
         $manager->flush();
