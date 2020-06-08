@@ -313,11 +313,26 @@ body {
   cursor: pointer;
 }
 
-.report-navigation button {
+.report-navigation {
   background-color: transparent;
   border: none;
   outline: none;
   padding: 0 0 0 0;
+}
+
+.report-navigation:focus {
+  outline: none;
+}
+
+.change-price {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  padding: 0 0 0 0;
+}
+
+.change-price:focus {
+  outline: none;
 }
 
 .report-container .step-title {

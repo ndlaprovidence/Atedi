@@ -31,7 +31,7 @@
                 <div class="row link default p-2">
                     <div class="col-1 my-auto"><div class="color-box my-auto mx-auto" data-color="#{{ task.color }}"></div></div>
                     <div class="col-7 my-auto">{{ task.title }}</div>
-                    <div class="col-4 my-auto">{{ task.price }}</div>
+                    <div class="col-4 my-auto">{{ completePrice(task.price) }}€</div>
                 </div>
             </a>
         {% else %}

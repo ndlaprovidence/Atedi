@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Task;
 use App\Form\TaskType;
+use App\Util\AtediHelper;
 use App\Repository\TaskRepository;
 use App\Repository\InterventionRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,6 +17,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  */
 class TaskController extends AbstractController
 {
+    public function __construct(AtediHelper $AtediHelper)
+    {
+        $this->atediHelper = $AtediHelper;
+    }
+
     /**
      * @Route("/", name="task_index", methods={"GET"})
      */
@@ -36,7 +42,6 @@ class TaskController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            dump($task->getPrice());exit;
     
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($task);

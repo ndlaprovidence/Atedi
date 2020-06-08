@@ -79,6 +79,11 @@ class Intervention
      */
     private $intervention_report;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $total_price;
+
     public function __construct()
     {
         $this->technicians = new ArrayCollection();
@@ -249,6 +254,18 @@ class Intervention
     public function setInterventionReport(InterventionReport $intervention_report): self
     {
         $this->intervention_report = $intervention_report;
+
+        return $this;
+    }
+
+    public function getTotalPrice(): ?string
+    {
+        return $this->total_price;
+    }
+
+    public function setTotalPrice(string $total_price): self
+    {
+        $this->total_price = $total_price;
 
         return $this;
     }

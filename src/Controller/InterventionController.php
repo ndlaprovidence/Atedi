@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use App\Util\AtediHelper;
 use App\Entity\Intervention;
 use App\Form\InterventionType;
 use App\Entity\InterventionReport;
@@ -25,6 +26,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  */
 class InterventionController extends AbstractController
 {
+    private $AtediHelper;
+
+    public function __construct(AtediHelper $AtediHelper)
+    {
+        $this->atediHelper = $AtediHelper;
+    }
+
     /**
      * @Route("/", name="intervention_index", methods={"GET"})
      */
@@ -55,6 +63,10 @@ class InterventionController extends AbstractController
             $this->em->flush();
 
             $intervention->setInterventionReport($interventionReport);
+
+            $totalPrice = $this->atediHelper->strTotalPrice($intervention);
+
+            $intervention->setTotalPrice($totalPrice);
             $this->em->persist($intervention);
             $this->em->flush();
 
@@ -403,6 +415,10 @@ class InterventionController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $totalPrice = $this->atediHelper->strTotalPrice($intervention);
+
+            $intervention->setTotalPrice($totalPrice);
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('intervention_show', [
