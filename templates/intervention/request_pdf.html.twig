@@ -14,7 +14,7 @@
     <style type="text/css">
         .font-b{ font-weight: bold; }
         .font-25 { font-size: 25px; }
-        .font-21 { font-size: 21px; }
+        .font-20 { font-size: 20px; }
         .border-around { 
             border: solid 1px #5c5c5c;
         }
@@ -94,27 +94,11 @@
                             </tr>
                             <tr>
                                 <td class='border-around tab-label'>Client</td>
-                                <td class='border-around tab-content font-b font-21'>{{ intervention.client }}</td>
+                                <td class='border-around tab-content font-b font-20'>{{ intervention.client }}</td>
                             </tr>
                             <tr>
                                 <td class='border-around tab-label'>Téléphone</td>
                                 <td class='border-around tab-content'>{{ intervention.client.phone }}</td>
-                            </tr>
-                            <tr>
-                                <td class='border-around tab-label'>Mail</td>
-                                <td class='border-around tab-content'>{{ intervention.client.email }}</td>
-                            </tr>
-                            <tr>
-                                <td class='border-around tab-label'>Adresse</td>
-                                <td class='border-around tab-content'>{{ intervention.client.phone }}</td>
-                            </tr>
-                            <tr>
-                                <td class='border-around tab-label'>Ville</td>
-                                <td class='border-around tab-content'>{{ intervention.client.city }}</td>
-                            </tr>
-                            <tr>
-                                <td class='border-around tab-label'>Code postal</td>
-                                <td class='border-around tab-content'>{{ intervention.client.postalCode }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -128,23 +112,11 @@
                             </tr>
                             <tr>
                                 <td class='border-around  tab-label'>Date de dépôt</td>
-                                <td class='border-around tab-content font-b font-21'>{{ intervention.depositDate ? intervention.depositDate|date('d-m-Y') : "" }}</td>
+                                <td class='border-around tab-content'>{{ intervention.depositDate ? intervention.depositDate|date('d-m-Y') : "" }}</td>
                             </tr>
                             <tr>
                                 <td class='border-around  tab-label'>Date de restitution</td>
-                                <td class='border-around tab-content font-b font-25'>{{ intervention.returnDate ? intervention.returnDate|date('d-m-Y') : "" }}</td>
-                            </tr>
-                            <tr>
-                                <td class='border-around  tab-label'>Équipement</td>
-                                <td class='border-around tab-content font-b font-21'>{{ intervention.equipment }}</td>
-                            </tr>
-                            <tr>
-                                <td class='border-around  tab-label'>Système d'exploitation</td>
-                                <td class='border-around tab-content'>{{ intervention.operatingSystem }}</td>
-                            </tr>
-                            <tr>
-                                <td class='border-around  tab-label'>Matériel complet</td>
-                                <td class='border-around tab-content'>{{ intervention.equipmentComplete }}</td>
+                                <td class='border-around tab-content font-b font-20'>{{ intervention.returnDate ? intervention.returnDate|date('d-m-Y') : "" }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -155,11 +127,29 @@
                 <table class='tab'>
                     <tbody>
                         <tr>
+                            <td class='tab-title font-weight-bold' colspan="2">Informations matériel</td>
+                        </tr>
+                        <tr>
+                            <td class='border-around tab-label'>Équipement</td>
+                            <td class='border-around tab-content font-b font-20'>{{ intervention.equipment }} - {{ intervention.operatingSystem }}</td>
+                        </tr>
+                        <tr>
+                            <td class='border-around tab-label'>Matériel complet</td>
+                            <td class='border-around tab-content'>{{ intervention.equipmentComplete }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class='large-container'>
+                <table class='tab'>
+                    <tbody>
+                        <tr>
                             <td class='tab-title font-weight-bold' colspan="2">A faire</td>
                         </tr>
                         <tr>
                             <td class='border-around tab-label'>Tâches</td>
-                            <td class='border-around tab-content font-b font-25'>{% for task in intervention.tasks %}{{ task }}{% if not loop.last %}, {% endif %}{% endfor %}</td>
+                            <td class='border-around tab-content font-b font-20'>{% for task in intervention.tasks %}{{ task }}{% if not loop.last %}, {% endif %}{% endfor %}</td>
                         </tr>
                         <tr>
                             <td class='border-around tab-label'>Commentaire</td>
@@ -167,7 +157,7 @@
                         </tr>
                         <tr>
                             <td class='border-around tab-label'>Techniciens</td>
-                            <td class='border-around tab-content font-b font-21'>{% for technician in intervention.technicians %}{{ technician }}{% if not loop.last %}, {% endif %}{% endfor %}</td>
+                            <td class='border-around tab-content font-b font-20'>{% for technician in intervention.technicians %}{{ technician }}{% if not loop.last %}, {% endif %}{% endfor %}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -241,7 +231,7 @@
             </div>
             
             <div class='large-container'>
-                <p class='font-b font-25'>Observations : </p>
+                <p class='font-b font-20'>Observations : </p>
             </div>
 
         </div>

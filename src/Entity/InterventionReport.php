@@ -64,6 +64,11 @@ class InterventionReport
      */
     private $softwareInterventionReports;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $internal_analysis;
+
     public function __construct()
     {
         $this->softwares = new ArrayCollection();
@@ -233,6 +238,18 @@ class InterventionReport
                 $softwareInterventionReport->setInterventionReport(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getInternalAnalysis(): ?string
+    {
+        return $this->internal_analysis;
+    }
+
+    public function setInternalAnalysis(?string $internal_analysis): self
+    {
+        $this->internal_analysis = $internal_analysis;
 
         return $this;
     }

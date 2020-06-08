@@ -24,6 +24,7 @@ input {
 // General stuff
 body {  
     font-family: 'Segoe';
+    font-size: 18px;
 }
 
 
@@ -245,6 +246,7 @@ body {
 
 .report-container {  
     .step-title {
+        font-weight: bold;
         background-color: $primaryColor;
         color: #FFFFFF;
     }

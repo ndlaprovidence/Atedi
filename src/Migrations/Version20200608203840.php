@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20200608111038 extends AbstractMigration
+final class Version20200608203840 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -29,7 +29,7 @@ final class Version20200608111038 extends AbstractMigration
         $this->addSql('CREATE TABLE intervention (id INT AUTO_INCREMENT NOT NULL, operating_system_id INT NOT NULL, equipment_id INT NOT NULL, client_id INT NOT NULL, intervention_report_id INT NOT NULL, deposit_date DATETIME NOT NULL, return_date DATETIME DEFAULT NULL, comment LONGTEXT DEFAULT NULL, status VARCHAR(255) NOT NULL, equipment_complete VARCHAR(255) NOT NULL, total_price VARCHAR(255) NOT NULL, INDEX IDX_D11814ABA391D4AD (operating_system_id), INDEX IDX_D11814AB517FE9FE (equipment_id), INDEX IDX_D11814AB19EB6921 (client_id), UNIQUE INDEX UNIQ_D11814AB430C5E9 (intervention_report_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE intervention_technician (intervention_id INT NOT NULL, technician_id INT NOT NULL, INDEX IDX_B0B993458EAE3863 (intervention_id), INDEX IDX_B0B99345E6C5D496 (technician_id), PRIMARY KEY(intervention_id, technician_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE intervention_task (intervention_id INT NOT NULL, task_id INT NOT NULL, INDEX IDX_5DC1C3E78EAE3863 (intervention_id), INDEX IDX_5DC1C3E78DB60186 (task_id), PRIMARY KEY(intervention_id, task_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE intervention_report (id INT AUTO_INCREMENT NOT NULL, comment LONGTEXT DEFAULT NULL, step INT NOT NULL, severity VARCHAR(255) DEFAULT NULL, windows_install LONGTEXT DEFAULT NULL COMMENT \'(DC2Type:array)\', severity_problem LONGTEXT DEFAULT NULL COMMENT \'(DC2Type:array)\', PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE intervention_report (id INT AUTO_INCREMENT NOT NULL, comment LONGTEXT DEFAULT NULL, step INT NOT NULL, severity VARCHAR(255) DEFAULT NULL, windows_install LONGTEXT DEFAULT NULL COMMENT \'(DC2Type:array)\', severity_problem LONGTEXT DEFAULT NULL COMMENT \'(DC2Type:array)\', internal_analysis VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE intervention_report_booklet (intervention_report_id INT NOT NULL, booklet_id INT NOT NULL, INDEX IDX_73D84037430C5E9 (intervention_report_id), INDEX IDX_73D84037668144B3 (booklet_id), PRIMARY KEY(intervention_report_id, booklet_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE intervention_report_action (intervention_report_id INT NOT NULL, action_id INT NOT NULL, INDEX IDX_703BD5C1430C5E9 (intervention_report_id), INDEX IDX_703BD5C19D32F035 (action_id), PRIMARY KEY(intervention_report_id, action_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE operating_system (id INT AUTO_INCREMENT NOT NULL, title VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');

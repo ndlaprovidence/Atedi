@@ -32,6 +32,7 @@ input:focus {
 
 body {
   font-family: 'Segoe';
+  font-size: 18px;
 }
 
 .primary-btn {
@@ -333,6 +334,7 @@ body {
 }
 
 .report-container .step-title {
+  font-weight: bold;
   background-color: #264653;
   color: #FFFFFF;
 }

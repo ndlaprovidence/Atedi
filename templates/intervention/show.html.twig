@@ -10,7 +10,7 @@
 
 {% block body %}
     <div class='text-center'>	
-        <div class='h2 mb-3'>Gestion de la demande d'intervention</div>
+        <div class='h2 mb-3 font-weight-bold'>Gestion de la demande d'intervention</div>
         <a class="grey-btn f-20 px-4 py-2" href="{{ path('intervention_edit', {'id': intervention.id}) }}">Modifier</a>
         {{ include('intervention/_delete_form.html.twig') }}
     </div>

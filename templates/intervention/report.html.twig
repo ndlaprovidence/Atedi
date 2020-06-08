@@ -11,7 +11,7 @@
 
 {% block body %}
     <a href="{{ path('intervention_show', {'id': intervention.id}) }}"><i class="fas fa-chevron-left h1 float-left"></i></a>
-    <h1 class='text-center mb-5'>Rapport d'intervention</h1>
+    <h2 class='text-center mb-5 font-weight-bold'>Rapport d'intervention</h2>
 
     <form method="post" action="{{ path('intervention_report', {'id': intervention.id}) }}">
 
@@ -47,7 +47,8 @@
                             <div class='col-md-auto'><input class='mr-2' type="checkbox" name="severity-problem[]" value="Malwares" />Malwares</div>
                             <div class='col-md-auto'><input class='mr-2' type="checkbox" name="severity-problem[]" value="Spywares" />Spywares</div>
                         </div>
-                        <input class='w-100 my-3 p-2' type="text" id="searchBar" placeholder="Rechercher un logiciel">
+                        <input class='w-100 my-3 p-2' type="text" name="internal-analysis" placeholder="Analyse interne">
+                        <input class='w-100 mb-3 p-2' type="text" id="searchBar" placeholder="Rechercher un logiciel">
                         {% for software in softwares %}
                             <div class='data-row row'>
                                 <div class='col-md-auto my-auto'><input type="checkbox" name="cleaning-software[]" value="{{ software.id }}"></div>
@@ -147,9 +148,8 @@
             <div class="row justify-content-around mb-5 report-container">
                 <div class='col-12 justify-content-center row step-title p-2 mb-3 f-20'>Facture et informations</div>
                 <div class="container-background col-8 mb-auto p-4">
-                    <h5>Observation</h5>
-                    <div class='comment p-2'>{{ intervention.interventionReport.comment ?: "<div class='missing-info font-weight-bold'>Pas d'observations</div>"}}</div>
-                    <h5 class='mt-3'>Facture</h5>
+                    <div class='comment p-2'><span class='font-weight-bold'>Observations</span> : {{ intervention.interventionReport.comment ?: "<span class='missing-info font-weight-bold'>Pas d'observations</span>"}}</div>
+                    <h5 class='mt-3 font-weight-bold'>Facture</h5>
                     {% for task in intervention.tasks %}
                         <div class='w-100'>{{ completePrice(task.price) }}€ - {{ task }}</div>
                     {% endfor %}
@@ -168,7 +168,7 @@
                 <div class="container-background col-3 mb-auto p-4">
                     {% set booklets = intervention.interventionReport.booklets %}
                     {% set hasBooklet = false %}
-                    <div class='f-20 text-center'>Brochures à donner</div>
+                    <div class='f-20 text-center font-weight-bold'>Brochures à donner</div>
                     <hr>
                     <div class="row tab-head">
                         <div class="col-12">Titre</div>
@@ -190,16 +190,14 @@
                 <div class='col-12 justify-content-center row step-title p-2 mb-3 f-20'>Traitement de l'infection</div>
                 <div class="container-background col mb-auto p-4 mr-5">
                     {% set severityProblems = intervention.interventionReport.severityProblem %}
-                    <div class='f-20 text-center'>Sévérité de l'infection</div>
+                    <div class='f-20 text-center font-weight-bold'>Sévérité de l'infection</div>
                     <hr>
-                    <div class='row text-center'>
-                        <div class='col'>{{ intervention.interventionReport.severity }}</div>
-                    </div>
-                    <hr>
-                    <div class='row'>
+                    <div class='comment p-2'><span class='font-weight-bold'>Sévérité</span> : {{ intervention.interventionReport.severity }}</div>
+                    <div class='comment p-2 mt-2'><span class='font-weight-bold'>Analyse interne</span> : {{ intervention.interventionReport.internalAnalysis ?: "<span class='missing-info font-weight-bold'>Pas d'informations sur l'analyse interne</span>"}}</div>
+                    <div class='row mt-2 data-row'>
                         <div class='col-3'>Virus</div><div class='col-9'>{% if "Virus" in severityProblems %}<i class="fas add-btn fa-plus"></i>{% else %}<i class="fas fa-minus"></i>{% endif %}</div>
                     </div>
-                    <div class='row'>
+                    <div class='row data-row'>
                         <div class='col-3'>Malwares</div><div class='col-9'>{% if "Malwares" in severityProblems %}<i class="fas add-btn fa-plus"></i>{% else %}<i class="fas fa-minus"></i>{% endif %}</div>
                     </div>
                     <div class='row'>
@@ -209,7 +207,7 @@
                 <div class="container-background col mb-auto p-4">
                     {% set softwares = intervention.interventionReport.softwareInterventionReports %}
                     {% set hasSoftware = false %}
-                    <div class='f-20 text-center'>Logiciels de nettoyage utilisés</div>
+                    <div class='f-20 text-center font-weight-bold'>Logiciels de nettoyage utilisés</div>
                     <hr>
                     <div class="row tab-head">
                         <div class="col-12">Titre</div>
@@ -233,7 +231,7 @@
                 <div class="container-background col mb-auto p-4 mr-5">
                     {% set actions = intervention.interventionReport.actions %}
                     {% set hasAction = false %}
-                    <div class='f-20 text-center'>Actions effectués</div>
+                    <div class='f-20 text-center font-weight-bold'>Actions effectués</div>
                     <hr>
                     <div class="row tab-head">
                         <div class="col-12">Titre</div>
@@ -251,7 +249,7 @@
                 <div class="container-background col mb-auto p-4 mr-5">
                     {% set softwares = intervention.interventionReport.softwareInterventionReports %}
                     {% set hasSoftware = false %}
-                    <div class='f-20 text-center'>Installations/mises à jour de logiciels</div>
+                    <div class='f-20 text-center font-weight-bold'>Installations/mises à jour de logiciels</div>
                     <hr>
                     <div class="row tab-head">
                         <div class="col-8">Titre</div>
@@ -272,7 +270,7 @@
                 </div>
                 <div class="container-background col mb-auto p-4">
                     {% set installs = intervention.interventionReport.windowsInstall %}
-                    <div class='f-20 text-center'>Sous-partie Windows</div>
+                    <div class='f-20 text-center font-weight-bold'>Sous-partie Windows</div>
                     <hr>
                     <div class="row tab-head">
                         <div class="col-12">Titre</div>

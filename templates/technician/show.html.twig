@@ -4,7 +4,7 @@
 
 {% block body %}
     <div class='text-center'>	
-        <div class='h2 mb-3'>Gestion de la fiche technicien</div>
+        <div class='h2 mb-3 font-weight-bold'>Gestion de la fiche technicien</div>
         <a class=" grey-btn f-20 px-4 py-2" href="{{ path('technician_edit', {'id': technician.id}) }}">Modifier</a>
         {{ include('technician/_delete_form.html.twig') }}
     </div>

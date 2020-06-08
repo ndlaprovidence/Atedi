@@ -242,6 +242,11 @@ class InterventionController extends AbstractController
                         $severityProblems = $request->request->get('severity-problem');
                         $interventionReport->setSeverityProblem($severityProblems);
                     }
+
+                    if ($request->request->has('internal-analysis')) {
+                        $internalAnalysis = $request->request->get('internal-analysis');
+                        $interventionReport->setInternalAnalysis($internalAnalysis);
+                    }
                     
                     $severity = $request->request->get('severity');
                     $interventionReport->setSeverity($severity);
@@ -402,7 +407,7 @@ class InterventionController extends AbstractController
 
                     $newTotalPrice = $request->request->get('new-total-price');
                     $intervention->setTotalPrice($newTotalPrice);
-                    
+
                     $this->em->persist($intervention);
                     $this->em->flush();
 
