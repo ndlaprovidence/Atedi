@@ -19,19 +19,20 @@
 
         {% if step != 7 %}
             <h4 class='h4 text-center'>
-                {% if step > 1 %}<a href="{{ path('intervention_report', {'id': intervention.id, 'step': 'previous'}) }}"><i class="fas fa-arrow-left mr-3"></i></a>{% endif %}
+                {% if step > 1 %}<a href="{{ path('intervention_report', {'id': intervention.id, 'step': 'previous'}) }}"><i class="report-navigation-btn fas fa-arrow-left mr-3"></i></a>{% endif %}
                 Étape {{ step }}/6
-                <button class='report-navigation' name='step' value='next'>{% if step < 6 %}<i class="fas fa-arrow-right ml-3"></i>{% else %}<i class="fas fa-check ml-3"></i>{% endif %}</button>
+                <button class='report-navigation' name='step' value='next'>{% if step < 6 %}<i class="report-navigation-btn fas fa-arrow-right ml-3"></i>{% else %}<i class="report-navigation-btn fas fa-check ml-3"></i>{% endif %}</button>
             </h4>
         {% else %}
-            <h4 class='h4 text-center'><a href="{{ path('intervention_report', {'id': intervention.id, 'step': 'restart'}) }}"><i class="fas fa-redo mr-3"></i></a>Résumé du rapport d'intervention</h4>
+            <h4 class='h4 text-center'><a href="{{ path('intervention_report', {'id': intervention.id, 'step': 'restart'}) }}"><i class="report-navigation-btn fas fa-redo mr-3"></i></a>Résumé du rapport d'intervention</h4>
+            <div class='text-center mt-4'><a class="green-btn f-20 px-4 py-2 mr-2" href="{{ path('intervention_show', {'id': intervention.id}) }}">Terminer le rapport</a></div>
         {% endif %}
         <hr>
 
         {% if step == 1 %}
             <div class="row justify-content-around mb-3 report-container">
                 <div class='col-12 justify-content-center row step-title p-2 mb-3'>
-                    <a href="{{ path('software_new', {'s': 'report', 'id': intervention.id}) }}" class='my-auto'><i class="float-left fas fa-plus-circle fa-lg mr-2"></i></a><div class='f-20'>Logiciels de netoyage utilisés</div>
+                    <a href="{{ path('software_new', {'s': 'report', 'id': intervention.id}) }}" class='my-auto'><i class="float-left fas add-btn fa-plus-circle fa-lg mr-2"></i></a><div class='f-20'>Logiciels de netoyage utilisés</div>
                 </div>
                 <div class="container-background col p-4 content list">
                     <div class='row justify-content-center'>
@@ -59,7 +60,7 @@
         {% elseif step == 2 %}
             <div class="row justify-content-around mb-3 report-container">
                 <div class='col-12 justify-content-center row step-title p-2 mb-3'>
-                    <a href="{{ path('action_new', {'s': 'report', 'id': intervention.id}) }}" class='my-auto'><i class="float-left fas fa-plus-circle fa-lg mr-2"></i></a><div class='f-20'>Actions effectués lors de l'intervention</div>
+                    <a href="{{ path('action_new', {'s': 'report', 'id': intervention.id}) }}" class='my-auto'><i class="float-left fas add-btn fa-plus-circle fa-lg mr-2"></i></a><div class='f-20'>Actions effectués lors de l'intervention</div>
                 </div>
                 <input class='w-100 mb-3 p-2' type="text" id="searchBar" placeholder="Rechercher une action">
 
@@ -75,7 +76,7 @@
         {% elseif step == 3 %}
             <div class="row justify-content-around mb-3 report-container">
                 <div class='col-12 justify-content-center row step-title p-2 mb-3'>
-                    <a href="{{ path('software_new', {'s': 'report', 'id': intervention.id}) }}" class='my-auto'><i class="float-left fas fa-plus-circle fa-lg mr-2"></i></a><div class='f-20'>Logiciels installé ou mis à jour</div>
+                    <a href="{{ path('software_new', {'s': 'report', 'id': intervention.id}) }}" class='my-auto'><i class="float-left fas add-btn fa-plus-circle fa-lg mr-2"></i></a><div class='f-20'>Logiciels installé ou mis à jour</div>
                 </div>
                 <input class='w-100 mb-3 p-2' type="text" id="searchBar" placeholder="Rechercher un logiciel">
 
@@ -118,7 +119,7 @@
         {% elseif step == 5 %}
             <div class="row justify-content-around mb-3 report-container">
                 <div class='col-12 justify-content-center row step-title p-2 mb-3'>
-                    <a href="{{ path('booklet_new', {'s': 'report', 'id': intervention.id}) }}" class='my-auto'><i class="float-left fas fa-plus-circle fa-lg mr-2"></i></a><div class='f-20'>Brochure à donner</div>
+                    <a href="{{ path('booklet_new', {'s': 'report', 'id': intervention.id}) }}" class='my-auto'><i class="float-left fas add-btn fa-plus-circle fa-lg mr-2"></i></a><div class='f-20'>Brochure à donner</div>
                 </div>
                 <input class='w-100 mb-3 p-2' type="text" id="searchBar" placeholder="Rechercher une brochure">
                 <div class="container-background col p-4 content list">
@@ -155,11 +156,11 @@
                     <hr>
                     <form class='change-price-container' method="post" action="{{ path('intervention_report', {'id': intervention.id}) }}">
                         <div class="input-group">
-                            <input type='text' name='new-total-price' value='{{ intervention.totalPrice }}'placeholder='Prix total'/>
+                            <input class='border-0' type='text' name='new-total-price' value='{{ intervention.totalPrice }}' placeholder='Prix total' />
                             <div class="input-group-append">
                                 <span class="input-group-text">€</span>
                             </div>
-                            <button class='change-price'><i class="fas fa-pen ml-3"></i></button>
+                            <button class='ml-2 px-2 grey-btn'>Valider la modification</button>
                         </div>
                     </form>
                 </div>
@@ -196,13 +197,13 @@
                     </div>
                     <hr>
                     <div class='row'>
-                        <div class='col-3'>Virus</div><div class='col-9'>{% if "Virus" in severityProblems %}<i class="fas fa-plus"></i>{% else %}<i class="fas fa-minus"></i>{% endif %}</div>
+                        <div class='col-3'>Virus</div><div class='col-9'>{% if "Virus" in severityProblems %}<i class="fas add-btn fa-plus"></i>{% else %}<i class="fas fa-minus"></i>{% endif %}</div>
                     </div>
                     <div class='row'>
-                        <div class='col-3'>Malwares</div><div class='col-9'>{% if "Malwares" in severityProblems %}<i class="fas fa-plus"></i>{% else %}<i class="fas fa-minus"></i>{% endif %}</div>
+                        <div class='col-3'>Malwares</div><div class='col-9'>{% if "Malwares" in severityProblems %}<i class="fas add-btn fa-plus"></i>{% else %}<i class="fas fa-minus"></i>{% endif %}</div>
                     </div>
                     <div class='row'>
-                        <div class='col-3'>Spywares</div><div class='col-9'>{% if "Spywares" in severityProblems %}<i class="fas fa-plus"></i>{% else %}<i class="fas fa-minus"></i>{% endif %}</div>
+                        <div class='col-3'>Spywares</div><div class='col-9'>{% if "Spywares" in severityProblems %}<i class="fas add-btn fa-plus"></i>{% else %}<i class="fas fa-minus"></i>{% endif %}</div>
                     </div>
                 </div>
                 <div class="container-background col mb-auto p-4">
@@ -284,15 +285,12 @@
                     {% elseif isWindows(intervention.operatingSystem.title) == true %}
                         <div class='col-12 text-center mx-auto missing-info font-weight-bold'>Le matériel n'a pas reçu d'installations windows</div>
                     {% else %}
-                        <div class='row justify-content-center missing-info font-weight-bold'>Le matériel ne concerne pas un Windows ({{ intervention.operatingSystem }})</div>
+                        <div class='col-12 text-center mx-auto missing-info font-weight-bold'>Le matériel ne concerne pas un Windows ({{ intervention.operatingSystem }})</div>
                     {% endif %}
                     </div>
                 </div>
             </div>
-
-            <div class='text-center'><a class="green-btn f-20 px-4 py-2 mr-2" href="{{ path('intervention_show', {'id': intervention.id}) }}">Terminer le rapport</a></div>
         {% endif %}
-
     </form>
 
 {% endblock %}

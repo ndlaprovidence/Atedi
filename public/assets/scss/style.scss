@@ -45,6 +45,7 @@ body {
 .green-btn { @include btn($hoverGreen,#000000); }
 .red-btn { @include btn($hoverRed,#FFFFFF); }
 .disabled-btn { @include btn($lightGrey,rgba(16, 16, 16, 0.3)); }
+.add-btn:hover { color: $lightPrimaryColor; }
 
 @mixin infoBtn($tooltipWidth) {
     position: relative;
@@ -233,15 +234,15 @@ body {
 /////////////////////////////////////////////////
 
 // Report page CSS
-@mixin transparentBtn() {
+.report-navigation { 
     background-color: transparent;
     border: none;
     outline: none;
     padding: 0 0 0 0;
     &:focus { outline:none; }
 }
-.report-navigation { @include transparentBtn(); }
-.change-price { @include transparentBtn(); }
+.report-navigation-btn:hover { color: $lightPrimaryColor; }
+
 .report-container {  
     .step-title {
         background-color: $primaryColor;

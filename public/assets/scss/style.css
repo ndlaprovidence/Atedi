@@ -104,6 +104,10 @@ body {
   color: rgba(16, 16, 16, 0.3);
 }
 
+.add-btn:hover {
+  color: #487181;
+}
+
 .info-btn-75 {
   position: relative;
   display: inline-block;
@@ -324,15 +328,8 @@ body {
   outline: none;
 }
 
-.change-price {
-  background-color: transparent;
-  border: none;
-  outline: none;
-  padding: 0 0 0 0;
-}
-
-.change-price:focus {
-  outline: none;
+.report-navigation-btn:hover {
+  color: #487181;
 }
 
 .report-container .step-title {

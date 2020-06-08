@@ -396,6 +396,21 @@ class InterventionController extends AbstractController
                     ]);
                 }
                 break;
+            
+            case 7:
+                if ($request->request->has('new-total-price')) {
+
+                    $newTotalPrice = $request->request->get('new-total-price');
+                    $intervention->setTotalPrice($newTotalPrice);
+                    
+                    $this->em->persist($intervention);
+                    $this->em->flush();
+
+                    return $this->redirectToRoute('intervention_report', [
+                        'id' => $intervention->getId(),
+                    ]);
+                }
+                break;
         }
 
         return $this->render('intervention/report.html.twig', [
