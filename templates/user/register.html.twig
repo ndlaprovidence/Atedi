@@ -4,18 +4,20 @@
 
 {% block body %}
     <a href="{{ path('user_index') }}"><i class="fas fa-chevron-left h1 float-left"></i></a>
-    <h1 class='text-center mb-5'>Ajouter un nouvel utilisateur</h1>
+    <h2 class='text-center mb-5 font-weight-bold'>Ajouter un nouvel utilisateur</h2>
 
     {{ form_start(registrationForm) }}
 
-    <div class="container">
-        <div class="row justify-content-md-center">
-            <div class='col-12'>        
-                {{ form_row(registrationForm.email, {'attr': {'class': 'mb-3'}}) }}
-                {{ form_row(registrationForm.plainPassword, {'attr': {'class': 'mb-3'}}) }}
-            </div>
+    <div class="p-4 form container-background">
+        <div class="container">
+            <div class="row justify-content-md-center">
+                <div class='col-12'>        
+                    {{ form_row(registrationForm.email, {'attr': {'class': 'mb-3'}}) }}
+                    {{ form_row(registrationForm.plainPassword, {'attr': {'class': 'mb-3'}}) }}
+                </div>
 
-            <button class="green-btn py-2 px-4 mt-3">{{ button_label|default('Valider') }}</button>
+                <button class="green-btn py-2 px-4 mt-3">{{ button_label|default('Valider') }}</button>
+            </div>
         </div>
     </div>
 
