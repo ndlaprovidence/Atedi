@@ -7,6 +7,7 @@
     <script src="{{ asset('assets/js/menuExpend.js') }}"></script>     
     <script src="{{ asset('assets/js/searchBar.js') }}"></script>
     <script src="{{ asset('assets/js/resetSelection.js') }}"></script>     
+    <script src="{{ asset('assets/js/tooltip.js') }}"></script>     
 {% endblock %}
 
 {% block body %}
@@ -19,12 +20,12 @@
 
         {% if step != 7 %}
             <h4 class='h4 text-center'>
-                {% if step > 1 %}<a href="{{ path('intervention_report', {'id': intervention.id, 'step': 'previous'}) }}"><i class="report-navigation-btn fas fa-arrow-left mr-3"></i></a>{% endif %}
+                {% if step > 1 %}<a href="{{ path('intervention_report', {'id': intervention.id, 'step': 'previous'}) }}"><i data-toggle="tooltip" title="Étape précedente" class="report-navigation-btn fas fa-arrow-left mr-3"></i></a>{% endif %}
                 Étape {{ step }}/6
-                <button class='report-navigation report-navigation-btn' name='step' value='next'>{% if step < 6 %}<i class="fas fa-arrow-right ml-3"></i>{% else %}<i class="fas fa-check ml-3"></i>{% endif %}</button>
+                <button class='report-navigation report-navigation-btn' name='step' value='next'>{% if step < 6 %}<i data-toggle="tooltip" title="Étape suivante" class="fas fa-arrow-right ml-3"></i>{% else %}<i data-toggle="tooltip" title="Terminer le rapport" class="fas fa-check ml-3"></i>{% endif %}</button>
             </h4>
         {% else %}
-            <h4 class='h4 text-center'><a href="{{ path('intervention_report', {'id': intervention.id, 'step': 'restart'}) }}"><i class="report-navigation-btn fas fa-redo mr-3"></i></a>Résumé du rapport d'intervention</h4>
+            <h4 class='h4 text-center'><a href="{{ path('intervention_report', {'id': intervention.id, 'step': 'restart'}) }}"><i data-toggle="tooltip" title="Recommencer le rapport" class="report-navigation-btn fas fa-redo mr-3"></i></a>Résumé du rapport d'intervention</h4>
             <div class='text-center mt-4'><a class="green-btn f-20 px-4 py-2 mr-2" href="{{ path('intervention_show', {'id': intervention.id}) }}">Terminer le rapport</a></div>
         {% endif %}
         <hr>
@@ -32,7 +33,7 @@
         {% if step == 1 %}
             <div class="row justify-content-around mb-3 report-container">
                 <div class='col-12 justify-content-center row step-title p-2 mb-3'>
-                    <a href="{{ path('software_new', {'s': 'report', 'id': intervention.id}) }}" class='my-auto'><i class="float-left fas add-btn fa-plus-circle fa-lg mr-2"></i></a><div class='f-20'>Logiciels de netoyage utilisés</div>
+                    <a href="{{ path('software_new', {'s': 'report', 'id': intervention.id}) }}" class='my-auto'><i data-toggle="tooltip" title="Ajouter un logiciel" class="float-left fas add-btn fa-plus-circle fa-lg mr-2"></i></a><div class='f-20'>Logiciels de netoyage utilisés</div>
                 </div>
                 <div class="container-background col p-4 content list">
                     <div class='row justify-content-center'>
@@ -61,7 +62,7 @@
         {% elseif step == 2 %}
             <div class="row justify-content-around mb-3 report-container">
                 <div class='col-12 justify-content-center row step-title p-2 mb-3'>
-                    <a href="{{ path('action_new', {'s': 'report', 'id': intervention.id}) }}" class='my-auto'><i class="float-left fas add-btn fa-plus-circle fa-lg mr-2"></i></a><div class='f-20'>Actions effectués lors de l'intervention</div>
+                    <a href="{{ path('action_new', {'s': 'report', 'id': intervention.id}) }}" class='my-auto'><i data-toggle="tooltip" title="Ajouter une action" class="float-left fas add-btn fa-plus-circle fa-lg mr-2"></i></a><div class='f-20'>Actions effectués lors de l'intervention</div>
                 </div>
                 <input class='w-100 mb-3 p-2' type="text" id="searchBar" placeholder="Rechercher une action">
 
@@ -77,7 +78,7 @@
         {% elseif step == 3 %}
             <div class="row justify-content-around mb-3 report-container">
                 <div class='col-12 justify-content-center row step-title p-2 mb-3'>
-                    <a href="{{ path('software_new', {'s': 'report', 'id': intervention.id}) }}" class='my-auto'><i class="float-left fas add-btn fa-plus-circle fa-lg mr-2"></i></a><div class='f-20'>Logiciels installé ou mis à jour</div>
+                    <a href="{{ path('software_new', {'s': 'report', 'id': intervention.id}) }}" class='my-auto'><i data-toggle="tooltip" title="Ajouter un logiciel" class="float-left fas add-btn fa-plus-circle fa-lg mr-2"></i></a><div class='f-20'>Logiciels installé ou mis à jour</div>
                 </div>
                 <input class='w-100 mb-3 p-2' type="text" id="searchBar" placeholder="Rechercher un logiciel">
 
@@ -120,7 +121,7 @@
         {% elseif step == 5 %}
             <div class="row justify-content-around mb-3 report-container">
                 <div class='col-12 justify-content-center row step-title p-2 mb-3'>
-                    <a href="{{ path('booklet_new', {'s': 'report', 'id': intervention.id}) }}" class='my-auto'><i class="float-left fas add-btn fa-plus-circle fa-lg mr-2"></i></a><div class='f-20'>Brochure à donner</div>
+                    <a href="{{ path('booklet_new', {'s': 'report', 'id': intervention.id}) }}" class='my-auto'><i data-toggle="tooltip" title="Ajouter une brochure" class="float-left fas add-btn fa-plus-circle fa-lg mr-2"></i></a><div class='f-20'>Brochure à donner</div>
                 </div>
                 <input class='w-100 mb-3 p-2' type="text" id="searchBar" placeholder="Rechercher une brochure">
                 <div class="container-background col p-4 content list">

@@ -105,7 +105,7 @@
                                 <div id='copyTarget'>{{ intervention.client }}, votre {{ intervention.equipment }} est disponible dans notre boutique.</div>
                             </div>
                             {% if (not intervention.returnDate) and (intervention.interventionReport.step == 7) %}
-                                <div class='mt-2'>
+                                <div class='mt-2 text-center'>
                                     <form action="" method="post">
                                         <button type='submit' name='return-date' class='py-1 px-2 grey-btn'>Retour le {{ "now"|date("d/m/Y") }}</button>
                                     </form>
@@ -191,10 +191,10 @@
                     <div class='f-20 text-center font-weight-bold'>Demande d'intervention</div>
                     <hr>
                     <div class='row'>
-                        <div class='col'>
+                        <div class='col text-center'>
                             <form action="" method="post">
                                 <i class="fas fa-download mr-3 my-auto"></i>
-                                <button type='submit' name='download' value='request' class='mx-auto grey-btn px-4 py-1'>Télécharger</button>
+                                <button type='submit' name='download' value='request' class='grey-btn px-4 py-1'>Télécharger</button>
                             </form>
                         </div>
                     </div>
@@ -205,10 +205,10 @@
                         <div class='f-20 text-center font-weight-bold'>Facture</div>
                         <hr>
                         <div class='row'>
-                            <div class='col'>
+                            <div class='col text-center'>
                                 <form action="" method="post">
                                     <i class="fas fa-download mr-3 my-auto"></i>
-                                    <button type='submit' name='download' value='bill' class='mx-auto grey-btn px-4 py-1'>Télécharger</button>
+                                    <button type='submit' name='download' value='bill' class='grey-btn px-4 py-1'>Télécharger</button>
                                 </form>
                             </div>
                         </div>
