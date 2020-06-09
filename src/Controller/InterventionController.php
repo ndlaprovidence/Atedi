@@ -5,7 +5,9 @@ namespace App\Controller;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use App\Util\AtediHelper;
+use App\Entity\BillingLine;
 use App\Entity\Intervention;
+use App\Form\BillingLineType;
 use App\Form\InterventionType;
 use App\Entity\InterventionReport;
 use App\Repository\ActionRepository;
@@ -226,6 +228,9 @@ class InterventionController extends AbstractController
         $softwares = [];
         $booklets = $br->findAll();
         $actions = $ar->findAll();
+        $billingLine = new BillingLine();
+        $billingLineForm = $this->createForm(BillingLineType::class, $billingLine);
+        $billingLineForm->handleRequest($request);
 
         switch ($step) {
             case 1:
@@ -431,6 +436,26 @@ class InterventionController extends AbstractController
                         'id' => $intervention->getId(),
                     ]);
                 }
+                
+                if ($billingLineForm->isSubmitted() && $billingLineForm->isValid()) {
+
+                    $this->em = $em;
+        
+                    $interventionsCollection = $ir->findAllByTask($task->getId());
+                    foreach ( $interventionsCollection as $intervention ) {
+                        if ( $intervention->getStatus() != 'Terminée' ) {
+                            $totalPrice = $this->atediHelper->strTotalPrice($intervention);
+                            $intervention->setTotalPrice($totalPrice);
+                            $this->em->persist($intervention);
+                        }
+                    }
+        
+                    $this->em->flush();
+                    
+                    return $this->redirectToRoute('task_show', [
+                        'id' => $task->getId(),
+                    ]);
+                }
                 break;
         }
 
@@ -439,6 +464,7 @@ class InterventionController extends AbstractController
             'softwares' => $softwares,
             'booklets' => $booklets,
             'actions' => $actions,
+            'form' => $billingLineForm->createView(),
         ]);
     }
 

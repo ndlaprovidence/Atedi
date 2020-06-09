@@ -43,6 +43,10 @@ class ActionFixtures extends Fixture
         $data->setTitle('Mise à jour spybot');
         $manager->persist($data);
 
+        $data = new Action();
+        $data->setTitle('Présence de toolbars');
+        $manager->persist($data);
+
         $manager->flush();
     }
 }
