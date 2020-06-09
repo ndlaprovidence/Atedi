@@ -152,6 +152,9 @@
                 <table class='w-100'>
                     <tbody>
                         <tr>
+                            <td class='mb-5 border-on px-2'><span class='font-weight-bold'>Logiciel installé(s) ou mis à jour :</span></td>
+                        </tr>
+                        <tr>
                             <td class='py-1 border-on px-2 text-center'>
                                 {% for action in actions %}
                                     <div class='checkbox-item'>[_]{{ action }} {% if not loop.last %}.....{% endif %}</div>

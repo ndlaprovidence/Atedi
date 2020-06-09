@@ -38,8 +38,8 @@
                 <div class="container-background col p-4 content list">
                     <div class='row justify-content-center'>
                         <div class='col-md-auto'><input class='mr-2' type="radio" name="severity" value="Matériel non infecté" required checked />Matériel non infecté</div>
-                        <div class='col-md-auto'><input class='mr-2' type="radio" name="severity" value="Matériel infecté par des virus et/ou spywares" />Matériel légèrement infecté</div>
-                        <div class='col-md-auto'><input class='mr-2' type="radio" name="severity" value="Matériel infecté par de nombreux virus et/ou spywares" />Matériel dangereusement infecté</div>
+                        <div class='col-md-auto'><input class='mr-2' type="radio" name="severity" value="Matériel légèrement infecté" />Matériel légèrement infecté</div>
+                        <div class='col-md-auto'><input class='mr-2' type="radio" name="severity" value="Matériel dangereusement infecté" />Matériel dangereusement infecté</div>
                     </div>
                     
                     <div class='more-content'>
@@ -198,106 +198,111 @@
                 </div>
             </div>
 
-
-            <div class="row justify-content-around mb-5 report-container">
-                <div class='col-12 justify-content-center row step-title p-2 mb-3 f-20'>Traitement de l'infection</div>
-                <div class="container-background col mb-auto p-4 mr-5">
-                    {% set severityProblems = intervention.interventionReport.severityProblem %}
-                    <div class='f-20 text-center font-weight-bold'>Sévérité de l'infection</div>
-                    <hr>
-                    <div class='comment p-2'><span class='font-weight-bold'>Sévérité</span> : {{ intervention.interventionReport.severity }}</div>
-                    <div class='comment p-2 mt-2'><span class='font-weight-bold'>Analyse interne</span> : {{ intervention.interventionReport.internalAnalysis ?: "<span class='missing-info font-weight-bold'>Pas d'informations sur l'analyse interne</span>"}}</div>
-                    <div class='row mt-2 data-row'>
-                        <div class='col-3'>Virus</div><div class='col-9'>{% if "Virus" in severityProblems %}<i class="fas add-btn fa-plus"></i>{% else %}<i class="fas fa-minus"></i>{% endif %}</div>
-                    </div>
-                    <div class='row data-row'>
-                        <div class='col-3'>Malwares</div><div class='col-9'>{% if "Malwares" in severityProblems %}<i class="fas add-btn fa-plus"></i>{% else %}<i class="fas fa-minus"></i>{% endif %}</div>
-                    </div>
-                    <div class='row'>
-                        <div class='col-3'>Spywares</div><div class='col-9'>{% if "Spywares" in severityProblems %}<i class="fas add-btn fa-plus"></i>{% else %}<i class="fas fa-minus"></i>{% endif %}</div>
-                    </div>
-                </div>
-                <div class="container-background col mb-auto p-4">
-                    {% set softwares = intervention.interventionReport.softwareInterventionReports %}
-                    {% set hasSoftware = false %}
-                    <div class='f-20 text-center font-weight-bold'>Logiciels de nettoyage utilisés</div>
-                    <hr>
-                    <div class="row tab-head">
-                        <div class="col-12">Titre</div>
-                    </div>
-                    <div class='h-100 row mt-2'>
-                    {% for software in softwares %}
-                        {% if software.action == 'Nettoyage' %}
-                            {% set hasSoftware = true %}
-                            <div class="data-row col-12">{{ software }}</div>
-                        {% endif %}
-                    {% endfor %}
-                    {% if hasSoftware == false %}
-                        <div class='col-12 text-center mx-auto missing-info font-weight-bold'>Le matériel n'a pas reçu de nettoyage par logiciel</div>
-                    {% endif %}
-                    </div>
-                </div>
+            <div class='text-center'>
+                <a class="w-100 p-2 more-infos" data-toggle="collapse" href="#moreInfos" aria-expanded="false">Plus d'informations sur le rapport<i class="ml-2 fas fa-chevron-up more-infos-chevron"></i></a>
+                <hr>
             </div>
-
-            <div class="row justify-content-around mb-5 report-container">
-                <div class='col-12 justify-content-center row step-title p-2 mb-3 f-20'>Opérations sur le matériel</div>
-                <div class="container-background col mb-auto p-4 mr-5">
-                    {% set actions = intervention.interventionReport.actions %}
-                    {% set hasAction = false %}
-                    <div class='f-20 text-center font-weight-bold'>Actions effectués</div>
-                    <hr>
-                    <div class="row tab-head">
-                        <div class="col-12">Titre</div>
+            <div class="collapse" id="moreInfos">
+                <div class="row justify-content-around mb-5 report-container">
+                    <div class='col-12 justify-content-center row step-title p-2 mb-3 f-20'>Traitement de l'infection</div>
+                    <div class="container-background col mb-auto p-4 mr-5">
+                        {% set severityProblems = intervention.interventionReport.severityProblem %}
+                        <div class='f-20 text-center font-weight-bold'>Sévérité de l'infection</div>
+                        <hr>
+                        <div class='comment p-2'><span class='font-weight-bold'>Sévérité</span> : {{ intervention.interventionReport.severity }}</div>
+                        <div class='comment p-2 mt-2'><span class='font-weight-bold'>Analyse interne</span> : {{ intervention.interventionReport.internalAnalysis ?: "<span class='missing-info font-weight-bold'>Pas d'informations sur l'analyse interne</span>"}}</div>
+                        <div class='row mt-2 data-row'>
+                            <div class='col-3'>Virus</div><div class='col-9'>{% if "Virus" in severityProblems %}<i class="fas add-btn fa-plus"></i>{% else %}<i class="fas fa-minus"></i>{% endif %}</div>
+                        </div>
+                        <div class='row data-row'>
+                            <div class='col-3'>Malwares</div><div class='col-9'>{% if "Malwares" in severityProblems %}<i class="fas add-btn fa-plus"></i>{% else %}<i class="fas fa-minus"></i>{% endif %}</div>
+                        </div>
+                        <div class='row'>
+                            <div class='col-3'>Spywares</div><div class='col-9'>{% if "Spywares" in severityProblems %}<i class="fas add-btn fa-plus"></i>{% else %}<i class="fas fa-minus"></i>{% endif %}</div>
+                        </div>
                     </div>
-                    <div class='h-200 row mt-2'>
-                    {% for action in actions %}
-                        {% set hasAction = true %}
-                        <div class="data-row col-12">{{ action }}</div>
-                    {% endfor %}
-                    {% if hasAction == false %}
-                        <div class='col-12 text-center mx-auto missing-info font-weight-bold'>Le matériel n'a pas reçu d'actions</div>
-                    {% endif %}
-                    </div>
-                </div>
-                <div class="container-background col mb-auto p-4 mr-5">
-                    {% set softwares = intervention.interventionReport.softwareInterventionReports %}
-                    {% set hasSoftware = false %}
-                    <div class='f-20 text-center font-weight-bold'>Installations/mises à jour de logiciels</div>
-                    <hr>
-                    <div class="row tab-head">
-                        <div class="col-8">Titre</div>
-                        <div class="col-4">Action</div>
-                    </div>
-                    <div class='h-200 row mt-2'>
-                    {% for software in softwares %}
-                        {% if software.action != 'Nettoyage' %}
-                            {% set hasSoftware = true %}
-                                <div class="col-8 data-row">{{ software }}</div>
-                                <div class="col-4 data-row">{{ software.action }}</div>
-                        {% endif %}
-                    {% endfor %}
-                    {% if hasSoftware == false %}
-                        <div class='col-12 text-center mx-auto missing-info font-weight-bold'>Le matériel n'a pas reçu d'installation ou de mise à jour de logiciel</div>
-                    {% endif %}
-                    </div>
-                </div>
-                <div class="container-background col mb-auto p-4">
-                    {% set installs = intervention.interventionReport.windowsInstall %}
-                    <div class='f-20 text-center font-weight-bold'>Sous-partie Windows</div>
-                    <hr>
-                    <div class="row tab-head">
-                        <div class="col-12">Titre</div>
-                    </div>
-                    <div class='h-100 row mt-2'>
-                    {% if installs|length > 0 %}
-                        {% for install in installs %}
-                            <div class='data-row col-12'>{{ install }}</div>
+                    <div class="container-background col mb-auto p-4">
+                        {% set softwares = intervention.interventionReport.softwareInterventionReports %}
+                        {% set hasSoftware = false %}
+                        <div class='f-20 text-center font-weight-bold'>Logiciels de nettoyage utilisés</div>
+                        <hr>
+                        <div class="row tab-head">
+                            <div class="col-12">Titre</div>
+                        </div>
+                        <div class='h-100 row mt-2'>
+                        {% for software in softwares %}
+                            {% if software.action == 'Nettoyage' %}
+                                {% set hasSoftware = true %}
+                                <div class="data-row col-12">{{ software }}</div>
+                            {% endif %}
                         {% endfor %}
-                    {% elseif isWindows(intervention.operatingSystem.title) == true %}
-                        <div class='col-12 text-center mx-auto missing-info font-weight-bold'>Le matériel n'a pas reçu d'installations windows</div>
-                    {% else %}
-                        <div class='col-12 text-center mx-auto missing-info font-weight-bold'>Le matériel ne concerne pas un Windows ({{ intervention.operatingSystem }})</div>
-                    {% endif %}
+                        {% if hasSoftware == false %}
+                            <div class='col-12 text-center mx-auto missing-info font-weight-bold'>Le matériel n'a pas reçu de nettoyage par logiciel</div>
+                        {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row justify-content-around mb-5 report-container">
+                    <div class='col-12 justify-content-center row step-title p-2 mb-3 f-20'>Opérations sur le matériel</div>
+                    <div class="container-background col mb-auto p-4 mr-5">
+                        {% set actions = intervention.interventionReport.actions %}
+                        {% set hasAction = false %}
+                        <div class='f-20 text-center font-weight-bold'>Actions effectués</div>
+                        <hr>
+                        <div class="row tab-head">
+                            <div class="col-12">Titre</div>
+                        </div>
+                        <div class='h-200 row mt-2'>
+                        {% for action in actions %}
+                            {% set hasAction = true %}
+                            <div class="data-row col-12">{{ action }}</div>
+                        {% endfor %}
+                        {% if hasAction == false %}
+                            <div class='col-12 text-center mx-auto missing-info font-weight-bold'>Le matériel n'a pas reçu d'actions</div>
+                        {% endif %}
+                        </div>
+                    </div>
+                    <div class="container-background col mb-auto p-4 mr-5">
+                        {% set softwares = intervention.interventionReport.softwareInterventionReports %}
+                        {% set hasSoftware = false %}
+                        <div class='f-20 text-center font-weight-bold'>Installations/mises à jour de logiciels</div>
+                        <hr>
+                        <div class="row tab-head">
+                            <div class="col-6">Titre</div>
+                            <div class="col-6">Action</div>
+                        </div>
+                        <div class='h-200 row mt-2'>
+                        {% for software in softwares %}
+                            {% if software.action != 'Nettoyage' %}
+                                {% set hasSoftware = true %}
+                                    <div class="col-6 data-row">{{ software }}</div>
+                                    <div class="col-6 data-row">{{ software.action }}</div>
+                            {% endif %}
+                        {% endfor %}
+                        {% if hasSoftware == false %}
+                            <div class='col-12 text-center mx-auto missing-info font-weight-bold'>Le matériel n'a pas reçu d'installation ou de mise à jour de logiciel</div>
+                        {% endif %}
+                        </div>
+                    </div>
+                    <div class="container-background col mb-auto p-4">
+                        {% set installs = intervention.interventionReport.windowsInstall %}
+                        <div class='f-20 text-center font-weight-bold'>Sous-partie Windows</div>
+                        <hr>
+                        <div class="row tab-head">
+                            <div class="col-12">Titre</div>
+                        </div>
+                        <div class='h-100 row mt-2'>
+                        {% if installs|length > 0 %}
+                            {% for install in installs %}
+                                <div class='data-row col-12'>{{ install }}</div>
+                            {% endfor %}
+                        {% elseif isWindows(intervention.operatingSystem.title) == true %}
+                            <div class='col-12 text-center mx-auto missing-info font-weight-bold'>Le matériel n'a pas reçu d'installations windows</div>
+                        {% else %}
+                            <div class='col-12 text-center mx-auto missing-info font-weight-bold'>Le matériel ne concerne pas un Windows ({{ intervention.operatingSystem }})</div>
+                        {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>

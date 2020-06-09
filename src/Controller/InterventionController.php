@@ -87,7 +87,7 @@ class InterventionController extends AbstractController
     /**
      * @Route("/{id}", name="intervention_show", methods={"GET","POST"})
      */
-    public function show(Request $request, Intervention $intervention, EntityManagerInterface $em, SoftwareRepository $sr, ActionRepository $ar): Response
+    public function show(Request $request, Intervention $intervention, EntityManagerInterface $em, SoftwareRepository $sr, ActionRepository $ar, SoftwareInterventionReportRepository $sirr): Response
     {
         $this->em = $em;
         $theStatus = $intervention->getStatus();
@@ -160,7 +160,7 @@ class InterventionController extends AbstractController
                         // Render the HTML as PDF
                         $dompdf->render();
 
-                        $pdfName = $intervention->getClient()->getLastName().'-'.time().'.pdf';
+                        $pdfName = $intervention->getClient()->getLastName().'-DEMANDE-'.time().'.pdf';
                         // Output the generated PDF to Browser (force download)
                         $dompdf->stream($pdfName, [
                             "Attachment" => true
@@ -168,8 +168,9 @@ class InterventionController extends AbstractController
                         break;
 
                     case "bill":
-                        $cleaningSoftwares = $sr->findAllByType('Nettoyage');
-                        $actions = $ar->findAll();
+                        $interventionReportId = $intervention->getInterventionReport()->getId();
+                        $softwares = $sirr->findAllByReport($interventionReportId);
+                        $actions = $intervention->getInterventionReport()->getActions();
 
                         // Configure Dompdf according to your needs
                         $pdfOptions = new Options();
@@ -179,9 +180,9 @@ class InterventionController extends AbstractController
                         $dompdf = new Dompdf($pdfOptions);
 
                         // Retrieve the HTML generated in our twig file
-                        $html = $this->renderView('intervention/request_pdf.html.twig', [
+                        $html = $this->renderView('intervention/bill_pdf.html.twig', [
                             'intervention' => $intervention,
-                            'cleaningSoftwares' => $cleaningSoftwares,
+                            'softwares' => $softwares,
                             'actions' => $actions,
                         ]);
 
@@ -194,7 +195,7 @@ class InterventionController extends AbstractController
                         // Render the HTML as PDF
                         $dompdf->render();
 
-                        $pdfName = $intervention->getClient()->getLastName().'-'.time().'.pdf';
+                        $pdfName = $intervention->getClient()->getLastName().'-RAPPORT-'.time().'.pdf';
                         // Output the generated PDF to Browser (force download)
                         $dompdf->stream($pdfName, [
                             "Attachment" => true
