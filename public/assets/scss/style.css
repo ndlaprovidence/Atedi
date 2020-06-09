@@ -49,6 +49,10 @@ body {
   color: #FFFFFF;
 }
 
+.primary-btn:focus {
+  outline: none;
+}
+
 .grey-btn {
   outline: none;
   border-radius: 10px;
@@ -61,6 +65,10 @@ body {
 .grey-btn:hover {
   background-color: #75757550;
   color: #000000;
+}
+
+.grey-btn:focus {
+  outline: none;
 }
 
 .green-btn {
@@ -77,6 +85,10 @@ body {
   color: #000000;
 }
 
+.green-btn:focus {
+  outline: none;
+}
+
 .red-btn {
   outline: none;
   border-radius: 10px;
@@ -91,6 +103,10 @@ body {
   color: #FFFFFF;
 }
 
+.red-btn:focus {
+  outline: none;
+}
+
 .disabled-btn {
   outline: none;
   border-radius: 10px;
@@ -103,6 +119,10 @@ body {
 .disabled-btn:hover {
   background-color: #ebebeb;
   color: rgba(16, 16, 16, 0.3);
+}
+
+.disabled-btn:focus {
+  outline: none;
 }
 
 .add-btn:hover {

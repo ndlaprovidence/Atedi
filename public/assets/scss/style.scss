@@ -40,6 +40,7 @@ body {
         background-color: $bgHoverColor; 
         color: $color;
     }
+    &:focus { outline:none; }
 }
 .primary-btn { @include btn($primaryColor,#FFFFFF); }
 .grey-btn { @include btn($hoverGrey,#000000); }

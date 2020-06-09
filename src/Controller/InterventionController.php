@@ -84,7 +84,7 @@ class InterventionController extends AbstractController
     /**
      * @Route("/{id}", name="intervention_show", methods={"GET","POST"})
      */
-    public function show(Request $request, Intervention $intervention, EntityManagerInterface $em, SoftwareRepository $sr): Response
+    public function show(Request $request, Intervention $intervention, EntityManagerInterface $em, SoftwareRepository $sr, ActionRepository $ar): Response
     {
         $this->em = $em;
         $theStatus = $intervention->getStatus();
@@ -127,37 +127,47 @@ class InterventionController extends AbstractController
         if ($theStatus == 'En cours' || $theStatus == 'Terminée' ) {
             if ($request->request->has('download')) {
 
-                $cleaningSoftwares = $sr->findAllByType('Nettoyage');
+                $download = $request->request->get('download');
 
+                switch ($download) {
+                    case "request":
+                        $cleaningSoftwares = $sr->findAllByType('Nettoyage');
+                        $actions = $ar->findAll();
 
+                        // Configure Dompdf according to your needs
+                        $pdfOptions = new Options();
+                        $pdfOptions->set('defaultFont', 'Arial');
 
-                // Configure Dompdf according to your needs
-                $pdfOptions = new Options();
-                $pdfOptions->set('defaultFont', 'Arial');
+                        // Instantiate Dompdf with our options
+                        $dompdf = new Dompdf($pdfOptions);
 
-                // Instantiate Dompdf with our options
-                $dompdf = new Dompdf($pdfOptions);
+                        // Retrieve the HTML generated in our twig file
+                        $html = $this->renderView('intervention/request_pdf.html.twig', [
+                            'intervention' => $intervention,
+                            'cleaningSoftwares' => $cleaningSoftwares,
+                            'actions' => $actions,
+                        ]);
 
-                // Retrieve the HTML generated in our twig file
-                $html = $this->renderView('intervention/request_pdf.html.twig', [
-                    'intervention' => $intervention,
-                    'cleaningSoftwares' => $cleaningSoftwares,
-                ]);
+                        // Load HTML to Dompdf
+                        $dompdf->loadHtml($html);
 
-                // Load HTML to Dompdf
-                $dompdf->loadHtml($html);
+                        // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+                        $dompdf->setPaper('A4', 'portrait');
 
-                // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
-                $dompdf->setPaper('A4', 'portrait');
+                        // Render the HTML as PDF
+                        $dompdf->render();
 
-                // Render the HTML as PDF
-                $dompdf->render();
+                        $pdfName = $intervention->getClient()->getLastName().'-'.time().'.pdf';
+                        // Output the generated PDF to Browser (force download)
+                        $dompdf->stream($pdfName, [
+                            "Attachment" => true
+                        ]);
+                        break;
 
-                $pdfName = $intervention->getClient()->getLastName().'-'.time().'.pdf';
-                // Output the generated PDF to Browser (force download)
-                $dompdf->stream($pdfName, [
-                    "Attachment" => true
-                ]);
+                    case "bill":
+                        break;
+                        
+                }
             }
         }
 
