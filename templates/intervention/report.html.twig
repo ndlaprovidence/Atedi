@@ -164,7 +164,7 @@
                                 <div class='col-md-auto'>
                                     <form method="post" action="{{ path('intervention_report', {'id': intervention.id}) }}">
                                         <input type='hidden' name='billing-line-id' value='{{ billingLine.id }}' />
-                                        <button name='delete-billing-line' class='report-navigation report-navigation-btn'><i class="fa fa-trash"></i></button>
+                                        <button name='delete-billing-line' class='report-navigation report-navigation-btn'><i data-toggle="tooltip" title="Supprimer la ligne" class="fa fa-trash"></i></button>
                                     </form>
                                 </div>                                 
                             </div>
