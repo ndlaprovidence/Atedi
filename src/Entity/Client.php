@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ClientRepository")
  * @UniqueEntity(fields={"phone"}, message="Il existe déjà un client avec ce numéro")
+ * @ORM\Table(name="tbl_client")
  */
 class Client
 {

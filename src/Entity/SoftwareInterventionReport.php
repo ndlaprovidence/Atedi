@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=SoftwareInterventionReportRepository::class)
+ * @ORM\Table(name="tbl_software_intervention_report")
  */
 class SoftwareInterventionReport
 {

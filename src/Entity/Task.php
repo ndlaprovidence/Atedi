@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TaskRepository")
  * @UniqueEntity(fields={"title"}, message="Il existe une tâche avec ce nom")
+ * @ORM\Table(name="tbl_task")
  */
 class Task
 {

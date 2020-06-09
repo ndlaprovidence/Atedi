@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=ActionRepository::class)
  * @UniqueEntity(fields={"title"}, message="Il existe déjà une action avec ce nom")
+ * @ORM\Table(name="tbl_action")
  */
 class Action
 {

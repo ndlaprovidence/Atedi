@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=SoftwareRepository::class)
  * @UniqueEntity(fields={"title"}, message="Il existe déjà un logiciel avec ce nom")
+ * @ORM\Table(name="tbl_software")
  */
 class Software
 {

@@ -9,7 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\OperatingSystemRepository")
- * @UniqueEntity(fields={"email"}, message="Il existe déjà un système d'exploitation avec ce nom")
+ * @UniqueEntity(fields={"title"}, message="Il existe déjà un système d'exploitation avec ce nom")
+ * @ORM\Table(name="tbl_operating_system")
  */
 class OperatingSystem
 {
