@@ -84,7 +84,7 @@ class InterventionController extends AbstractController
     /**
      * @Route("/{id}", name="intervention_show", methods={"GET","POST"})
      */
-    public function show(Request $request, Intervention $intervention, EntityManagerInterface $em): Response
+    public function show(Request $request, Intervention $intervention, EntityManagerInterface $em, SoftwareRepository $sr): Response
     {
         $this->em = $em;
         $theStatus = $intervention->getStatus();
@@ -126,6 +126,11 @@ class InterventionController extends AbstractController
 
         if ($theStatus == 'En cours' || $theStatus == 'Terminée' ) {
             if ($request->request->has('download')) {
+
+                $cleaningSoftwares = $sr->findAllByType('Nettoyage');
+
+
+
                 // Configure Dompdf according to your needs
                 $pdfOptions = new Options();
                 $pdfOptions->set('defaultFont', 'Arial');
@@ -136,6 +141,7 @@ class InterventionController extends AbstractController
                 // Retrieve the HTML generated in our twig file
                 $html = $this->renderView('intervention/request_pdf.html.twig', [
                     'intervention' => $intervention,
+                    'cleaningSoftwares' => $cleaningSoftwares,
                 ]);
 
                 // Load HTML to Dompdf
