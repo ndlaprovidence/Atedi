@@ -25,7 +25,7 @@
                 <button class='report-navigation report-navigation-btn' name='step' value='next'>{% if step < 6 %}<i data-toggle="tooltip" title="Étape suivante" class="fas fa-arrow-right ml-3"></i>{% else %}<i data-toggle="tooltip" title="Terminer le rapport" class="fas fa-check ml-3"></i>{% endif %}</button>
             </h4>
         {% else %}
-            <h4 class='h4 text-center'><a href="{{ path('intervention_report', {'id': intervention.id, 'step': 'restart'}) }}"><i data-toggle="tooltip" title="Recommencer le rapport" class="report-navigation-btn fas fa-redo mr-3"></i></a>Résumé du rapport d'intervention</h4>
+            <h4 class='h4 text-center'><a class='report-navigation report-navigation-btn' data-toggle="tooltip" title="Recommencer le rapport" href="{{ path('intervention_report', {'id': intervention.id, 'step': 'restart'}) }}"><i class="fas fa-redo mr-3"></i></a>Résumé du rapport d'intervention</h4>
             <div class='text-center mt-4'><a class="green-btn f-20 px-4 py-2 mr-2" href="{{ path('intervention_show', {'id': intervention.id}) }}">Terminer le rapport</a></div>
         {% endif %}
         <hr>
