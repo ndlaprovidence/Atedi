@@ -4,7 +4,7 @@ $( document ).ready(function() {
     $("#searchBar").on("keyup", function() {
         
         var value = $(this).val().toLowerCase();
-        $(".index-list .data-row").filter(function() {
+        $(".list .data-row").filter(function() {
             $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
         });
       });

@@ -10,25 +10,27 @@
 
 
 
-    <div class="w-50 mx-auto text-center sign-in"> 
-        <h1 class="h3 my-5 font-weight-normal">GDI</h1>
+    <div class="w-50 mx-auto text-center sign-in row align-items-center">
+        <div class="col"> 
+            <h1 class="h1 my-5 font-weight-normal">Atedi</h1>
 
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text"><i class="fas fa-at"></i></span>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-at"></i></span>
+                </div>
+                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" placeholder="Email">
             </div>
-            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" placeholder="Email">
-        </div>
 
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                </div>
+                <input type="password" name="password" id="inputPassword" class="form-control" required aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" placeholder="Mot de passe">
             </div>
-            <input type="password" name="password" id="inputPassword" class="form-control" required aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" placeholder="Mot de passe">
-        </div>
-        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-        <button class="green-btn py-2 text-center w-25" type="submit">Se connecter</button>
+            <button class="green-btn py-2 text-center w-25" type="submit">Se connecter</button>
+        </div>
     </div>
 
 </form>

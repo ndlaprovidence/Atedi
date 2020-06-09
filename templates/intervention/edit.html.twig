@@ -4,7 +4,7 @@
 
 {% block body %}
     <a href="{{ path('intervention_show', {'id': intervention.id}) }}"><i class="fas fa-chevron-left h1 float-left"></i></a>
-    <h1 class='text-center mb-5'>Modifier la demande d'intervention</h1>
+    <h2 class='text-center mb-5 font-weight-bold'>Modifier la demande d'intervention</h2>
 
     {{ include('intervention/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
 {% endblock %}

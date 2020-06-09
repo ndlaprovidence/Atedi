@@ -4,11 +4,12 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\OperatingSystemRepository")
- * @ORM\Table(name="tbl_operatingSystem")
+ * @UniqueEntity(fields={"email"}, message="Il existe déjà un système d'exploitation avec ce nom")
  */
 class OperatingSystem
 {

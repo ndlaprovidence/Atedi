@@ -13,22 +13,20 @@ class TaskFixtures extends Fixture
     {
         $data = new Task();
         $data->setTitle('Réparation');
-        $data->setColor('BE2200');
+        $data->setPrice('49,00');
+        $data->setColor('ff0000');
         $manager->persist($data);
 
         $data = new Task();
         $data->setTitle('Formatage');
-        $data->setColor('46BF15');
+        $data->setPrice('59,00');
+        $data->setColor('00ff00');
         $manager->persist($data);
 
         $data = new Task();
         $data->setTitle('Nettoyage');
-        $data->setColor('157CBF');
-        $manager->persist($data);
-
-        $data = new Task();
-        $data->setTitle('Mise à jour drivers');
-        $data->setColor('9315BF');
+        $data->setPrice('39,00');
+        $data->setColor('0000ff');
         $manager->persist($data);
 
         $manager->flush();

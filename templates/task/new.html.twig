@@ -3,12 +3,13 @@
 {% block title %}Nouvelle tâche{% endblock %}
 
 {% block javascripts %}        
+    <script src="{{ asset('assets/js/toolip.js') }}"></script>
     <script src="{{ asset('assets/js/colorFinder.js') }}"></script>
 {% endblock %}
 
 {% block body %}
     <a href="{{ path('task_index') }}"><i class="fas fa-chevron-left h1 float-left"></i></a>
-    <h1 class='text-center mb-5'>Nouvelle tâche</h1>
+    <h2 class='text-center mb-5 font-weight-bold'>Nouvelle tâche</h2>
 
     {{ include('task/_form.html.twig') }}
 {% endblock %}

@@ -4,29 +4,34 @@
 
 {% block javascripts %}        
     <script src="{{ asset('assets/js/searchBar.js') }}"></script>
+    <script src="{{ asset('assets/js/colorFinder.js') }}"></script>
 {% endblock %}
 
 {% block body %}
     <div class='text-center mb-2'>	
-        <div class='h2 mb-3'>Liste des tâches</div>
+        <div class='h2 mb-3 font-weight-bold'>Liste des tâches</div>
     </div>
     <div class='text-center mb-2'>	
-        <a href='{{ path('task_new') }}'><input type='button' value="Ajouter une tâche" class='green-btn f-20 py-2 px-4' /></a>
+        <a href='{{ path('task_new') }}'><input type='button' value="Ajouter une tâche" class='grey-btn f-20 py-2 px-4' /></a>
     </div>
 
     <hr>
 
     <input class='w-100 mb-3 p-2' type="text" id="searchBar" placeholder="Rechercher une tâche">
 
-    <div class='container index-list'>
+    <div class='container list'>
         <div class="row tab-head p-2">
-            <div class="col-12">Titre</div>
+            <div class="col-1 text-center">Couleur</div>
+            <div class="col-7">Titre</div>
+            <div class="col-4">Prix</div>
         </div>
 
         {% for task in tasks %}
             <a class='data-row' href="{{ path('task_show', {'id': task.id}) }}">
                 <div class="row link default p-2">
-                    <div class="col-12 my-auto">{{ task.title }}</div>
+                    <div class="col-1 my-auto"><div class="color-box my-auto mx-auto" data-color="#{{ task.color }}"></div></div>
+                    <div class="col-7 my-auto">{{ task.title }}</div>
+                    <div class="col-4 my-auto">{{ completePrice(task.price) }}€</div>
                 </div>
             </a>
         {% else %}

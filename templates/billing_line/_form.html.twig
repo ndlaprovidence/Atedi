@@ -1,0 +1,21 @@
+{{ form_start(form) }}
+
+    <div class="row justify-content-md-center">
+        <div class='col-4'>         
+            <div class="input-group">
+            {{ form_widget(form.price, {'attr': {'placeholder': 'Prix'}}) }}
+                <div class="input-group-append">
+                    <span class="input-group-text">€</span>
+                </div>
+            </div>
+        </div>
+        <div class='col'>         
+            {{ form_errors(form.title) }}
+            {{ form_widget(form.title, {'attr': {'placeholder': 'Nouvelle ligne de facture'}}) }}
+        </div>
+        <div class='col-md-auto my-auto'>         
+            <button class='report-navigation report-navigation-btn'><i data-toggle="tooltip" title="Ajouter la ligne" class="fas fa-plus-circle fa-lg mr-2"></i></button>
+        </div>
+    </div>
+
+{{ form_end(form) }}

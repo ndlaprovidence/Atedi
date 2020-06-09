@@ -6,6 +6,7 @@ use App\Repository\TaskRepository;
 use App\Repository\EquipmentRepository;
 use App\Repository\TechnicianRepository;
 use App\Repository\InterventionRepository;
+use App\Repository\OperatingSystemRepository;
 use Ob\HighchartsBundle\Highcharts\Highchart;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,7 +21,7 @@ class StatisticsController extends AbstractController
     /**
      * @Route("/", name="statistics_index", methods={"GET"})
      */
-    public function index(InterventionRepository $ir, TechnicianRepository $ter, TaskRepository $tar, EquipmentRepository $er)
+    public function index(InterventionRepository $ir, TechnicianRepository $ter, TaskRepository $tar, EquipmentRepository $er, OperatingSystemRepository $osr)
     {
         // Load interventions by technicians chart
         $chart1 = new Highchart();
@@ -173,12 +174,63 @@ class StatisticsController extends AbstractController
             'data' => $data
         )));
 
+
+        // Load interventions by tasks chart
+        $chart4 = new Highchart();
+
+        $chart4->chart->renderTo('interventionOperatingSystems');
+        $chart4->title->text("Interventions par systèmes d'exploitation");
+        $chart4->tooltip->hideDelay(100);
+        $chart4->tooltip->borderRadius(15);
+        $chart4->tooltip->shadow(false);
+        $chart4->tooltip->backgroundColor('#264653');
+        $chart4->tooltip->borderColor('#000000');
+        $chart4->tooltip->style(array(
+            'color' => "#FFFFFF",
+            'fontSize' => "14px",
+        ));
+        
+        $chart4->legend->itemStyle(array(
+            'color' => "#000000",
+            'fontSize' => "14px",
+            'fontWeight' => 'normal',
+        ));
+
+        $chart4->plotOptions->pie(array(
+            'allowPointSelect'  => false,
+            'cursor'    => 'pointer',
+            'dataLabels'    => array('enabled' => false),
+            'showInLegend'  => true
+        ));
+
+        $data = array();
+        $operatingSystems = $osr->findAll();
+
+        foreach ( $operatingSystems as $operatingSystem ) {
+            $interventions = $ir->findAllByOperatingSystem($operatingSystem->getId());
+            $count = count($interventions);
+            $name = $operatingSystem->getTitle();
+
+            $dataEntry = array();
+            array_push($dataEntry,$name);
+            array_push($dataEntry,$count);
+            
+            array_push($data,$dataEntry);
+        }
+
+        $chart4->series(array(array(
+            'type' => 'pie',
+            'name' => 'Interventions', 
+            'data' => $data
+        )));
+
         $interventions = $ir->findAll();
 
         return $this->render('statistics/index.html.twig', [
             'chart1' => $chart1,
             'chart2' => $chart2,
             'chart3' => $chart3,
+            'chart4' => $chart4,
             'interventions' => $interventions,
         ]);
     }

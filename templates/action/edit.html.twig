@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier l'action{% endblock %}
+
+{% block body %}
+    <a href="{{ path('action_index') }}"><i class="fas fa-chevron-left h1 float-left"></i></a>
+    <h2 class='text-center mb-5 font-weight-bold'>Modifier l'action</h2>
+
+    {{ include('action/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+{% endblock %}
