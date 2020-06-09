@@ -47,6 +47,42 @@ class AtediHelper
             }
         }
 
+
+        $billingLinesCollection = $intervention->getBillingLines();
+        foreach ( $billingLinesCollection as $billingLine ) {
+
+            $price = $billingLine->getPrice();
+            
+            if (strpos($price,'.')) {
+                $delimiter = '.';
+            } else if (strpos($price,',')) {
+                $delimiter = ',';
+            } else {
+                $delimiter = " ";
+            }
+
+            $billingLinePrice = explode($delimiter,$price);
+
+            if (count($billingLinePrice) > 1) {
+                $billingLineEuro = intval($billingLinePrice[0]);
+                $billingLineCents = intval($billingLinePrice[1]);
+                if (strlen($billingLinePrice[1]) == 1) {
+                    $billingLineCents = $billingLineCents*10;
+                }
+            } else {
+                $billingLineEuro = intval($billingLinePrice[0]);
+                $billingLineCents = 0;
+            }
+
+            $totalEuro = $totalEuro + $billingLineEuro;
+            $totalCents = $totalCents + $billingLineCents;
+
+            if ( $totalCents >= 100 ) {
+                $totalEuro++;
+                $totalCents = $totalCents - 100;
+            }
+        }
+
         $totalEuro = strval($totalEuro);
         $totalCents = strval($totalCents);
         if (strlen($totalCents) == 1) {

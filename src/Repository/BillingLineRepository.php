@@ -26,4 +26,14 @@ class BillingLineRepository extends ServiceEntityRepository
             ['id' => 'DESC'],
         );
     }
+
+    public function findOneById($id)
+    {
+        return $this->createQueryBuilder('bl')
+            ->andWhere('bl.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getSingleResult()
+        ;
+    }
 }

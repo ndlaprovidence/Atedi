@@ -21,7 +21,7 @@
             <h4 class='h4 text-center'>
                 {% if step > 1 %}<a href="{{ path('intervention_report', {'id': intervention.id, 'step': 'previous'}) }}"><i class="report-navigation-btn fas fa-arrow-left mr-3"></i></a>{% endif %}
                 Étape {{ step }}/6
-                <button class='report-navigation' name='step' value='next'>{% if step < 6 %}<i class="report-navigation-btn fas fa-arrow-right ml-3"></i>{% else %}<i class="report-navigation-btn fas fa-check ml-3"></i>{% endif %}</button>
+                <button class='report-navigation report-navigation-btn' name='step' value='next'>{% if step < 6 %}<i class="fas fa-arrow-right ml-3"></i>{% else %}<i class="fas fa-check ml-3"></i>{% endif %}</button>
             </h4>
         {% else %}
             <h4 class='h4 text-center'><a href="{{ path('intervention_report', {'id': intervention.id, 'step': 'restart'}) }}"><i class="report-navigation-btn fas fa-redo mr-3"></i></a>Résumé du rapport d'intervention</h4>
@@ -153,18 +153,26 @@
                     {% for task in intervention.tasks %}
                         <div class='w-100'>{{ completePrice(task.price) }}€ - {{ task }}</div>
                     {% endfor %}
+                    {% set billingLines = intervention.billingLines %}
+                    {% if billingLines|length > 0 %}
+                        {% for billingLine in billingLines %}
+                            <div class='row'>
+                                <div class='col'>
+                                    <div>{{ completePrice(billingLine.price) }}€ - {{ billingLine }}</div>
+                                </div>
+                                <div class='col-md-auto'>
+                                    <form method="post" action="{{ path('intervention_report', {'id': intervention.id}) }}">
+                                        <input type='hidden' name='billing-line-id' value='{{ billingLine.id }}' />
+                                        <button name='delete-billing-line' class='report-navigation report-navigation-btn'><i class="fa fa-trash"></i></button>
+                                    </form>
+                                </div>                                 
+                            </div>
+                        {% endfor %}
+                    {% endif %}
                     <hr>
                     {{ include('billing_line/_form.html.twig', {'button_label': 'Ajouter'}) }}
                     <hr>
-                    <form class='change-price-container' method="post" action="{{ path('intervention_report', {'id': intervention.id}) }}">
-                        <div class="input-group">
-                            <input class='px-2 border-0' type='text' name='new-total-price' value='{{ intervention.totalPrice }}' placeholder='Prix total' />
-                            <div class="input-group-append">
-                                <span class="input-group-text">€</span>
-                            </div>
-                            <button class='ml-2 px-2 grey-btn'>Modifier le prix total</button>
-                        </div>
-                    </form>
+                    <div class='f-20 font-weight-bold'>Total : {{ intervention.totalPrice }}€</div>
                 </div>
 
                 <div class='col-1'></div>

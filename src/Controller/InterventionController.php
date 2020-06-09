@@ -15,6 +15,7 @@ use App\Repository\ClientRepository;
 use App\Repository\BookletRepository;
 use App\Repository\SoftwareRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\BillingLineRepository;
 use App\Entity\SoftwareInterventionReport;
 use App\Repository\InterventionRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -181,7 +182,7 @@ class InterventionController extends AbstractController
     /**
      * @Route("/{id}/report", name="intervention_report", methods={"GET","POST"})
      */
-    public function report(Request $request, EntityManagerInterface $em, Intervention $intervention, SoftwareRepository $sr, BookletRepository $br, ActionRepository $ar, SoftwareInterventionReportRepository $sirr): Response
+    public function report(Request $request, EntityManagerInterface $em, Intervention $intervention, SoftwareRepository $sr, BookletRepository $br, ActionRepository $ar, SoftwareInterventionReportRepository $sirr, BillingLineRepository $blr): Response
     {
         $this->em = $em;
 
@@ -424,10 +425,14 @@ class InterventionController extends AbstractController
                 break;
             
             case 7:
-                if ($request->request->has('new-total-price')) {
+                if ($request->request->has('delete-billing-line')) {
+                    $billingLineId = $request->request->get('billing-line-id');
 
-                    $newTotalPrice = $request->request->get('new-total-price');
-                    $intervention->setTotalPrice($newTotalPrice);
+                    $billingLine = $blr->findOneById($billingLineId);
+                    $intervention->removeBillingLine($billingLine);
+
+                    $totalPrice = $this->atediHelper->strTotalPrice($intervention);
+                    $intervention->setTotalPrice($totalPrice);
 
                     $this->em->persist($intervention);
                     $this->em->flush();
@@ -441,19 +446,17 @@ class InterventionController extends AbstractController
 
                     $this->em = $em;
         
-                    $interventionsCollection = $ir->findAllByTask($task->getId());
-                    foreach ( $interventionsCollection as $intervention ) {
-                        if ( $intervention->getStatus() != 'Terminée' ) {
-                            $totalPrice = $this->atediHelper->strTotalPrice($intervention);
-                            $intervention->setTotalPrice($totalPrice);
-                            $this->em->persist($intervention);
-                        }
-                    }
-        
+                    $billingLine->setIntervention($intervention);
+                    $this->em->persist($billingLine);
                     $this->em->flush();
-                    
-                    return $this->redirectToRoute('task_show', [
-                        'id' => $task->getId(),
+
+                    $totalPrice = $this->atediHelper->strTotalPrice($intervention);
+                    $intervention->setTotalPrice($totalPrice);
+                    $this->em->persist($intervention);
+                    $this->em->flush();
+
+                    return $this->redirectToRoute('intervention_report', [
+                        'id' => $intervention->getId(),
                     ]);
                 }
                 break;
