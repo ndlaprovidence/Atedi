@@ -4,11 +4,12 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TaskRepository")
- * @ORM\Table(name="tbl_task")
+ * @UniqueEntity(fields={"title"}, message="Il existe une tâche avec ce nom")
  */
 class Task
 {
@@ -33,6 +34,11 @@ class Task
      * @ORM\Column(type="string", length=6)
      */
     private $color;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $price;
 
     public function __construct()
     {
@@ -97,6 +103,18 @@ class Task
     public function setColor(string $color): self
     {
         $this->color = $color;
+
+        return $this;
+    }
+
+    public function getPrice(): ?string
+    {
+        return $this->price;
+    }
+
+    public function setPrice(string $price): self
+    {
+        $this->price = $price;
 
         return $this;
     }

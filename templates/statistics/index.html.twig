@@ -10,16 +10,17 @@
     <script type="text/javascript">{{ chart(chart1) }}</script>
     <script type="text/javascript">{{ chart(chart2) }}</script>
     <script type="text/javascript">{{ chart(chart3) }}</script>
+    <script type="text/javascript">{{ chart(chart4) }}</script>
 {% endblock %}
 
 {% block body %}
     <div class='text-center mb-2'>	
-        <div class='h2'>Statistiques</div>
+        <div class='h2 font-weight-bold'>Statistiques</div>
     </div>
 
     <hr>
 
-    <div class='container index-list'>
+    <div class='container list'>
         <h4 class='text-center'>Nombre d'interventions : {{ interventions|length }}</h4>
         <div class='row justify-content-center mt-5'>
             <div class='col'><div class='chart' id="interventionTasks"></div></div>
@@ -27,6 +28,7 @@
         </div>
         <div class='row justify-content-center mt-5'>
             <div class='col'><div class='chart' id="interventionEquipment"></div></div>
+            <div class='col'><div class='chart' id="interventionOperatingSystems"></div></div>
         </div>
     </div>
 {% endblock %}

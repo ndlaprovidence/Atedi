@@ -1,0 +1,17 @@
+{{ form_start(form) }}
+
+    <div class="p-4 form container-background">
+        <div class="container">
+            <div class="row justify-content-md-center">
+                <div class='col-12 mb-3'>
+                    <h5>Titre</h5>            
+                    {{ form_errors(form.title) }}
+                    {{ form_widget(form.title) }}
+                </div>
+
+                <button class="green-btn py-2 px-4 mt-3">{{ button_label|default('Valider') }}</button>
+            </div>
+        </div>
+    </div>
+
+{{ form_end(form) }}

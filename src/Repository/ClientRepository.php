@@ -21,7 +21,10 @@ class ClientRepository extends ServiceEntityRepository
 
     public function findAll()
     {
-        return $this->findBy(array(), array('id' => 'DESC'));
+        return $this->findBy(
+            [],
+            ['id' => 'DESC'],
+        );
     }
 
     public function findLastInsertedClient()

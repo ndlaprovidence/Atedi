@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Task;
 use App\Form\TaskType;
+use App\Util\AtediHelper;
 use App\Repository\TaskRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\InterventionRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,6 +18,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  */
 class TaskController extends AbstractController
 {
+    public function __construct(AtediHelper $AtediHelper)
+    {
+        $this->atediHelper = $AtediHelper;
+    }
+
     /**
      * @Route("/", name="task_index", methods={"GET"})
      */
@@ -36,6 +43,7 @@ class TaskController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+    
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($task);
             $entityManager->flush();
@@ -71,13 +79,25 @@ class TaskController extends AbstractController
     /**
      * @Route("/{id}/edit", name="task_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Task $task): Response
+    public function edit(Request $request, Task $task, EntityManagerInterface $em, InterventionRepository $ir): Response
     {
         $form = $this->createForm(TaskType::class, $task);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+
+            $this->em = $em;
+
+            $interventionsCollection = $ir->findAllByTask($task->getId());
+            foreach ( $interventionsCollection as $intervention ) {
+                if ( $intervention->getStatus() != 'Terminée' ) {
+                    $totalPrice = $this->atediHelper->strTotalPrice($intervention);
+                    $intervention->setTotalPrice($totalPrice);
+                    $this->em->persist($intervention);
+                }
+            }
+
+            $this->em->flush();
             
             return $this->redirectToRoute('task_show', [
                 'id' => $task->getId(),

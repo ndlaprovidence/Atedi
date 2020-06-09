@@ -69,12 +69,34 @@ class Intervention
      */
     private $status;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $equipment_complete;
+
+    /**
+     * @ORM\OneToOne(targetEntity=InterventionReport::class, inversedBy="intervention", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $intervention_report;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $total_price;
+
+    /**
+     * @ORM\OneToMany(targetEntity=BillingLine::class, mappedBy="intervention")
+     */
+    private $billing_lines;
+
     public function __construct()
     {
         $this->technicians = new ArrayCollection();
         $this->tasks = new ArrayCollection();
         $this->setDepositDate(new \DateTime());
         $this->setStatus('En attente');
+        $this->billing_lines = new ArrayCollection();
     }
     
 
@@ -215,6 +237,73 @@ class Intervention
     public function setStatus(string $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getEquipmentComplete(): ?string
+    {
+        return $this->equipment_complete;
+    }
+
+    public function setEquipmentComplete(string $equipment_complete): self
+    {
+        $this->equipment_complete = $equipment_complete;
+
+        return $this;
+    }
+
+    public function getInterventionReport(): ?InterventionReport
+    {
+        return $this->intervention_report;
+    }
+
+    public function setInterventionReport(InterventionReport $intervention_report): self
+    {
+        $this->intervention_report = $intervention_report;
+
+        return $this;
+    }
+
+    public function getTotalPrice(): ?string
+    {
+        return $this->total_price;
+    }
+
+    public function setTotalPrice(string $total_price): self
+    {
+        $this->total_price = $total_price;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|BillingLine[]
+     */
+    public function getBillingLines(): Collection
+    {
+        return $this->billing_lines;
+    }
+
+    public function addBillingLine(BillingLine $billingLine): self
+    {
+        if (!$this->billing_lines->contains($billingLine)) {
+            $this->billing_lines[] = $billingLine;
+            $billingLine->setIntervention($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBillingLine(BillingLine $billingLine): self
+    {
+        if ($this->billing_lines->contains($billingLine)) {
+            $this->billing_lines->removeElement($billingLine);
+            // set the owning side to null (unless already changed)
+            if ($billingLine->getIntervention() === $this) {
+                $billingLine->setIntervention(null);
+            }
+        }
 
         return $this;
     }

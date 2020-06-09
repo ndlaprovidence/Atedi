@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>PDF - Intervention</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    </head>
+
+    <style type="text/css">
+        hr { margin: 5px 0 5px 0; }
+        .font-b{ font-weight: bold; }
+        .font-25 { font-size: 25px; }
+        .font-20 { font-size: 20px; }
+        .border-on { border: solid 1px #5c5c5c; }
+        .checkbox-container { overflow-wrap: break-word; }
+        .checkbox-item { margin: 15px; display: inline; }
+        .main-container { max-width: 703px; }
+        .header {
+            border: solid 1px #264653;
+            background-color: #264653;
+            color: #FFFFFF;
+        }
+        .container-2-2 {
+            width: 339px;
+            display: inline-block; 
+            vertical-align: top;
+        }
+        .container-1-3 {
+            width: 234px;
+            display: inline-block; 
+            vertical-align: top;
+        }
+        .container-2-3 {
+            width: 440px;
+            display: inline-block; 
+            vertical-align: top;
+        }
+        .w-100-title { 
+            color: #FFFFFF;
+            border: solid 1px #264653;
+            background-color: #264653;
+            text-align: center; 
+        }
+    </style>
+
+    <body>
+        <div class='main-container'>
+            <div class='p-1 header'>
+                <div class='text-center font-weight-bold'>DEMANDE D'INTERVENTION</div>
+            </div>
+
+            <div class='p-2 mt-1'>
+                <div class='container-2-2'>
+                    <div class='header'>
+                        <div class='text-center font-weight-bold'>Informations client</div>
+                    </div>
+                    <table class='w-100'>
+                        <tbody>
+                            <tr>
+                                <td class='border-on pr-2 text-center'>Client</td>
+                                <td class='border-on font-b font-20 pl-1'>{{ intervention.client }}</td>
+                            </tr>
+                            <tr>
+                                <td class='border-on pr-2 text-center'>Téléphone</td>
+                                <td class='border-on pl-1'>{{ intervention.client.phone }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class='container-2-2'>
+                    <div class='header'>
+                        <div class='text-center font-weight-bold'>Dates d'intervention</div>
+                    </div>
+                    <table class='w-100'>
+                        <tbody>
+                            <tr>
+                                <td class='border-on text-center'>Date de dépôt</td>
+                                <td class='border-on px-1'>{{ intervention.depositDate ? intervention.depositDate|date('d-m-Y') : "" }}</td>
+                            </tr>
+                            <tr>
+                                <td class='border-on text-center'>Date de restitution</td>
+                                <td class='border-on font-b font-20 px-1'>{{ intervention.returnDate ? intervention.returnDate|date('d-m-Y') : "" }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class='p-2'>
+                <div class='header'>
+                    <div class='text-center font-weight-bold'>Informations sur l'intervention</div>
+                </div>
+                <table class='w-100'>
+                    <tbody>
+                        <tr>
+                            <td class='border-on text-center'>Tâches</td>
+                            <td class='border-on font-b font-20 px-1'>{% for task in intervention.tasks %}{{ task }}{% if not loop.last %}, {% endif %}{% endfor %}</td>
+                        </tr>
+                        <tr>
+                            <td class='border-on text-center'>Commentaire</td>
+                            <td class='border-on px-1'>{{ intervention.comment }}</td>
+                        </tr>
+                        <tr>
+                            <td class='border-on text-center'>Techniciens</td>
+                            <td class='border-on font-b font-20 px-1'>{% for technician in intervention.technicians %}{{ technician }}{% if not loop.last %}, {% endif %}{% endfor %}</td>
+                        </tr>
+                        <tr>
+                            <td class='border-on text-center'>Équipement</td>
+                            <td class='border-on font-b font-20 px-1'>{{ intervention.equipment }} - {{ intervention.operatingSystem }}</td>
+                        </tr>
+                        <tr>
+                            <td class='border-on text-center'>Matériel complet</td>
+                            <td class='border-on px-1'>{{ intervention.equipmentComplete }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class='p-2'>
+                <div class='header'>
+                    <div class='text-center font-weight-bold'>Séverité de l'infection</div>
+                </div>
+                <table class='w-100'>
+                    <tbody>
+                        <tr>
+                            <td class='py-1 border-on text-center' colspan="2">[_]Matériel non infecté [_]Matériel légèrement infecté [_]Matériel dangereusement infecté</td>
+                        </tr>
+                        <tr>
+                            <td class='py-1 border-on px-2'>Type d'infection du matériel</td>
+                            <td class='py-1 border-on px-2'>[_]Virus ..... [_]Malwares ..... [_]Spywares</td>
+                        </tr>
+                        <tr>
+                            <td class='py-1 border-on px-2'>Logiciel de nettoyage utilisé(s)</td>
+                            <td class='py-1 border-on px-2'>
+                                {% for software in cleaningSoftwares %}
+                                    <div class='checkbox-item'>[_]{{ software }} {% if not loop.last %}.....{% endif %}</div>
+                                {% endfor %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class='mb-5 border-on px-2' colspan="2"><span class='font-weight-bold'>Analyse interne :</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class='p-2'>
+                <div class='header'>
+                    <div class='text-center font-weight-bold'>Actions effectué(s)</div>
+                </div>
+                <table class='w-100'>
+                    <tbody>
+                        <tr>
+                            <td class='mb-5 border-on px-2'><span class='font-weight-bold'>Logiciel installé(s) ou mis à jour :</span></td>
+                        </tr>
+                        <tr>
+                            <td class='py-1 border-on px-2 text-center'>
+                                {% for action in actions %}
+                                    <div class='checkbox-item'>[_]{{ action }} {% if not loop.last %}.....{% endif %}</div>
+                                {% endfor %}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            {% if isWindows(intervention.operatingSystem) %}
+                <div class='p-2'>
+                    <div class='header'>
+                        <div class='text-center font-weight-bold'>Sous-partie Windows</div>
+                    </div>
+                    <table class='w-100'>
+                        <tbody>
+                            <tr>
+                                <td class='py-1 border-on px-2 text-center' colspan='2'>[_]Installation des mises à jours Windows ..... [_]Installation des Service Pack Windows ..... [_]Activation Windows</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+
+            <div class='p-2'>
+                <div class='header'>
+                    <div class='text-center font-weight-bold'>Observations</div>
+                </div>
+            </div>
+
+        </div>
+    </body>
+</html>

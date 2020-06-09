@@ -1,0 +1,5 @@
+<form method="post" action="{{ path('booklet_delete', {'id': booklet.id}) }}" onsubmit="return confirm('Voulez-vous vraiment supprimer cette brochure ?');" class='d-inline'>
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ booklet.id) }}">
+    <button class="red-btn px-3">Supprimer</button>
+</form>
