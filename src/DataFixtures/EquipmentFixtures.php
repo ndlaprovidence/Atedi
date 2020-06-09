@@ -19,6 +19,14 @@ class EquipmentFixtures extends Fixture
         $data->setTitle('PC Fixe');
         $manager->persist($data);
 
+        $data = new Equipment();
+        $data->setTitle('Tablette');
+        $manager->persist($data);
+
+        $data = new Equipment();
+        $data->setTitle('Téléphone');
+        $manager->persist($data);
+
         $manager->flush();
     }
 }
