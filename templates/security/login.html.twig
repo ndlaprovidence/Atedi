@@ -4,12 +4,6 @@
 
 {% block body %}
 <form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
-
-
-
     <div class="w-50 mx-auto text-center sign-in row align-items-center">
         <div class="col"> 
             <h1 class="h1 my-5 font-weight-normal">Atedi</h1>
@@ -30,6 +24,10 @@
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
             <button class="green-btn py-2 text-center w-25" type="submit">Se connecter</button>
+
+            {% if error %}
+                <div class="alert alert-danger mt-5">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
         </div>
     </div>
 

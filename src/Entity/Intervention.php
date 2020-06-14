@@ -87,6 +87,7 @@ class Intervention
 
     /**
      * @ORM\OneToMany(targetEntity=BillingLine::class, mappedBy="intervention")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $billing_lines;
 

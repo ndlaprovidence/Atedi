@@ -109,7 +109,7 @@
                 <div class="container-background col p-4 content list">
                 {% if isWindows(intervention.operatingSystem.title) == true %}
                     <div class='row justify-content-center'>
-                        <div class='col-md-auto'><input class='mr-2' type="checkbox" name="windows-install[]" value="Installation des mises à jours Windows" />Installation des mises à jours Windows</div>
+                        <div class='col-md-auto'><input class='mr-2' type="checkbox" name="windows-install[]" value="Installation des mise à jours Windows" />Installation des mise à jours Windows</div>
                         <div class='col-md-auto'><input class='mr-2' type="checkbox" name="windows-install[]" value="Installation des Service Pack Windows" />Installation des Service Pack Windows</div>
                         <div class='col-md-auto'><input class='mr-2' type="checkbox" name="windows-install[]" value="Activation Windows" />Activation Windows</div>
                     </div>
@@ -212,13 +212,13 @@
                         <div class='comment p-2'><span class='font-weight-bold'>Sévérité</span> : {{ intervention.interventionReport.severity }}</div>
                         <div class='comment p-2 mt-2'><span class='font-weight-bold'>Analyse interne</span> : {{ intervention.interventionReport.internalAnalysis ?: "<span class='missing-info font-weight-bold'>Pas d'informations sur l'analyse interne</span>"}}</div>
                         <div class='row mt-2 data-row'>
-                            <div class='col-3'>Virus</div><div class='col-9'>{% if "Virus" in severityProblems %}<i class="fas add-btn fa-plus"></i>{% else %}<i class="fas fa-minus"></i>{% endif %}</div>
+                            <div class='col-3'>Virus</div><div class='col-9'>{% if "Virus" in severityProblems %}<i class="fas fa-plus"></i>{% else %}<i class="fas fa-minus"></i>{% endif %}</div>
                         </div>
                         <div class='row data-row'>
-                            <div class='col-3'>Malwares</div><div class='col-9'>{% if "Malwares" in severityProblems %}<i class="fas add-btn fa-plus"></i>{% else %}<i class="fas fa-minus"></i>{% endif %}</div>
+                            <div class='col-3'>Malwares</div><div class='col-9'>{% if "Malwares" in severityProblems %}<i class="fas fa-plus"></i>{% else %}<i class="fas fa-minus"></i>{% endif %}</div>
                         </div>
                         <div class='row'>
-                            <div class='col-3'>Spywares</div><div class='col-9'>{% if "Spywares" in severityProblems %}<i class="fas add-btn fa-plus"></i>{% else %}<i class="fas fa-minus"></i>{% endif %}</div>
+                            <div class='col-3'>Spywares</div><div class='col-9'>{% if "Spywares" in severityProblems %}<i class="fas fa-plus"></i>{% else %}<i class="fas fa-minus"></i>{% endif %}</div>
                         </div>
                     </div>
                     <div class="container-background col mb-auto p-4">

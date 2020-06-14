@@ -531,12 +531,19 @@ class InterventionController extends AbstractController
     /**
      * @Route("/{id}", name="intervention_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Intervention $intervention): Response
+    public function delete(Request $request, EntityManagerInterface $em, Intervention $intervention, BillingLineRepository $blr): Response
     {
         if ($this->isCsrfTokenValid('delete'.$intervention->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($intervention);
-            $entityManager->flush();
+
+            $billingLines = $blr->findAllByIntervention($intervention);
+            
+            foreach ($billingLines as $billingLine) {
+                $em->remove($billingLine);
+            }
+
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($intervention);
+            $em->flush();
         }
 
         return $this->redirectToRoute('intervention_index');
