@@ -36,7 +36,7 @@ Replace db_password with : (let it blank)
 
 Replace db_name with : **atedi**
 
-Finalyn go in the slamquiz directory with cmd and execute this line
+Finalyn go in the atedi directory with cmd and execute this line
 ```
 php bin/console doctrine:database:create
 ```
@@ -54,7 +54,7 @@ php bin/console doctrine:fixtures:load
 # Run
 Once you've installed everything, execute this line in the slamquiz directory :
 ```
-php bin/console server:run
+symfony server:start
 ```
 
 # Sign in
