@@ -101,6 +101,13 @@ class InterventionController extends AbstractController
                 switch ($newStatus) {
                     case "En attente":
                         $intervention->getInterventionReport()->setStep(1);
+                        $intervention->setStatus('En attente');
+                        $intervention->setReturnDate(null);
+                    break;
+
+                    case "En cours":
+                        $intervention->getInterventionReport()->setStep(1);
+                        $intervention->setStatus('En cours');
                         $intervention->setReturnDate(null);
                     break;
 
