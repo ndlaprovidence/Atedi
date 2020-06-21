@@ -56,6 +56,6 @@ You can access to your local server with localhost:8000
 # Sign in
 Next, you will have to connect with the default admin account.
 
-* Id : admin@gmail.com
+* Email : admin@gmail.com
 
 * Password : admin
