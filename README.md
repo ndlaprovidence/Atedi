@@ -19,10 +19,6 @@ composer install
 ```
 (Composer is free to download at this link : https://getcomposer.org/download/)
 
-If you've done it right, you should get this index page :
-
-![index](https://raw.githubusercontent.com/hochdyl/slamquiz/master/assets/screenshot_home.jpg)
-
 # Create database
 Start a DBMS like Wamp server (free to download at this link : http://www.wampserver.com/)
 
@@ -40,7 +36,6 @@ Finalyn go in the atedi directory with cmd and execute this line
 ```
 php bin/console doctrine:database:create
 ```
-
 
 # Load database
 There are some default user that you can load into a database. Open your CMD and copy this line :
@@ -60,22 +55,7 @@ symfony server:start
 # Sign in
 Next, you will have to connect with the user account. It is setup by default but you can remove it if wanted.
 
-First, click on "Sign in"
-
-![sign in](https://raw.githubusercontent.com/hochdyl/slamquiz/master/assets/sign.png)
-
 Then type the following id to connect as a user :
-* Id : user@gmail.com
-
-* Password : user
-
-![sign in](https://raw.githubusercontent.com/hochdyl/slamquiz/master/assets/user.png)
-
-There are 2 others account configure by default :
 * Id : admin@gmail.com
 
 * Password : admin
-
-* Id : superadmin@gmail.com
-
-* Password : superadmin
