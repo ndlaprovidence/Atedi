@@ -47,7 +47,7 @@ php bin/console doctrine:fixtures:load
 ```
 
 # Run
-Once you've installed everything, execute this line in the slamquiz directory :
+Once you've installed everything, execute this line in the atedi directory :
 ```
 symfony server:start
 ```
