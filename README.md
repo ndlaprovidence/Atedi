@@ -12,7 +12,7 @@ git clone https://github.com/SIOProjet/Atedi.git
 # Install
 When downlaod is complete, open your CMD copy this line :
 ```
-cd slamquiz
+cd atedi
 ```
 ```
 composer install
