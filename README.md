@@ -10,7 +10,7 @@ git clone https://github.com/SIOProjet/Atedi.git
 ```
 
 # Install
-When downlaod is complete, open your CMD copy this line :
+When download is complete, open your CMD copy these lines :
 ```
 cd atedi
 ```
