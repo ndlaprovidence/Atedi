@@ -1,5 +1,3 @@
-![build](https://api.travis-ci.org/hochdyl/slamquiz.svg?branch=master)
-
 ATEDI
 =========
 
