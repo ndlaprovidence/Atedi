@@ -97,33 +97,34 @@ class InterventionController extends AbstractController
             $newStatus = $request->request->get('status');
 
             if ($theStatus != $newStatus) {
-                $correct = true;
 
                 switch ($newStatus) {
                     case "En attente":
                         $intervention->getInterventionReport()->setStep(1);
-                        $intervention->setStatus('En attente');
+                        $intervention->setStatus($newStatus);
                         $intervention->setReturnDate(null);
                     break;
 
                     case "En cours":
                         $intervention->getInterventionReport()->setStep(1);
-                        $intervention->setStatus('En cours');
-                        $intervention->setReturnDate(null);
+                        $intervention->setStatus($newStatus);
+                        if ( $theStatus == "Terminée" ) {
+                            $intervention->setReturnDate(null);
+                        }
                     break;
 
                     case "Terminée":
-                        if ( $intervention->getInterventionReport()->getStep() != 7 ) {
-                            $correct = false;
+                        if ( $intervention->getInterventionReport()->getStep() == 8 && $intervention->getReturnDate() ) {
+                            $intervention->setStatus($newStatus);
+                            $this->em->persist($intervention);
+                            $this->em->flush();
+                            return $this->redirectToRoute('index');
                         }
                         break;
                 }
         
-                if ($correct) {
-                    $intervention->setStatus($newStatus);
-                    $this->em->persist($intervention);
-                    $this->em->flush();
-                }
+                $this->em->persist($intervention);
+                $this->em->flush();
             }
         }
 

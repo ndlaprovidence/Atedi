@@ -192,24 +192,40 @@
                     <div class='f-20 font-weight-bold'>Total : {{ intervention.totalPrice }}€</div>
                 </div>
 
-                <div class='col-1'></div>
-
-                <div class="container-background col-3 mb-auto p-4">
-                    {% set booklets = intervention.interventionReport.booklets %}
-                    {% set hasBooklet = false %}
-                    <div class='f-20 text-center font-weight-bold'>Brochures à donner</div>
-                    <hr>
-                    <div class="row tab-head">
-                        <div class="col-12">Titre</div>
+                <div class='d-flex flex-column col-4'>
+                    <div class="container-background col p-4 mb-3">
+                        {% set technicians = intervention.interventionReport.technicians %}
+                        <div class='f-20 text-center font-weight-bold'>Technicien(s)</div>
+                        <hr>
+                        <div class="row tab-head">
+                            <div class="col-6">Nom</div>
+                            <div class="col-6">Prénom</div>
+                        </div>
+                        <div class='h-100 row mt-2'>
+                        {% for technician in technicians %}
+                            <div class="data-row col-6">{{ technician.lastName }}</div>
+                            <div class="data-row col-6">{{ technician.firstName }}</div>
+                        {% endfor %}
+                        </div>
                     </div>
-                    <div class='h-100 row mt-2'>
-                    {% for booklet in booklets %}
-                        {% set hasBooklet = true %}
-                        <div class="data-row col-12">{{ booklet }}</div>
-                    {% endfor %}
-                    {% if hasBooklet == false %}
-                        <div class='col-12 text-center mx-auto missing-info font-weight-bold'>Aucune brochure à donner</div>
-                    {% endif %}
+
+                    <div class="container-background col p-4">
+                        {% set booklets = intervention.interventionReport.booklets %}
+                        {% set hasBooklet = false %}
+                        <div class='f-20 text-center font-weight-bold'>Brochures à donner</div>
+                        <hr>
+                        <div class="row tab-head">
+                            <div class="col-12">Titre</div>
+                        </div>
+                        <div class='h-100 row mt-2'>
+                        {% for booklet in booklets %}
+                            {% set hasBooklet = true %}
+                            <div class="data-row col-12">{{ booklet }}</div>
+                        {% endfor %}
+                        {% if hasBooklet == false %}
+                            <div class='col-12 text-center mx-auto missing-info font-weight-bold'>Aucune brochure à donner</div>
+                        {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>
