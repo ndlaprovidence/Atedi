@@ -51,7 +51,7 @@
                 <div class='text-center font-weight-bold'>DEMANDE D'INTERVENTION</div>
             </div>
 
-            <div class='p-2 mt-1'>
+            <div class='p-2 mt-5'>
                 <div class='container-2-2'>
                     <div class='header'>
                         <div class='text-center font-weight-bold'>Informations client</div>
@@ -78,25 +78,25 @@
                         <tbody>
                             <tr>
                                 <td class='border-on text-center'>Date de dépôt</td>
-                                <td class='border-on px-1'>{{ intervention.depositDate ? intervention.depositDate|date('d-m-Y') : "" }}</td>
+                                <td class='border-on px-1'>{{ intervention.depositDate ? intervention.depositDate|date('d/m/Y') : "" }}</td>
                             </tr>
                             <tr>
                                 <td class='border-on text-center'>Date de restitution</td>
-                                <td class='border-on font-b font-20 px-1'>{{ intervention.returnDate ? intervention.returnDate|date('d-m-Y') : "" }}</td>
+                                <td class='border-on font-b font-20 px-1'>{{ intervention.returnDate ? intervention.returnDate|date('d/m/Y') : "" }}</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
 
-            <div class='p-2 page-break'>
+            <div class='p-2 mt-3 page-break'>
                 <div class='header'>
                     <div class='text-center font-weight-bold'>Informations sur l'intervention</div>
                 </div>
                 <table class='w-100'>
                     <tbody>
                         <tr>
-                            <td class='border-on text-center'>Tâches</td>
+                            <td class='border-on text-center'>Tâche(s)</td>
                             <td class='border-on font-b font-20 px-1'>{% for task in intervention.tasks %}{{ task }}{% if not loop.last %}, {% endif %}{% endfor %}</td>
                         </tr>
                         <tr>
@@ -105,7 +105,11 @@
                         </tr>
                         <tr>
                             <td class='border-on text-center'>Équipement</td>
-                            <td class='border-on font-b font-20 px-1'>{{ intervention.equipment }} - {{ intervention.operatingSystem }}</td>
+                            <td class='border-on font-b font-20 px-1'>{{ intervention.equipment }}</td>
+                        </tr>
+                        <tr>
+                            <td class='border-on text-center'>Système d'exploitation</td>
+                            <td class='border-on px-1'>{{ intervention.operatingSystem }}</td>
                         </tr>
                         <tr>
                             <td class='border-on text-center'>Matériel complet</td>
@@ -119,9 +123,9 @@
                 <div class='text-center font-weight-bold'>TRAITEMENT DE L'INTERVENTION</div>
             </div>
 
-            <div class='p-2'>
+            <div class='p-2 mt-5'>
                 <div class='header'>
-                    <div class='text-center font-weight-bold'>Séverité de l'infection</div>
+                    <div class='text-center font-weight-bold'>Sévérité de l'infection</div>
                 </div>
                 <table class='w-100'>
                     <tbody>
@@ -147,7 +151,7 @@
                 </table>
             </div>
 
-            <div class='p-2'>
+            <div class='p-2 mt-3'>
                 <div class='header'>
                     <div class='text-center font-weight-bold'>Actions effectué(s)</div>
                 </div>
@@ -182,7 +186,7 @@
                 </div>
             {% endif %}
 
-            <div class='p-2'>
+            <div class='p-2 mt-3'>
                 <div class='header'>
                     <div class='text-center font-weight-bold'>Observations</div>
                 </div>

@@ -178,6 +178,8 @@ class InterventionController extends AbstractController
                     $interventionReportId = $intervention->getInterventionReport()->getId();
                     $softwares = $sirr->findAllByReport($interventionReportId);
                     $actions = $intervention->getInterventionReport()->getActions();
+                    $booklets = $intervention->getInterventionReport()->getBooklets();
+                    $technicians = $intervention->getInterventionReport()->getTechnicians();
 
                     // Configure Dompdf according to your needs
                     $pdfOptions = new Options();
@@ -191,6 +193,8 @@ class InterventionController extends AbstractController
                         'intervention' => $intervention,
                         'softwares' => $softwares,
                         'actions' => $actions,
+                        'booklets' => $booklets,
+                        'technicians' => $technicians,
                     ]);
 
                     // Load HTML to Dompdf

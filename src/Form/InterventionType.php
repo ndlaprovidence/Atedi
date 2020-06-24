@@ -26,7 +26,7 @@ class InterventionType extends AbstractType
                 'class' => Client::class,
                 'query_builder' => function (ClientRepository $cr) {
                     return $cr->createQueryBuilder('c')
-                        ->orderBy('c.id', 'DESC');
+                        ->orderBy('c.last_name', 'ASC');
                 }
             ])
             ->add('operating_system', EntityType::class, [
