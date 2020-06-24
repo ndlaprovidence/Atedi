@@ -40,8 +40,10 @@ class TechnicianController extends AbstractController
             $entityManager->persist($technician);
             $entityManager->flush();
 
-            if ( $request->query->has('s') == 'intervention') {
-                return $this->redirectToRoute('intervention_new');
+            if ( $request->query->has('s') == 'report') {
+                return $this->redirectToRoute('intervention_report', [
+                    'id' => $request->query->get('id'),
+                ]);
             }
             
             return $this->redirectToRoute('technician_show', [

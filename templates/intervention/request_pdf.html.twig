@@ -41,6 +41,8 @@
             background-color: #264653;
             text-align: center; 
         }
+        .page-break { page-break-after: always; }
+        .large-mb { margin-bottom: 5rem!important; }
     </style>
 
     <body>
@@ -87,7 +89,7 @@
                 </div>
             </div>
 
-            <div class='p-2'>
+            <div class='p-2 page-break'>
                 <div class='header'>
                     <div class='text-center font-weight-bold'>Informations sur l'intervention</div>
                 </div>
@@ -102,10 +104,6 @@
                             <td class='border-on px-1'>{{ intervention.comment }}</td>
                         </tr>
                         <tr>
-                            <td class='border-on text-center'>Techniciens</td>
-                            <td class='border-on font-b font-20 px-1'>{% for technician in intervention.technicians %}{{ technician }}{% if not loop.last %}, {% endif %}{% endfor %}</td>
-                        </tr>
-                        <tr>
                             <td class='border-on text-center'>Équipement</td>
                             <td class='border-on font-b font-20 px-1'>{{ intervention.equipment }} - {{ intervention.operatingSystem }}</td>
                         </tr>
@@ -115,6 +113,10 @@
                         </tr>
                     </tbody>
                 </table>
+            </div>
+
+            <div class='p-1 header'>
+                <div class='text-center font-weight-bold'>TRAITEMENT DE L'INTERVENTION</div>
             </div>
 
             <div class='p-2'>
@@ -152,7 +154,7 @@
                 <table class='w-100'>
                     <tbody>
                         <tr>
-                            <td class='mb-5 border-on px-2'><span class='font-weight-bold'>Logiciel installé(s) ou mis à jour :</span></td>
+                            <td class='large-mb border-on px-2'><span class='font-weight-bold'>Logiciel installé(s) ou mis à jour :</span></td>
                         </tr>
                         <tr>
                             <td class='py-1 border-on px-2 text-center'>

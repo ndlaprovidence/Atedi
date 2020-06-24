@@ -35,13 +35,13 @@ class Technician
     private $email;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Intervention", mappedBy="technicians")
+     * @ORM\ManyToMany(targetEntity=InterventionReport::class, mappedBy="technicians")
      */
-    private $interventions;
+    private $interventionReports;
 
     public function __construct()
     {
-        $this->interventions = new ArrayCollection();
+        $this->interventionReports = new ArrayCollection();
     }
 
     public function __toString()
@@ -91,28 +91,28 @@ class Technician
     }
 
     /**
-     * @return Collection|Intervention[]
+     * @return Collection|InterventionReport[]
      */
-    public function getInterventions(): Collection
+    public function getInterventionReports(): Collection
     {
-        return $this->interventions;
+        return $this->interventionReports;
     }
 
-    public function addIntervention(Intervention $intervention): self
+    public function addInterventionReport(InterventionReport $interventionReport): self
     {
-        if (!$this->interventions->contains($intervention)) {
-            $this->interventions[] = $intervention;
-            $intervention->addTechnician($this);
+        if (!$this->interventionReports->contains($interventionReport)) {
+            $this->interventionReports[] = $interventionReport;
+            $interventionReport->addTechnician($this);
         }
 
         return $this;
     }
 
-    public function removeIntervention(Intervention $intervention): self
+    public function removeInterventionReport(InterventionReport $interventionReport): self
     {
-        if ($this->interventions->contains($intervention)) {
-            $this->interventions->removeElement($intervention);
-            $intervention->removeTechnician($this);
+        if ($this->interventionReports->contains($interventionReport)) {
+            $this->interventionReports->removeElement($interventionReport);
+            $interventionReport->removeTechnician($this);
         }
 
         return $this;

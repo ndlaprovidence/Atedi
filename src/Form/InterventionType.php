@@ -50,7 +50,6 @@ class InterventionType extends AbstractType
                 ],
             ])
             ->add('comment')
-            ->add('technicians')
             ->add('tasks')
             ->add('return_date', DateType::class, [
                 'widget' => 'single_text',

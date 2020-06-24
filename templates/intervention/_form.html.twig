@@ -14,15 +14,6 @@
                     </div>
 
                     <div class='col row'>
-                        {% if app.request.attributes.get('_route') != 'intervention_edit' %}
-                            <a class='my-auto' href="{{ path('operating_system_new', {'s': 'intervention'}) }}"><i class="fas add-btn fa-plus-circle fa-lg mr-2"></i></a>
-                        {% endif %}
-                        <h5 class='my-auto'>Système d'exploitation</h5>            
-                        {{ form_errors(form.operating_system) }}
-                        {{ form_widget(form.operating_system, {'attr': {'class': 'mb-3'}}) }}
-                    </div>
-
-                    <div class='col row'>
                         <div class='col row'>
                             {% if app.request.attributes.get('_route') != 'intervention_edit' %}
                                 <a class='my-auto' href="{{ path('equipment_new', {'s': 'intervention'}) }}"><i class="fas add-btn fa-plus-circle fa-lg mr-2"></i></a>
@@ -39,23 +30,16 @@
                     </div>
 
                     <div class='col row'>
-                        <h5 class='my-auto'>Commentaire</h5>
-                        {{ form_errors(form.comment) }}
-                        {{ form_widget(form.comment, {'attr': {'class': 'mb-3', 'placeholder': 'Observations supplémentaires (facultatif)', 'rows': '5'}}) }}
+                        {% if app.request.attributes.get('_route') != 'intervention_edit' %}
+                            <a class='my-auto' href="{{ path('operating_system_new', {'s': 'intervention'}) }}"><i class="fas add-btn fa-plus-circle fa-lg mr-2"></i></a>
+                        {% endif %}
+                        <h5 class='my-auto'>Système d'exploitation</h5>            
+                        {{ form_errors(form.operating_system) }}
+                        {{ form_widget(form.operating_system, {'attr': {'class': 'mb-3'}}) }}
                     </div>
                 </div>
 
                 <div class='col-4'>
-                    <div class='col row'>
-                        {% if app.request.attributes.get('_route') != 'intervention_edit' %}
-                            <a class='my-auto' href="{{ path('technician_new', {'s': 'intervention'}) }}"><i class="fas add-btn fa-plus-circle fa-lg mr-2"></i></a>
-                        {% endif %}
-                        
-                        <h5 class='my-auto'>Technicien(s)</h5>            
-                        {{ form_errors(form.technicians) }}
-                        {{ form_widget(form.technicians, {'attr': {'class': 'mb-3', 'required': 'required'}}) }}
-                    </div>
-
                     <div class='col row'>
                         {% if app.request.attributes.get('_route') != 'intervention_edit' %}
                             <a class='my-auto' href="{{ path('task_new', {'s': 'intervention'}) }}"><i class="fas add-btn fa-plus-circle fa-lg mr-2"></i></a>
@@ -66,9 +50,17 @@
                     </div>
 
                     <div class='col row'>
-                        <h5 class='my-auto'>Date de retour</h5>            
+                        <h5 class='my-auto'>Date de retour <span class='h6 font-italic'>(facultatif)<span></h5>            
                         {{ form_errors(form.return_date) }}
                         {{ form_widget(form.return_date, {'attr': {'class': 'mb-3'}}) }}
+                    </div>
+                </div>
+
+                <div class='col-12'>
+                    <div class='col row'>
+                        <h5 class='my-auto'>Commentaire <span class='h6 font-italic'>(facultatif)<span></h5>
+                        {{ form_errors(form.comment) }}
+                        {{ form_widget(form.comment, {'attr': {'class': 'mb-3', 'placeholder': 'Observations supplémentaires', 'rows': '5'}}) }}
                     </div>
                 </div>
 

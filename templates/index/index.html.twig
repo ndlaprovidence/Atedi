@@ -44,9 +44,13 @@
                                 {% endfor %}
                             </div>
                             <div class="interv-sub-info">
-                                {% for technician in intervention.technicians %}
-                                    {{ technician }}{% if not loop.last %}, {% endif %}
-                                {% endfor %}
+                                {% if intervention.interventionReport.technicians|length > 0 %}
+                                    {% for technician in intervention.interventionReport.technicians %}
+                                        {{ technician }}{% if not loop.last %}, {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                    <div class='missing-info'>Aucun technicien(s) assigné(s)</div>
+                                {% endif %}
                             </div>
                         </div>
                     </div>

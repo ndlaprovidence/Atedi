@@ -93,7 +93,7 @@
                     </div>
                 </div>
                 <hr>
-                {% if (intervention.status == 'En cours') and (intervention.interventionReport.step == 7) %}
+                {% if (intervention.status == 'En cours') and (intervention.interventionReport.step == 8) %}
                     <div class='row mb-2'>
                         <div class='col-md-auto my-auto'>
                             <i class="fas fa-copy info-btn-75 fa-lg float-left" id='copyButton'>                                
@@ -153,9 +153,13 @@
                         <div class='col-md-auto my-auto'><i class="fas fa-users-cog"></i></div>
                         <div class='col'>
                             <div>
-                                {% for technician in intervention.technicians %}
-                                    {{ technician }}{% if not loop.last %}, {% endif %}
-                                {% endfor %}
+                                {% if intervention.interventionReport.technicians|length > 0 %}
+                                    {% for technician in intervention.interventionReport.technicians %}
+                                        {{ technician }}{% if not loop.last %}, {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                    <div class='missing-info'>Aucun technicien(s) assigné(s)</div>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -185,7 +189,6 @@
             </div>
 
 
-        {% if intervention.status != 'En attente' %}
             <div class='d-flex flex-column col-md-auto mb-auto'>
                 <div class="container-background mb-5 p-4">
                     <div class='f-20 text-center font-weight-bold'>Demande d'intervention</div>
@@ -216,8 +219,6 @@
                 {% endif %}
 
             </div>
-
-        {% endif %}
         </div>
     </div>
     

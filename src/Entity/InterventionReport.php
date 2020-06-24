@@ -70,12 +70,18 @@ class InterventionReport
      */
     private $internal_analysis;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Technician::class, inversedBy="interventionReports")
+     */
+    private $technicians;
+
     public function __construct()
     {
         $this->softwares = new ArrayCollection();
         $this->booklets = new ArrayCollection();
         $this->actions = new ArrayCollection();
         $this->softwareInterventionReports = new ArrayCollection();
+        $this->technicians = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -251,6 +257,32 @@ class InterventionReport
     public function setInternalAnalysis(?string $internal_analysis): self
     {
         $this->internal_analysis = $internal_analysis;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Technician[]
+     */
+    public function getTechnicians(): Collection
+    {
+        return $this->technicians;
+    }
+
+    public function addTechnician(Technician $technician): self
+    {
+        if (!$this->technicians->contains($technician)) {
+            $this->technicians[] = $technician;
+        }
+
+        return $this;
+    }
+
+    public function removeTechnician(Technician $technician): self
+    {
+        if ($this->technicians->contains($technician)) {
+            $this->technicians->removeElement($technician);
+        }
 
         return $this;
     }
