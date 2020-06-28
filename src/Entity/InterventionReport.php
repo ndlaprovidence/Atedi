@@ -75,6 +75,11 @@ class InterventionReport
      */
     private $technicians;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $windows_version;
+
     public function __construct()
     {
         $this->softwares = new ArrayCollection();
@@ -283,6 +288,18 @@ class InterventionReport
         if ($this->technicians->contains($technician)) {
             $this->technicians->removeElement($technician);
         }
+
+        return $this;
+    }
+
+    public function getWindowsVersion(): ?string
+    {
+        return $this->windows_version;
+    }
+
+    public function setWindowsVersion(?string $windows_version): self
+    {
+        $this->windows_version = $windows_version;
 
         return $this;
     }

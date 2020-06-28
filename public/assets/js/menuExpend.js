@@ -14,4 +14,18 @@ $( document ).ready(function() {
             $('.more-content').slideToggle(300);
         }
     });
+
+    $("#windowsVersionCheckbox").change( function() {
+        $('.more-content').slideToggle(300);
+        $('input:text').val('');
+        $('#windowsVersion').prop('required',true);
+
+        if ($('#windowsVersion').prop('required',true)) {
+            $('#windowsVersion').removeAttr('required');​​​​​
+        }
+        // } 
+        // else {
+        //     $('#windowsVersion').prop('required',true);
+        // }
+    });
 });

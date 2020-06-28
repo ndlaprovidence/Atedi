@@ -9,6 +9,7 @@ use App\Repository\InterventionRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Repository\InterventionReportRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
@@ -60,9 +61,9 @@ class TechnicianController extends AbstractController
     /**
      * @Route("/{id}", name="technician_show", methods={"GET"})
      */
-    public function show(Technician $technician, InterventionRepository $interventionRepository): Response
+    public function show(Technician $technician, InterventionReportRepository $interventionReportRepository): Response
     {
-        $interventions = $interventionRepository->findAllByTechnician($technician->getId());
+        $interventions = $interventionReportRepository->findAllByTechnician($technician->getId());
 
         return $this->render('technician/show.html.twig', [
             'technician' => $technician,
