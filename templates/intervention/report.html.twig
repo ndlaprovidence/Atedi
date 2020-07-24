@@ -65,7 +65,8 @@
                             <div class='col-md-auto'><input class='mr-2' type="checkbox" name="severity-problem[]" value="Malwares" />Malwares</div>
                             <div class='col-md-auto'><input class='mr-2' type="checkbox" name="severity-problem[]" value="Spywares" />Spywares</div>
                         </div>
-                        <input class='w-100 my-3 p-2' type="text" id="internalAnalysis" name="internal-analysis" placeholder="Analyse interne">
+                        <h5>Analyse interne <span class='h6 font-italic'>(facultatif)<span></h5>
+                        <input class='w-100 mb-3 p-2' type="text" id="internalAnalysis" name="internal-analysis">
                         <input class='w-100 mb-3 p-2' type="text" id="searchBar" placeholder="Rechercher un logiciel">
                         {% for software in softwares %}
                             <div class='data-row row'>
@@ -125,14 +126,12 @@
                 </div>
                 <div class="container-background col p-4 content list">
                 {% if isWindows(intervention.operatingSystem.title) == true %}
-                    <div class='row justify-content-center'>
-                        <div class='col-md-auto'>
-                            <div class="d-flex flex-column">
-                                <div><input class='mr-2 mb-3' id="windowsVersionCheckbox" type="checkbox" name="windows-install[]" value="Installation des mise à jours Windows" />Installation des mise à jours Windows</div>
-                                <div class='more-content' id="windowsVersionInput"><input class='w-100' id="windowsVersion" type="text" name="windows-version" placeholder="Numéro de version"/></div>
-                            </div>
+                    <div class='row justify-content-center text-center my-auto'>
+                        <div class="col-auto d-flex flex-column">
+                            <div><input class='mr-2' id="windowsVersionCheckbox" type="checkbox" name="windows-install[]" value="Installation de(s) mise(s) à jour Windows" />Installation de(s) mise(s) à jour Windows</div>
+                            <div class='more-content' id="windowsVersionContainer"><input class='w-100' id="windowsVersionInput" name="windows-version" type="text" placeholder="Numéro de(s) version(s)"></div>
                         </div>
-                        <div class='col-md-auto'><input class='mr-2' type="checkbox" name="windows-install[]" value="Activation Windows" />Activation Windows</div>
+                        <div class="col-auto"><input class='mr-2' type="checkbox" name="windows-install[]" value="Activation Windows" />Activation Windows</div>
                     </div>
                 {% else %}
                     <div class='row justify-content-center missing-info font-weight-bold'>Le matériel ne concerne pas un Windows ({{ intervention.operatingSystem }})</div>

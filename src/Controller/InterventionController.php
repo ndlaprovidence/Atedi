@@ -312,6 +312,7 @@ class InterventionController extends AbstractController
                 foreach ( $irSoftwares as $ele ) {
                     $this->em->remove($ele);
                 }
+                $interventionReport->setInternalAnalysis(NULL);
                 $this->em->flush();
 
                 $softwares = $sr->findAllByType('Nettoyage');
@@ -431,13 +432,20 @@ class InterventionController extends AbstractController
                 break;
 
             case 5:
-                $intervention->getInterventionReport()->setWindowsInstall([]);
+                $interventionReport->setWindowsInstall([]);
+                $interventionReport->setWindowsVersion(NULL);
+                $this->em->flush();
 
                 if ($request->request->has('data')) {
 
                     if ($request->request->has('windows-install')) {
                         $windowsInstalls = $request->request->get('windows-install');
                         $interventionReport->setWindowsInstall($windowsInstalls);
+                    }
+
+                    if ($request->request->has('windows-version')) {
+                        $windowsVersion = $request->request->get('windows-version');
+                        $interventionReport->setWindowsVersion($windowsVersion);
                     }
 
                     $interventionReport->setStep($step+1);
@@ -479,6 +487,8 @@ class InterventionController extends AbstractController
                 break;
 
             case 7:
+                $interventionReport->setComment(NULL);
+
                 if ($request->request->has('data')) {
 
                     if ($request->request->has('comment')) {

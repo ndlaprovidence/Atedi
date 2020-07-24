@@ -129,7 +129,12 @@
                                 <div class='w-100 list-ele pl-2'>{{ action }}</div>
                             {% endfor %}
                             {% for windowsInstall in intervention.interventionReport.windowsInstall %}
-                                <div class='w-100 list-ele pl-2'>{{ windowsInstall }}</div>
+                                <div class='w-100 list-ele pl-2'>
+                                    {{ windowsInstall }}
+                                    {% if windowsInstall == "Installation de(s) mise(s) à jour Windows" %}
+                                        : {{ intervention.interventionReport.windowsVersion }}
+                                    {% endif %}
+                                </div>
                             {% endfor %}
                         {% else %}
                             <div class='w-100 text-center py-1'>Pas d'opération(s) effectuée(s)</div>

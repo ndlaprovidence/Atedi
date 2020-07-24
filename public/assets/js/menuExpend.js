@@ -15,17 +15,10 @@ $( document ).ready(function() {
         }
     });
 
-    $("#windowsVersionCheckbox").change( function() {
-        $('.more-content').slideToggle(300);
-        $('input:text').val('');
-        $('#windowsVersion').prop('required',true);
-
-        if ($('#windowsVersion').prop('required',true)) {
-            $('#windowsVersion').removeAttr('required');​​​​​
+    $('#windowsVersionCheckbox').change( function(){
+        if ($(".more-content").is(":visible") ) {
+            $("#windowsVersionInput").val('');
         }
-        // } 
-        // else {
-        //     $('#windowsVersion').prop('required',true);
-        // }
+        $('.more-content').slideToggle(300);
     });
 });
