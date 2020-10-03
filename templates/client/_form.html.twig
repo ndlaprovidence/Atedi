@@ -23,7 +23,7 @@
                     </div>
 
                     <div class='col row'>
-                        <h5>Email</h5>
+                        <h5>Email <span class='h6 font-italic'>(facultatif)<span></h5>
                         {{ form_errors(form.email) }}
                         {{ form_widget(form.email, {'attr': {'class': 'mb-3'}}) }}
                     </div>
@@ -31,19 +31,19 @@
 
                 <div class='col-6'>
                     <div class='col row'>
-                        <h5>Adresse</h5>            
+                        <h5>Adresse <span class='h6 font-italic'>(facultatif)<span></h5>            
                         {{ form_errors(form.street) }}
                         {{ form_widget(form.street, {'attr': {'class': 'mb-3'}}) }}
                     </div>
 
                     <div class='col row'>
-                        <h5>Ville</h5>            
+                        <h5>Ville <span class='h6 font-italic'>(facultatif)<span></h5>            
                         {{ form_errors(form.city) }}
                         {{ form_widget(form.city, {'attr': {'class': 'mb-3'}}) }}
                     </div>
 
                     <div class='col row'>
-                        <h5>Code postal</h5>            
+                        <h5>Code postal <span class='h6 font-italic'>(facultatif)<span></h5>            
                         {{ form_errors(form.postal_code) }}
                         {{ form_widget(form.postal_code, {'attr': {'class': 'mb-3'}}) }}
                     </div>

@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=BillingLineRepository::class)
+ * @ORM\Table(name="tbl_billing_line")
  */
 class BillingLine
 {

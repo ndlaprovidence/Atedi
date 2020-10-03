@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=BookletRepository::class)
  * @UniqueEntity(fields={"title"}, message="Il existe déjà une brochure avec ce nom")
+ * @ORM\Table(name="tbl_booklet")
  */
 class Booklet
 {

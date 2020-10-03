@@ -9,6 +9,7 @@ use App\Repository\InterventionRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Repository\InterventionReportRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
@@ -40,8 +41,10 @@ class TechnicianController extends AbstractController
             $entityManager->persist($technician);
             $entityManager->flush();
 
-            if ( $request->query->has('s') == 'intervention') {
-                return $this->redirectToRoute('intervention_new');
+            if ( $request->query->has('s') == 'report') {
+                return $this->redirectToRoute('intervention_report', [
+                    'id' => $request->query->get('id'),
+                ]);
             }
             
             return $this->redirectToRoute('technician_show', [
@@ -58,9 +61,9 @@ class TechnicianController extends AbstractController
     /**
      * @Route("/{id}", name="technician_show", methods={"GET"})
      */
-    public function show(Technician $technician, InterventionRepository $interventionRepository): Response
+    public function show(Technician $technician, InterventionReportRepository $interventionReportRepository): Response
     {
-        $interventions = $interventionRepository->findAllByTechnician($technician->getId());
+        $interventions = $interventionReportRepository->findAllByTechnician($technician->getId());
 
         return $this->render('technician/show.html.twig', [
             'technician' => $technician,

@@ -19,4 +19,14 @@ class InterventionReportRepository extends ServiceEntityRepository
         parent::__construct($registry, InterventionReport::class);
     }
     
+    public function findAllByTechnician($id)
+    {
+        return $this->createQueryBuilder('ir')
+            ->andWhere(':id MEMBER OF ir.technicians')
+            ->setParameter('id', $id)
+            ->orderBy('ir.id', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

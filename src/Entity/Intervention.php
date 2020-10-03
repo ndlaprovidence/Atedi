@@ -47,12 +47,6 @@ class Intervention
     private $equipment;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Technician", inversedBy="interventions")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $technicians;
-
-    /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Task", inversedBy="interventions")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -87,12 +81,12 @@ class Intervention
 
     /**
      * @ORM\OneToMany(targetEntity=BillingLine::class, mappedBy="intervention")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $billing_lines;
 
     public function __construct()
     {
-        $this->technicians = new ArrayCollection();
         $this->tasks = new ArrayCollection();
         $this->setDepositDate(new \DateTime());
         $this->setStatus('En attente');
@@ -161,32 +155,6 @@ class Intervention
     public function setEquipment(?Equipment $equipment): self
     {
         $this->equipment = $equipment;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Technician[]
-     */
-    public function getTechnicians(): Collection
-    {
-        return $this->technicians;
-    }
-
-    public function addTechnician(Technician $technician): self
-    {
-        if (!$this->technicians->contains($technician)) {
-            $this->technicians[] = $technician;
-        }
-
-        return $this;
-    }
-
-    public function removeTechnician(Technician $technician): self
-    {
-        if ($this->technicians->contains($technician)) {
-            $this->technicians->removeElement($technician);
-        }
 
         return $this;
     }
