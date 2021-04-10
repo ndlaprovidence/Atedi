@@ -36,4 +36,14 @@ class BillingLineRepository extends ServiceEntityRepository
             ->getSingleResult()
         ;
     }
+
+    public function findAllByIntervention($id)
+    {
+        return $this->createQueryBuilder('bl')
+            ->andWhere("bl.intervention = :id")
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

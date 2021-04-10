@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\EquipmentRepository")
- * @UniqueEntity(fields={"email"}, message="Il existe déjà un matériel avec ce nom")
+ * @UniqueEntity(fields={"title"}, message="Il existe déjà un matériel avec ce nom")
  * @ORM\Table(name="tbl_equipment")
  */
 class Equipment

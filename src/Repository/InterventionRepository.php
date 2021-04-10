@@ -100,15 +100,4 @@ class InterventionRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
-
-    public function findAllByTechnician($id)
-    {
-        return $this->createQueryBuilder('i')
-            ->andWhere(':id MEMBER OF i.technicians')
-            ->setParameter('id', $id)
-            ->orderBy('i.id', 'DESC')
-            ->getQuery()
-            ->getResult()
-        ;
-    }
 }
