@@ -19,6 +19,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\BillingLineRepository;
 use App\Entity\SoftwareInterventionReport;
 use App\Repository\InterventionRepository;
+use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -118,9 +119,51 @@ class InterventionController extends AbstractController
                             $intervention->setStatus($newStatus);
                             $this->em->persist($intervention);
                             $this->em->flush();
+                            
+                            ////////////////////////////////////////////////////////////////
+                            // @TODO à retirer
+                            // UPDATE tbl_intervention SET STATUS='En cours' WHERE id = 2;
+                            ////////////////////////////////////////////////////////////////
 
-                            // Send invoice to Dolibarr
                             $this->addFlash('success', 'La facture va être envoyée à Dolibarr');
+
+                            // Créer l'objet HttpClient
+                            $httpClient = HttpClient::create();
+
+                            $DOLIBARR_URL = $this->getParameter('DOLIBARR_URL');
+                            $DOLIBARR_USER_NAME = $this->getParameter('DOLIBARR_USER_NAME');
+                            $DOLIBARR_USER_PASSWORD = $this->getParameter('DOLIBARR_USER_PASSWORD');
+                            
+                            // Exécuter la requête
+                            $response = $httpClient->request('GET',  $DOLIBARR_URL.'/api/index.php/login?login='.$DOLIBARR_USER_NAME.'&password='.$DOLIBARR_USER_PASSWORD.'&reset=0');
+
+                            /*
+                            // Afficher le code de retour
+                            $statusCode = $response->getStatusCode();
+                            print($statusCode . "<br/><br/>");
+
+                            // Afficher l'entête de la réponse
+                            $contentType = $response->getHeaders()['content-type'][0];
+                            print($contentType . "<br/><br/>");
+
+                            // Afficher le contenu JSON de la réponse
+                            $content = $response->getContent();
+                            print($content . "<br/><br/>");
+
+                            
+
+                            // Démarche pour obtenir uniquement la clé API :
+
+                            // Afficher le contenu OBJET de la réponse
+                            $content_decode = json_decode($content);
+                            print_r($content_decode);
+                            print("<br/><br/>");
+
+                            // Afficher la clé API
+                            print("Clé API = " . $content_decode->success->token);
+                            print("<br/><br/>");
+
+                            */
 
                             // @TODO 
 
