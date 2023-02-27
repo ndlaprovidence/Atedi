@@ -118,6 +118,14 @@ class InterventionController extends AbstractController
                             $intervention->setStatus($newStatus);
                             $this->em->persist($intervention);
                             $this->em->flush();
+
+                            // Send invoice to Dolibarr
+                            $this->addFlash('success', 'La facture va être envoyée à Dolibarr');
+
+                            // @TODO 
+
+
+
                             return $this->redirectToRoute('index');
                         }
                         break;
@@ -536,10 +544,6 @@ class InterventionController extends AbstractController
                     $intervention->setTotalPrice($totalPrice);
                     $this->em->persist($intervention);
                     $this->em->flush();
-
-                    // Send invoice to Dolibarr
-                    
-
 
                     return $this->redirectToRoute('intervention_report', [
                         'id' => $intervention->getId(),
