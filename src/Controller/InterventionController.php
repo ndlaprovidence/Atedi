@@ -537,6 +537,10 @@ class InterventionController extends AbstractController
                     $this->em->persist($intervention);
                     $this->em->flush();
 
+                    // Send invoice to Dolibarr
+                    
+
+
                     return $this->redirectToRoute('intervention_report', [
                         'id' => $intervention->getId(),
                     ]);
