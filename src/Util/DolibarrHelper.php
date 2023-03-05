@@ -161,13 +161,14 @@ class DolibarrHelper
                     . "' tva_tx = '" . $tva_tx . "' ");
                 $response = $this->httpClient->request('POST', $this->DOLIBARR_URL . 'api/index.php/products?DOLAPIKEY=' . $this->DOLIBARR_APIKEY, [
                     'body' => [
+                        'ref' => 'ATEDI-' . str_pad($product->getId(), 3, "0", STR_PAD_LEFT),
                         'label' => $product_name,
                         'type' => $type,
                         'price' => $price,
                         'price_ttc' => $price_ttc,
                         'price_base_type' => 'HT',
                         'tva_tx' => $tva_tx,
-                        'ref' => 'ATEDI-' . str_pad($product->getId(), 3, "0", STR_PAD_LEFT),
+                        'status' => 1, //tosell
                     ],
                 ]);
 
