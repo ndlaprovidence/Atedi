@@ -2,29 +2,30 @@
 
 namespace App\Controller;
 
-use App\Entity\BillingLine;
-use App\Entity\Intervention;
-use App\Entity\InterventionReport;
-use App\Entity\SoftwareInterventionReport;
-use App\Form\BillingLineType;
-use App\Form\InterventionType;
-use App\Repository\ActionRepository;
-use App\Repository\BillingLineRepository;
-use App\Repository\BookletRepository;
-use App\Repository\ClientRepository;
-use App\Repository\InterventionRepository;
-use App\Repository\SoftwareInterventionReportRepository;
-use App\Repository\SoftwareRepository;
-use App\Repository\TechnicianRepository;
-use App\Util\AtediHelper;
-use Doctrine\ORM\EntityManagerInterface;
 use Dompdf\Dompdf;
 use Dompdf\Options;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Util\AtediHelper;
+use App\Entity\BillingLine;
+use App\Entity\Intervention;
+use App\Util\DolibarrHelper;
+use App\Form\BillingLineType;
+use App\Form\InterventionType;
+use App\Entity\InterventionReport;
+use App\Repository\ActionRepository;
+use App\Repository\ClientRepository;
+use App\Repository\BookletRepository;
+use App\Repository\SoftwareRepository;
+use App\Repository\TechnicianRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\BillingLineRepository;
+use App\Entity\SoftwareInterventionReport;
+use App\Repository\InterventionRepository;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Repository\SoftwareInterventionReportRepository;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/intervention")
@@ -88,7 +89,7 @@ class InterventionController extends AbstractController
     /**
      * @Route("/{id}", name="intervention_show", methods={"GET","POST"})
      */
-    public function show(Request $request, Intervention $intervention, EntityManagerInterface $em, SoftwareRepository $sr, ActionRepository $ar, SoftwareInterventionReportRepository $sirr): Response
+    public function show(Request $request, Intervention $intervention, EntityManagerInterface $em, SoftwareRepository $sr, ActionRepository $ar, SoftwareInterventionReportRepository $sirr, DolibarrHelper $dolibarrHelper): Response
     {
         $theStatus = $intervention->getStatus();
 
@@ -118,77 +119,10 @@ class InterventionController extends AbstractController
                             $em->persist($intervention);
                             $em->flush();
 
-                            ////////////////////////////////////////////////////////////////
-                            // @TODO à retirer
-                            // UPDATE tbl_intervention SET STATUS='En cours' WHERE id = 2;
-                            ////////////////////////////////////////////////////////////////
-
-                            // Créer l'objet HttpClient
-                            $httpClient = HttpClient::create();
-
-                            $DOLIBARR_URL = $this->getParameter('DOLIBARR_URL');
-                            if (substr($DOLIBARR_URL, -1) != '/') {
-                                $DOLIBARR_URL .= '/';
-                            }
-                            $DOLIBARR_APIKEY = $this->getParameter('DOLIBARR_APIKEY');
-
-                            try {
-                                $client = $intervention->getClient();
-                                $client_name = trim($client->getFirstName() . ' ' . $client->getLastName());
-                                $this->addFlash('info', "Recherche du client '" . $client_name . "' dans Dolibarr...");
-
-                                // Exécuter la requête
-                                $response = $httpClient->request('GET', $DOLIBARR_URL . 'api/index.php/thirdparties?DOLAPIKEY=' . $DOLIBARR_APIKEY . '&sqlfilters=t.nom=\'' . $client_name . '\'&limit=1');
-
-                                // Afficher le code de retour
-                                $statusCode = $response->getStatusCode();                                                         
-
-                                if ($statusCode != 404) {
-
-                                    // Afficher l'entête de la réponse
-                                    $contentType = $response->getHeaders()['content-type'][0];
-                                    print($contentType . "<br/><br/>");
-
-                                    // Afficher le contenu JSON de la réponse
-                                    $content = $response->getContent();
-                                    print($content . "<br/><br/>");
-
-                                    // $this->addFlash('success', 'response = "'.print_r($response, true).'"');
-
-                                    /*
-
-                                    // Démarche pour obtenir uniquement l'ID du client' :
-
-                                    // Afficher le contenu OBJET de la réponse
-                                    $content_decode = json_decode($content);
-                                    print_r($content_decode);
-                                    print("<br/><br/>");
-
-                                    // ID du client
-                                    print("ID du client = " . $content_decode[0]->id);
-                                    print("<br/><br/>");
-
-                                     */
-
-                                    $this->addFlash('success', "La facture a été transmise à Dolibarr");
-                                    return $this->redirectToRoute('index');
-
-                                }
-                                else {
-                                    $this->addFlash('info', "Le client '" . $client_name . "' n'a pas trouvé dans Dolibarr");
-
-                                    $this->addFlash('info', "Ajout du client '" . $client_name . "' dans Dolibarr...");
+                            $this->addFlash('info', "Recherche du client dans Dolibarr...");
+                            $dolibarrClientId = $dolibarrHelper->getDolibarrClientId($intervention);
 
 
-
-
-                                    
-
-                                }
-
-                            } catch (\Throwable$th) {
-                                $this->addFlash('success', 'Une erreur est intervenue lors de la transmission de la facture à Dolibarr' . $th->getMessage());
-                            }
                         }
                         break;
                 }
