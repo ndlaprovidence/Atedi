@@ -52,7 +52,8 @@ class InterventionController extends AbstractController
     /**
      * @Route("/new", name="intervention_new", methods={"GET","POST"})
      */
-    function new (Request $request, ClientRepository $cr, EntityManagerInterface $em): Response {
+    function new(Request $request, ClientRepository $cr, EntityManagerInterface $em): Response
+    {
         $em = $em;
 
         $intervention = new Intervention();
@@ -119,10 +120,22 @@ class InterventionController extends AbstractController
                             $em->persist($intervention);
                             $em->flush();
 
-                            $this->addFlash('info', "Recherche du client dans Dolibarr...");
-                            $dolibarrClientId = $dolibarrHelper->getDolibarrClientId($intervention);
+                            // $this->addFlash('info', "Recherche du client dans Dolibarr...");
+                            $dolibarrClientId = $dolibarrHelper->getDolibarrClientId($intervention->getClient());
+                            $this->addFlash('success', "L'ID du client '" . $intervention->getClient()->getLastName() . "'est : '" . $dolibarrClientId . "'");
+
+                            foreach ($intervention->getTasks() as $task) {
+                                // $this->addFlash('info', "Recherche du service dans Dolibarr...");
+                                $dolibarrClientId = $dolibarrHelper->getDolibarrProductServiceId($task, 'service');
+                                $this->addFlash('success', "L'ID du service '" . $task->getTitle() . "' est : '" . $dolibarrClientId . "'");
+                            }
 
 
+                            //@todo à terminer
+
+
+                            // $this->addFlash('success', "La facture a été transmise à Dolibarr");
+                            return $this->redirectToRoute('index');
                         }
                         break;
                 }

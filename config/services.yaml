@@ -6,6 +6,7 @@
 parameters:
     DOLIBARR_URL: '%env(DOLIBARR_URL)%'
     DOLIBARR_APIKEY: '%env(DOLIBARR_APIKEY)%'
+    TAUX_TVA: '%env(TAUX_TVA)%'    
 
 services:
     # default configuration for services in *this* file
