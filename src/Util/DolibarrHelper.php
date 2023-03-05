@@ -162,7 +162,7 @@ class DolibarrHelper
                 $response = $this->httpClient->request('POST', $this->DOLIBARR_URL . 'api/index.php/products?DOLAPIKEY=' . $this->DOLIBARR_APIKEY, [
                     'body' => [
                         'ref' => 'ATEDI-' . str_pad($product->getId(), 3, "0", STR_PAD_LEFT),
-                        'label' => $product_name,
+                        'label' => 'Intervention : ' . $product_name,
                         'type' => $type,
                         'price' => $price,
                         'price_ttc' => $price_ttc,
