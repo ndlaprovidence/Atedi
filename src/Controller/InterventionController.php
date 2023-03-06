@@ -120,21 +120,41 @@ class InterventionController extends AbstractController
                             $em->persist($intervention);
                             $em->flush();
 
-                            // $this->addFlash('info', "Recherche du client dans Dolibarr...");
+                            // 1) Recherche/création du client dans Dolibarr
                             $dolibarrClientId = $dolibarrHelper->getDolibarrClientId($intervention->getClient());
-                            $this->addFlash('success', "L'ID du client '" . $intervention->getClient()->getLastName() . "'est : '" . $dolibarrClientId . "'");
+                            if (isset($dolibarrClientId)) {
 
-                            foreach ($intervention->getTasks() as $task) {
-                                // $this->addFlash('info', "Recherche du service dans Dolibarr...");
-                                $dolibarrClientId = $dolibarrHelper->getDolibarrProductServiceId($task, 'service');
-                                $this->addFlash('success', "L'ID du service '" . $task->getTitle() . "' est : '" . $dolibarrClientId . "'");
+                                $this->addFlash('success', "L'ID du client '" . $intervention->getClient()->getLastName() . "'est : '" . $dolibarrClientId . "'");
+
+
+                                // 2) Recherche/création du (ou des) service(s) dans Dolibarr
+                                $dolibarrProductServiceId = null;
+                                $dolibarrProductsServices = array();;
+                                foreach ($intervention->getTasks() as $task) {
+                                    $dolibarrProductServiceId = $dolibarrHelper->getDolibarrProductServiceId($task, 'service');
+                                    if (isset($dolibarrProductServiceId)) {
+                                        $dolibarrProductsServices[$dolibarrProductServiceId] = $task;
+                                        $this->addFlash('success', "L'ID du service '" . $task->getTitle() . "' est : '" . $dolibarrClientId . "'");
+                                    } else {
+                                        $this->addFlash('error', "Une erreur est intervenue, le service '" . $task->getTitle() . "' n'a pas été trouvé/créé dans Dolibarr.");
+                                    }
+                                }
+
+                                // 3) Création de la facture dans Dolibarr
+                                if (sizeof($dolibarrProductsServices) > 0) {
+                                    $this->addFlash('info', "Création de la facture dans Dolibarr...");
+                                    $dolibarrFactureId = $dolibarrHelper->getDolibarrFactureId($intervention->getClient(), $dolibarrClientId, $dolibarrProductsServices);
+                                    if (isset($dolibarrFactureId)) {
+                                        $this->addFlash('success', "La facture (n°" . $dolibarrFactureId . ") a été créée dans Dolibarr");
+                                    } else {
+                                        $this->addFlash('error', "Une erreur est intervenue lors de la création de la facture dans Dolibarr.");
+                                    }
+                                }
+
+                            } else {
+                                $this->addFlash('error', "Une erreur est intervenue, le client '" . $intervention->getClient()->getLastName() . "' n'a pas été trouvé/créé dans Dolibarr.");
                             }
 
-
-                            //@todo à terminer
-
-
-                            // $this->addFlash('success', "La facture a été transmise à Dolibarr");
                             return $this->redirectToRoute('index');
                         }
                         break;
