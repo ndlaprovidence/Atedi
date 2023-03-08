@@ -102,7 +102,7 @@ class DolibarrHelper
                 // $this->flashBag->add('info', "ID du client qui vient d'être créé : " . $dolibarrClientId);
             }
         } catch (\Throwable $th) {
-            $this->flashBag->add('success', 'Une erreur est intervenue lors de ' . $action . ' : ' . $th->getMessage());
+            $this->flashBag->add('error', 'Une erreur est intervenue lors de ' . $action . ' : ' . $th->getMessage());
         }
 
         return $dolibarrClientId;
@@ -155,10 +155,10 @@ class DolibarrHelper
                 $price = ($product->getPrice() / (1 + ($this->TAUX_TVA / 100)));
                 $price_ttc = $product->getPrice();
                 $tva_tx = $this->TAUX_TVA;
-                $this->flashBag->add('info', "product_name = '" . $product_name
-                    . "' price = '" . $price
-                    . "' price_ttc = '" . $price_ttc
-                    . "' tva_tx = '" . $tva_tx . "' ");
+                // $this->flashBag->add('info', "product_name = '" . $product_name
+                //     . "' price = '" . $price
+                //     . "' price_ttc = '" . $price_ttc
+                //     . "' tva_tx = '" . $tva_tx . "' ");
                 $response = $this->httpClient->request('POST', $this->DOLIBARR_URL . 'api/index.php/products?DOLAPIKEY=' . $this->DOLIBARR_APIKEY, [
                     'body' => [
                         'ref' => 'ATEDI-' . str_pad($product->getId(), 3, "0", STR_PAD_LEFT),
@@ -185,34 +185,44 @@ class DolibarrHelper
                 // $this->flashBag->add('info', "ID du product qui vient d'être créé : " . $dolibarrProductId);
             }
         } catch (\Throwable $th) {
-            $this->flashBag->add('success', 'Une erreur est intervenue lors de ' . $action . ' : ' . $th->getMessage());
+            $this->flashBag->add('error', 'Une erreur est intervenue lors de ' . $action . ' : ' . $th->getMessage());
         }
 
         return $dolibarrProductId;
     }
 
-    public function getDolibarrFactureId($client, $dolibarrClientId, $dolibarrProductsServices)
+    public function getDolibarrFactureId($intervention, $dolibarrClientId, $dolibarrLignesFacture)
     {
         $dolibarrFactureId = null;
 
         try {
 
             $note_public = "";
+            $note_private = "";
 
             // Préparer la liste des lignes de la facture
             $lignesfacture = array();            
-            foreach ($dolibarrProductsServices as $key => $value) {
+            foreach ($dolibarrLignesFacture as $key => $value) {
                 $price = ($value->getPrice() / (1 + ($this->TAUX_TVA / 100)));
                 $tva_tx = $this->TAUX_TVA;
+                $fk_product = $key;
+                if ($fk_product < 0) {
+                    $fk_product = 0;
+                    $note_public .= $value->getTitle() . "\n";                       
+                }
+                else {
+                    $note_public .= "Intervention : " . $value->getTitle() . "\n";                       
+                }
                 $lignesfacture[] = [
                         'desc' => $value->getTitle(),
-                        'subprice' => $price,
+                        'subprice' => round($price, 2), 
                         'qty' => 1,
                         'tva_tx' => $tva_tx,
-                        'fk_product' => $key,
-                ];     
-                $note_public .= 'Intervention : ' . $value->getTitle() . "\n";          
+                        'fk_product' => $fk_product,
+                ];                            
             }
+            $note_private .= "Facture créée automatiquement par Atedi" . "\n";   
+            $note_private .= $intervention->getInterventionReport()->getComment();
 
             // Exécuter la requête
             $response = $this->httpClient->request('POST', $this->DOLIBARR_URL . 'api/index.php/invoices?DOLAPIKEY=' . $this->DOLIBARR_APIKEY, [
@@ -220,7 +230,7 @@ class DolibarrHelper
                     'socid' => $dolibarrClientId,
                     'type' => 0,
                     'note_public' => trim($note_public),
-                    'note_private' => 'Facture créée automatiquement par Atedi',
+                    'note_private' => $note_private,
                     'lines' => $lignesfacture,
                 ],
             ]);
@@ -238,7 +248,7 @@ class DolibarrHelper
             // $this->flashBag->add('info', "ID du product qui vient d'être créé : " . $dolibarrProductId);
 
         } catch (\Throwable $th) {
-            $this->flashBag->add('success', 'Une erreur est intervenue lors de la création de la facture dans Dolibarr : ' . $th->getMessage());
+            $this->flashBag->add('error', 'Une erreur est intervenue lors de la création de la facture dans Dolibarr : ' . $th->getMessage());
         }
 
         return $dolibarrFactureId;

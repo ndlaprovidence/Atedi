@@ -32,7 +32,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  */
 class InterventionController extends AbstractController
 {
-    private $AtediHelper;
+    private $atediHelper;
 
     public function __construct(AtediHelper $AtediHelper)
     {
@@ -90,7 +90,7 @@ class InterventionController extends AbstractController
     /**
      * @Route("/{id}", name="intervention_show", methods={"GET","POST"})
      */
-    public function show(Request $request, Intervention $intervention, EntityManagerInterface $em, SoftwareRepository $sr, ActionRepository $ar, SoftwareInterventionReportRepository $sirr, DolibarrHelper $dolibarrHelper): Response
+    public function show(Request $request, Intervention $intervention, EntityManagerInterface $em, SoftwareRepository $sr, ActionRepository $ar, SoftwareInterventionReportRepository $sirr, BillingLineRepository $blr, DolibarrHelper $dolibarrHelper): Response
     {
         $theStatus = $intervention->getStatus();
 
@@ -123,29 +123,35 @@ class InterventionController extends AbstractController
                             // 1) Recherche/création du client dans Dolibarr
                             $dolibarrClientId = $dolibarrHelper->getDolibarrClientId($intervention->getClient());
                             if (isset($dolibarrClientId)) {
-
-                                $this->addFlash('success', "L'ID du client '" . $intervention->getClient()->getLastName() . "'est : '" . $dolibarrClientId . "'");
-
-
+                                // $this->addFlash('success', "L'ID du client '" . $intervention->getClient()->getLastName() . "'est : '" . $dolibarrClientId . "'");
+                                
                                 // 2) Recherche/création du (ou des) service(s) dans Dolibarr
                                 $dolibarrProductServiceId = null;
-                                $dolibarrProductsServices = array();;
+                                $dolibarrLignesFacture = array();;
                                 foreach ($intervention->getTasks() as $task) {
                                     $dolibarrProductServiceId = $dolibarrHelper->getDolibarrProductServiceId($task, 'service');
                                     if (isset($dolibarrProductServiceId)) {
-                                        $dolibarrProductsServices[$dolibarrProductServiceId] = $task;
-                                        $this->addFlash('success', "L'ID du service '" . $task->getTitle() . "' est : '" . $dolibarrClientId . "'");
+                                        $dolibarrLignesFacture[$dolibarrProductServiceId] = $task;
+                                        // $this->addFlash('success', "L'ID du service '" . $task->getTitle() . "' est : '" . $dolibarrClientId . "'");
                                     } else {
                                         $this->addFlash('error', "Une erreur est intervenue, le service '" . $task->getTitle() . "' n'a pas été trouvé/créé dans Dolibarr.");
                                     }
                                 }
 
-                                // 3) Création de la facture dans Dolibarr
-                                if (sizeof($dolibarrProductsServices) > 0) {
-                                    $this->addFlash('info', "Création de la facture dans Dolibarr...");
-                                    $dolibarrFactureId = $dolibarrHelper->getDolibarrFactureId($intervention->getClient(), $dolibarrClientId, $dolibarrProductsServices);
+                                // Ajout de lignes dans la facture
+                                $billingLines = $blr->findAllByIntervention($intervention);
+                                $i = 0;
+                                foreach ($billingLines as $billingLine) {
+                                    $i--;
+                                    $dolibarrLignesFacture[$i] = $billingLine;
+                                }
+
+                                // 3) Création de la facture dans Dolibarr                                                
+                                if (sizeof($dolibarrLignesFacture) > 0) {
+                                    // $this->addFlash('info', "Création de la facture dans Dolibarr...");
+                                    $dolibarrFactureId = $dolibarrHelper->getDolibarrFactureId($intervention, $dolibarrClientId, $dolibarrLignesFacture);
                                     if (isset($dolibarrFactureId)) {
-                                        $this->addFlash('success', "La facture (n°" . $dolibarrFactureId . ") a été créée dans Dolibarr");
+                                        $this->addFlash('success', "La facture (PROV" . $dolibarrFactureId . ") a été créée dans Dolibarr.");
                                     } else {
                                         $this->addFlash('error', "Une erreur est intervenue lors de la création de la facture dans Dolibarr.");
                                     }
@@ -155,7 +161,8 @@ class InterventionController extends AbstractController
                                 $this->addFlash('error', "Une erreur est intervenue, le client '" . $intervention->getClient()->getLastName() . "' n'a pas été trouvé/créé dans Dolibarr.");
                             }
 
-                            return $this->redirectToRoute('index');
+                            // @todo à remettre
+                            // return $this->redirectToRoute('index');
                         }
                         break;
                 }
@@ -305,6 +312,8 @@ class InterventionController extends AbstractController
             }
         }
 
+        dump($step);
+
         $softwares = [];
         $booklets = $br->findAll();
         $actions = $ar->findAll();
@@ -315,6 +324,7 @@ class InterventionController extends AbstractController
 
         switch ($step) {
             case 1:
+                // Techniciens
                 $irTechnicians = $interventionReport->getTechnicians();
                 foreach ($irTechnicians as $irTechnician) {
                     $interventionReport->removeTechnician($irTechnician);
@@ -344,6 +354,7 @@ class InterventionController extends AbstractController
                 break;
 
             case 2:
+                // Logiciels de nettoyage
                 $intervention->getInterventionReport()->setSeverityProblem([]);
                 $irSoftwares = $sirr->findAllByReportAndAction($interventionReport->getId(), "Nettoyage");
                 foreach ($irSoftwares as $ele) {
@@ -360,7 +371,6 @@ class InterventionController extends AbstractController
 
                         $cleaningSoftwares = $request->request->get('cleaning-software');
                         foreach ($cleaningSoftwares as $softwareId) {
-
                             $software = $sr->findOneById($softwareId);
                             $softwareOperation = new SoftwareInterventionReport();
                             $softwareOperation->setSoftware($software);
@@ -393,6 +403,7 @@ class InterventionController extends AbstractController
                 break;
 
             case 3:
+                // Actions
                 $irActions = $interventionReport->getActions();
                 foreach ($irActions as $irAction) {
                     $interventionReport->removeAction($irAction);
@@ -422,6 +433,7 @@ class InterventionController extends AbstractController
                 break;
 
             case 4:
+                // Installation/mise à jour de logiciels
                 $irSoftwares = $sirr->findAllByReportAndAction($interventionReport->getId(), "Installé");
                 foreach ($irSoftwares as $ele) {
                     $em->remove($ele);
@@ -469,6 +481,7 @@ class InterventionController extends AbstractController
                 break;
 
             case 5:
+                // Activation Windows
                 $interventionReport->setWindowsInstall([]);
                 $interventionReport->setWindowsVersion(null);
                 $em->flush();
@@ -496,6 +509,7 @@ class InterventionController extends AbstractController
                 break;
 
             case 6:
+                // Fourniture d'une brochure
                 $irBooklets = $interventionReport->getBooklets();
                 foreach ($irBooklets as $irBooklet) {
                     $interventionReport->removeBooklet($irBooklet);
@@ -524,6 +538,7 @@ class InterventionController extends AbstractController
                 break;
 
             case 7:
+                // Observations sur l'intervention
                 $interventionReport->setComment(null);
 
                 if ($request->request->has('data')) {
@@ -544,6 +559,7 @@ class InterventionController extends AbstractController
                 break;
 
             case 8:
+                // Facture et informations
                 if ($request->request->has('delete-billing-line')) {
                     $billingLineId = $request->request->get('billing-line-id');
 
