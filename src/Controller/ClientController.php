@@ -8,6 +8,7 @@ use App\Form\ClientType;
 use App\Repository\ClientRepository;
 use App\Repository\InterventionRepository;
 use Symfony\Component\HttpFoundation\Request;
+use App\Controller\ApiController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -30,26 +31,32 @@ class ClientController extends AbstractController
     /**
      * @Route("/new", name="client_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, ApiController $api): Response
     {
 
 
         $client = new Client();
         $form = $this->createForm(ClientType::class, $client);
         $form->handleRequest($request);
-
+        
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($client);
             $entityManager->flush();
-
+            $firstname = $request->request->get('_firstname');
+            $lastname = $request->request->get('_lastname');
+            $response = $api->getus($firstname, $lastname);
+            
+            if ($response == false){
+                $api->createuser($client);
+            }
             if ( $request->query->has('s') == 'intervention') {
-                return $this->redirectToRoute('intervention_new');
+                // return $this->redirectToRoute('intervention_new');
             }
 
-            return $this->redirectToRoute('client_show', [
-                'id' => $client->getId(),
-            ]);
+            // return $this->redirectToRoute('client_show', [
+            //     'id' => $client->getId(),
+            // ]);
         }
 
         return $this->render('client/new.html.twig', [

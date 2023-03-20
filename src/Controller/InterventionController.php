@@ -53,6 +53,8 @@ class InterventionController extends AbstractController
      */
     public function new(Request $request, ClientRepository $cr, EntityManagerInterface $em): Response
     {
+        
+        
         $this->em = $em;
 
         $intervention = new Intervention();
@@ -93,8 +95,11 @@ class InterventionController extends AbstractController
     {
         $this->em = $em;
         $theStatus = $intervention->getStatus();
-        $api->connect();
-
+        // $response = $api->getuser();
+        // var_dump($response);
+        // if ($response == false){
+        //     $api->createuser();
+        // }
         if ($request->request->has('status')) {
             $newStatus = $request->request->get('status');
 
