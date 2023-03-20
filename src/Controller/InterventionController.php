@@ -9,6 +9,7 @@ use App\Entity\BillingLine;
 use App\Entity\Intervention;
 use App\Form\BillingLineType;
 use App\Form\InterventionType;
+use App\Controller\ApiController;
 use App\Entity\InterventionReport;
 use App\Repository\ActionRepository;
 use App\Repository\ClientRepository;
@@ -88,10 +89,11 @@ class InterventionController extends AbstractController
     /**
      * @Route("/{id}", name="intervention_show", methods={"GET","POST"})
      */
-    public function show(Request $request, Intervention $intervention, EntityManagerInterface $em, SoftwareRepository $sr, ActionRepository $ar, SoftwareInterventionReportRepository $sirr): Response
+    public function show(Request $request, Intervention $intervention, EntityManagerInterface $em, SoftwareRepository $sr, ActionRepository $ar, SoftwareInterventionReportRepository $sirr, ApiController $api): Response
     {
         $this->em = $em;
         $theStatus = $intervention->getStatus();
+        $api->connect();
 
         if ($request->request->has('status')) {
             $newStatus = $request->request->get('status');
