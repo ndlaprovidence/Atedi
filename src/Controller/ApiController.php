@@ -47,7 +47,7 @@ class ApiController extends AbstractController
         $this->connect();
         $response = $this->client->request(
             'GET',
-            'https://lbouquet.doli.sio-ndlp.fr/api/index.php/thirdparties?sortfield=t.rowid&limit=1&sqlfilters=t.nom%3D\'Christelle%20LAVEILLE\'&DOLAPIKEY=8n8O4975Miz06XpO6HAKdfmOJQpkjSz3&'
+            'https://lbouquet.doli.sio-ndlp.fr/api/index.php/thirdparties?sortfield=t.rowid&limit=1&sqlfilters=t.nom\'". $ ."\'&DOLAPIKEY=8n8O4975Miz06XpO6HAKdfmOJQpkjSz3&'
         );
         $statusCode = $response->getStatusCode();
         $user = $response->getContent();

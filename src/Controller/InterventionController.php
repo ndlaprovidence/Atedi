@@ -9,7 +9,7 @@ use App\Entity\BillingLine;
 use App\Entity\Intervention;
 use App\Form\BillingLineType;
 use App\Form\InterventionType;
-use App\Controller\ApiController;
+use App\Service\DolibarrHelper;
 use App\Entity\InterventionReport;
 use App\Repository\ActionRepository;
 use App\Repository\ClientRepository;
@@ -89,11 +89,11 @@ class InterventionController extends AbstractController
     /**
      * @Route("/{id}", name="intervention_show", methods={"GET","POST"})
      */
-    public function show(Request $request, Intervention $intervention, EntityManagerInterface $em, SoftwareRepository $sr, ActionRepository $ar, SoftwareInterventionReportRepository $sirr, ApiController $api): Response
+    public function show(Request $request, Intervention $intervention, EntityManagerInterface $em, SoftwareRepository $sr, ActionRepository $ar, SoftwareInterventionReportRepository $sirr, DolibarrHelper $help): Response
     {
         $this->em = $em;
         $theStatus = $intervention->getStatus();
-        $api->connect();
+
 
         if ($request->request->has('status')) {
             $newStatus = $request->request->get('status');
@@ -110,6 +110,7 @@ class InterventionController extends AbstractController
                     case "En cours":
                         $intervention->getInterventionReport()->setStep(1);
                         $intervention->setStatus($newStatus);
+                        
                         if ( $theStatus == "Terminée" ) {
                             $intervention->setReturnDate(null);
                         }
@@ -120,7 +121,13 @@ class InterventionController extends AbstractController
                             $intervention->setStatus($newStatus);
                             $this->em->persist($intervention);
                             $this->em->flush();
+                            $firstname = $intervention->getClient()->getFirstname();
+                            $lastname = $intervention->getClient()->getLastname();
+                            $help->getuse($firstname, $lastname);
+                            
                             return $this->redirectToRoute('index');
+
+                            
                         }
                         break;
                 }
