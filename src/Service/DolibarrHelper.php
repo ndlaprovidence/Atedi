@@ -30,12 +30,19 @@ class DolibarrHelper
     {
         $Dolapikey = $this->parameterBag->get('DOLAPIKEY');
         $httpClient = HttpClient::create();
-        array = {
-            'code': '1',
-            'code_client': -1,
-            'nom': $prenom . $nom
-        }
-        $response = $httpClient->request('POST', 'http://lbouquet.doli.sio-ndlp.fr/api/index.php/thirdparties?&sqlfilters=t.nom=\''. $prenom ." ". $nom .'\'&limit=1&DOLAPIKEY='. $Dolapikey); // puis on les renvoie dans une requete http
+        $data = array(
+            'code'=> 1,
+            'code_client'=> -1,
+            'nom'=> $prenom .' '. $nom
+        );
+        $response = $httpClient->request('POST', 'http://lbouquet.doli.sio-ndlp.fr/api/index.php/thirdparties?&sqlfilters=t.nom=\''. $prenom ." ". $nom .'\'&limit=1&DOLAPIKEY='. $Dolapikey
+        "header" [
+            'DOLAPIKEY'=> $DOLAPIKEY,
+            'Content Type'=> 'application/json'
+        ]
+        'body'=> json_encode($data);
+
+    ); // puis on les renvoie dans une requete http
         dump($response);
         
         $content = $response->getContent();
