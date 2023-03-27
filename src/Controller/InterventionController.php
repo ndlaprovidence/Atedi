@@ -24,6 +24,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\SoftwareInterventionReportRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Service\Service;
 
 /**
  * @Route("/intervention")
@@ -50,7 +51,7 @@ class InterventionController extends AbstractController
     /**
      * @Route("/new", name="intervention_new", methods={"GET","POST"})
      */
-    public function new(Request $request, ClientRepository $cr, EntityManagerInterface $em): Response
+    public function new(Request $request, ClientRepository $cr, EntityManagerInterface $em, Service $service): Response
     {
         $this->em = $em;
 
@@ -69,11 +70,51 @@ class InterventionController extends AbstractController
             $intervention->setInterventionReport($interventionReport);
 
             $totalPrice = $this->atediHelper->strTotalPrice($intervention);
+            
 
             $intervention->setTotalPrice($totalPrice);
             $this->em->persist($intervention);
             $this->em->flush();
 
+            $client = $form->get('client')->getData();
+            $firstname = $client->getFirstName();
+            $lastname = $client->getLastName();
+            $name = "'" . $firstname . " " . $lastname . "'";
+            $dolapikey = '8n8O4975Miz06XpO6HAKdfmOJQpkjSz3';
+            $data = array(
+                        'sqlfilters' => 't.nom=' . $name
+            );
+            
+            $result = $service->call_dolibarr_api('thirdparties', 'GET',$dolapikey, $data);
+            dump($result);
+            $name = $firstname . " " . $lastname;
+            $phone = $client->getPhone();
+            if($result == 404){
+                $data = array(
+                    "client" => 1,
+                    "code_client" => -1,
+                    "name" => $name,
+                    "phone" => $phone 
+                );
+                $create = $service->create_user_dolibarr_api('thirdparties', 'POST', $dolapikey, $data);
+            }
+            $client = $intervention->getClient();
+            $clientphone = $client->getPhone();
+            dump($clientphone);
+            $data= array(
+            'sqlfilters' => 't.phone=' . $clientphone
+            );
+            $clientId = $service->getThird_party_id_per_phone_number($clientphone, "thirdparties", $data, $dolapikey);            
+            $totalprice = $intervention->getTotalPrice();
+            $date = strtotime($intervention->getDepositDate()->format('Y-m-d H:i:s'));
+            $data = array(
+                "socid" => $clientId,
+                'date' => $date,
+                'total_ht' => $totalprice
+                );
+            $result=$service->create_invoice_dolibarr_api( $dolapikey, 'POST', 'invoices', $data, $clientphone);
+           
+            return $this->redirectToRoute('index');
             return $this->redirectToRoute('intervention_show', [
                 'id' => $intervention->getId(),
             ]);
@@ -88,11 +129,10 @@ class InterventionController extends AbstractController
     /**
      * @Route("/{id}", name="intervention_show", methods={"GET","POST"})
      */
-    public function show(Request $request, Intervention $intervention, EntityManagerInterface $em, SoftwareRepository $sr, ActionRepository $ar, SoftwareInterventionReportRepository $sirr): Response
+    public function show(Service $service,Request $request, Intervention $intervention, EntityManagerInterface $em, SoftwareRepository $sr, ActionRepository $ar, SoftwareInterventionReportRepository $sirr): Response
     {
         $this->em = $em;
         $theStatus = $intervention->getStatus();
-
         if ($request->request->has('status')) {
             $newStatus = $request->request->get('status');
 
@@ -111,14 +151,13 @@ class InterventionController extends AbstractController
                         if ( $theStatus == "Terminée" ) {
                             $intervention->setReturnDate(null);
                         }
-                    break;
+                        
 
                     case "Terminée":
                         if ( $intervention->getInterventionReport()->getStep() == 8 && $intervention->getReturnDate() ) {
                             $intervention->setStatus($newStatus);
                             $this->em->persist($intervention);
                             $this->em->flush();
-                            return $this->redirectToRoute('index');
                         }
                         break;
                 }
