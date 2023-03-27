@@ -100,4 +100,53 @@ class Service
         return $response->getStatusCode();
     
     }
+    public function getProductIdPerDesc(string $desc, $dolapikey): ?int {
+        $httpClient = HttpClient::create();
+
+        $query = ["sqlfilters" => "t.label='" . $desc . "'"];
+        $response = $httpClient->request("GET", 'https://lbouquet.doli.sio-ndlp.fr/api/index.php/products', [
+            'headers' => [
+                'DOLAPIKEY' => $dolapikey,
+                'Content-type' => 'application/json',
+            ],
+            'query' => $query
+        ]);
+
+        if ($response->getStatusCode() !== 200) {
+            return null;
+        }
+
+        $decodedPayload = $response->toArray();
+        $product = $decodedPayload[0];
+
+        if (isset($product)) {
+            return (int) $product["id"];
+        }
+
+        return null;
+    }
+    public function createProduct($task, $dolapikey) {
+        $httpClient = HttpClient::create();
+
+        $body = [
+            "ref" => $task->getTitle(),
+            "label" => $task->getTitle(),
+            "total_ht" => $task->getPrice(),
+        ];
+
+        $response = $httpClient->request("POST", 'https://lbouquet.doli.sio-ndlp.fr/api/index.php/products', [
+            'headers'=> [
+                'DOLAPIKEY' => $dolapikey,
+                'Content-type' => 'application/json',
+            ],
+            'json' =>
+            $body
+        ]);
+        
+        $statusCode = $response->getStatusCode();
+        if ($statusCode !== 200) {
+            return null;
+        }
+        return $response->getContent();
+    }
 }

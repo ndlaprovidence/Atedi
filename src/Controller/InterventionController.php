@@ -107,12 +107,26 @@ class InterventionController extends AbstractController
             $clientId = $service->getThird_party_id_per_phone_number($clientphone, "thirdparties", $data, $dolapikey);            
             $totalprice = $intervention->getTotalPrice();
             $date = strtotime($intervention->getDepositDate()->format('Y-m-d H:i:s'));
-            $data = array(
-                "socid" => $clientId,
-                'date' => $date,
-                'total_ht' => $totalprice
-                );
-            $result=$service->create_invoice_dolibarr_api( $dolapikey, 'POST', 'invoices', $data, $clientphone);
+            $tasks = $intervention->getTasks();
+            $lines = [];
+            dump($tasks);
+            if ($tasks) {
+                foreach ($tasks as $task) {
+                    $productId = $service->getProductIdPerDesc($task->getTitle(), $dolapikey);
+                    dump($productId);
+                    if (!isset($productId)) {
+                        $productId = $service->createProduct($task, $dolapikey);
+                        dump($productId);
+                    }
+                }$coef = 1 + (20/100);
+            $lines[] = ["desc" => $task->getTitle(), "qty" => 1, "tva_tx" => 20.0, "subprice" => $task->getPrice()/$coef, "fk_product" => $productId];
+            }
+
+
+            $body = ["socid" => "$clientId", 'date' => $intervention->getDepositDate()->format('Y-m-d'), "type" => 0];
+            $body["lines"] = $lines;
+            var_dump($body["lines"]);
+            $result=$service->create_invoice_dolibarr_api( $dolapikey, 'POST', 'invoices', $body, $clientphone);
            
             return $this->redirectToRoute('index');
             return $this->redirectToRoute('intervention_show', [
@@ -125,6 +139,7 @@ class InterventionController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
 
     /**
      * @Route("/{id}", name="intervention_show", methods={"GET","POST"})
