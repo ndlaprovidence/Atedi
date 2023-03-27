@@ -94,17 +94,19 @@ class InterventionController extends AbstractController
                     "client" => 1,
                     "code_client" => -1,
                     "name" => $name,
-                    "phone" => $phone 
+                    "phone" => $phone
                 );
                 $create = $service->create_user_dolibarr_api('thirdparties', 'POST', $dolapikey, $data);
+                dump($create);
             }
             $client = $intervention->getClient();
             $clientphone = $client->getPhone();
             dump($clientphone);
             $data= array(
-            'sqlfilters' => 't.phone=' . $clientphone
+            't.phone' => $clientphone,
             );
-            $clientId = $service->getThird_party_id_per_phone_number($clientphone, "thirdparties", $data, $dolapikey);            
+            $clientId = $service->getThird_party_id_per_phone_number($clientphone, "thirdparties", $data, $dolapikey);  
+            dump($clientId);          
             $totalprice = $intervention->getTotalPrice();
             $date = strtotime($intervention->getDepositDate()->format('Y-m-d H:i:s'));
             $tasks = $intervention->getTasks();
@@ -127,7 +129,7 @@ class InterventionController extends AbstractController
             $body["lines"] = $lines;
             var_dump($body["lines"]);
             $result=$service->create_invoice_dolibarr_api( $dolapikey, 'POST', 'invoices', $body, $clientphone);
-           
+           dump($result);
             return $this->redirectToRoute('index');
             return $this->redirectToRoute('intervention_show', [
                 'id' => $intervention->getId(),

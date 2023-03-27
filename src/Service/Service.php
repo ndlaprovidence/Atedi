@@ -18,7 +18,7 @@ class Service
         ];
         $response = $httpClient->request($method, 'https://lbouquet.doli.sio-ndlp.fr/api/index.php/'.$endpoint , [
             'headers' => [
-                'DOLAPIKEY' => $dolapikey ,
+                'DOLAPIKEY' => $dolapikey,
             ],
             'query' => $dolibarrApiParams,
         ]);
@@ -33,17 +33,19 @@ class Service
         
         $httpClient = HttpClient::create();
         // $data = json_encode($data);
+        dump(json_encode($data));
         
         $response = $httpClient->request($method, 'https://lbouquet.doli.sio-ndlp.fr/api/index.php/'.$endpoint, [
             'headers' => [
                 'DOLAPIKEY' => $dolapikey,
-                'Content-type' => 'application/json',
+                'Content-type' => "application/json",
             ],
             "body" => json_encode($data),
         ]);
         $result = $response->getStatusCode();
         dump($response);
         dump($result);
+        return $result;
         
         
         
@@ -55,18 +57,19 @@ class Service
         $dolibarrSqlReq = "t.phone = $phoneNumber";
         $query = ["limit" => "1", "sqlfilters" => $dolibarrSqlReq];
         $dolibarrApiParams = [
-            'sqlfilters' => $data['sqlfilters'],
+            'sqlfilters' => $data['t.phone'],
         ];
         $response = $httpClient->request("GET", 'https://lbouquet.doli.sio-ndlp.fr/api/index.php/' . $endpoint, [
             'headers' => [
                 'DOLAPIKEY' => $dolapikey ,
+                'Content-type' => "application/json",
+
             ],
-            'query' => $dolibarrApiParams,
+            'query' => $query,
         ]);
         $decodedPayload = $response->toArray();
         dump($decodedPayload);
         $thirdParty = $decodedPayload[0];
-
         if (isset($thirdParty)) {
             return (int) $thirdParty["id"];
         }
