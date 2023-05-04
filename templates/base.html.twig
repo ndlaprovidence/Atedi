@@ -103,9 +103,22 @@
                 </div>
             </div>
 
+            <div class="col-md-12 col-lg-12 col-xl-12 py-4">
+                {% for label, messages in app.flashes %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ label }}" role="alert">
+                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                            {{ message|trans }}
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+
             <div class="starter-template mt-5 mb-5">
                 {% block body %}{% endblock %}
             </div>
+
+
 
             {% if app.request.get('_route') == 'app_login' %}
                 <h4 class="h4 text-center fixed-bottom">©{{ "now"|date("Y") }} - Atedi</h4>

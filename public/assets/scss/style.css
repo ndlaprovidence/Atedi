@@ -45,7 +45,7 @@ body {
 }
 
 .primary-btn:hover {
-  background-color: #264653;
+  background-color: #3330df;
   color: #FFFFFF;
 }
 
@@ -135,7 +135,7 @@ body {
 }
 
 .info-btn-75:hover {
-  color: #264653;
+  color: #3330df;
 }
 
 .info-btn-75:hover .info-btn-tooltip {
@@ -181,15 +181,15 @@ body {
 .navbar {
   padding-left: 100px;
   padding-right: 100px;
-  background-color: #264653;
+  background-color: #3330df;
 }
 
 .navbar .active {
-  background-color: #264653;
+  background-color: #3330df;
 }
 
 .tab-head {
-  background-color: #264653;
+  background-color: #3330df;
   color: #FFFFFF;
 }
 
@@ -219,7 +219,7 @@ body {
 
 .container-background {
   background-color: #4871811f;
-  border: #264653 solid 3px;
+  border: #3330df solid 3px;
   border-radius: 10px;
 }
 
@@ -235,7 +235,7 @@ body {
   border-right: 0px;
   border-bottom: 3px;
   border-left: 0px;
-  border-color: #264653;
+  border-color: #3330df;
   border-style: solid;
 }
 
@@ -267,14 +267,14 @@ body {
 }
 
 .top-infos-container .active {
-  background-color: #264653;
+  background-color: #3330df;
   color: #FFFFFF;
 }
 
 .list-container {
   overflow: auto;
   max-height: 500px;
-  border-top: #264653 solid 2px;
+  border-top: #3330df solid 2px;
 }
 
 .list-container .active {
@@ -355,7 +355,7 @@ body {
 
 .report-container .step-title {
   font-weight: bold;
-  background-color: #264653;
+  background-color: #3330df;
   color: #FFFFFF;
 }
 
