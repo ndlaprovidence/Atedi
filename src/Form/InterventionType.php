@@ -2,10 +2,12 @@
 
 namespace App\Form;
 
+use App\Entity\User;
 use App\Entity\Client;
 use App\Entity\Equipment;
 use App\Entity\Intervention;
 use App\Entity\OperatingSystem;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityRepository;
 use App\Repository\ClientRepository;
 use App\Repository\EquipmentRepository;
@@ -54,6 +56,13 @@ class InterventionType extends AbstractType
             ->add('return_date', DateType::class, [
                 'widget' => 'single_text',
                 'required' => false,
+            ])
+            ->add('user', EntityType::class, [
+                'class' => User::class,
+                'query_builder' => function (UserRepository $ur) {
+                    return $ur->createQueryBuilder('u')
+                        ->orderBy('u.email', 'ASC');
+                }
             ]);
     }
 
