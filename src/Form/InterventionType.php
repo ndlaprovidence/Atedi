@@ -51,18 +51,18 @@ class InterventionType extends AbstractType
                     'Non' => 'Non',
                 ],
             ])
-            ->add('comment')
-            ->add('tasks')
-            ->add('return_date', DateType::class, [
-                'widget' => 'single_text',
-                'required' => false,
-            ])
             ->add('user', EntityType::class, [
                 'class' => User::class,
                 'query_builder' => function (UserRepository $ur) {
                     return $ur->createQueryBuilder('u')
                         ->orderBy('u.email', 'ASC');
                 }
+            ])
+            ->add('comment')
+            ->add('tasks')
+            ->add('return_date', DateType::class, [
+                'widget' => 'single_text',
+                'required' => false,
             ]);
     }
 
