@@ -57,8 +57,20 @@ class InterventionController extends AbstractController
         $intervention = new Intervention();
         $interventionReport = new InterventionReport();
 
-        $form = $this->createForm(InterventionType::class, $intervention);
+        if ($request->query->has('client-id')) {
+            $clientId = $request->query->getInt('client-id');
+            // Vous pouvez utiliser getInt() pour obtenir directement un entier
+        } else {
+            // Définir une valeur par défaut si le paramètre client-id n'est pas présent
+            $clientId = null; // ou une autre valeur par défaut selon votre logique
+        }
+
+        $form = $this->createForm(InterventionType::class, $intervention, [
+            'clientId' => $clientId,
+        ]);
         $form->handleRequest($request);
+
+
 
         if ($form->isSubmitted() && $form->isValid()) {
 
@@ -162,7 +174,7 @@ class InterventionController extends AbstractController
                     // Load HTML to Dompdf
                     $dompdf->loadHtml($html);
 
-                    // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+                    // (Optional) Setup the paper size and orientation 'portrai<t' or 'portrait'
                     $dompdf->setPaper('A4', 'portrait');
 
                     // Render the HTML as PDF
@@ -213,6 +225,57 @@ class InterventionController extends AbstractController
                         "Attachment" => true
                     ]);
                     break;
+                    case "both":
+                        $cleaningSoftwares = $sr->findAllByType('Nettoyage');
+                        $actions = $ar->findAll();
+    
+                        // Configure Dompdf according to your needs
+                        $pdfOptions = new Options();
+                        $pdfOptions->set('defaultFont', 'Arial');
+    
+                        // Instantiate Dompdf with our options
+                        $dompdf = new Dompdf($pdfOptions);
+    
+                        $interventionReportId = $intervention->getInterventionReport()->getId();
+                        $softwares = $sirr->findAllByReport($interventionReportId);
+                        $actions = $intervention->getInterventionReport()->getActions();
+                        $booklets = $intervention->getInterventionReport()->getBooklets();
+                        $technicians = $intervention->getInterventionReport()->getTechnicians();
+    
+                        // Configure Dompdf according to your needs
+                        $pdfOptions = new Options();
+                        $pdfOptions->set('defaultFont', 'Arial');
+    
+                        // Instantiate Dompdf with our options
+                        $dompdf = new Dompdf($pdfOptions);
+    
+                        // Retrieve the HTML generated in our twig file
+                        $html = $this->renderView('intervention/both_pdf.html.twig', [
+                            'intervention' => $intervention,
+                            'softwares' => $softwares,
+                            'actions' => $actions,
+                            'booklets' => $booklets,
+                            'technicians' => $technicians,
+                            'intervention' => $intervention,
+                            'cleaningSoftwares' => $cleaningSoftwares,
+                            'actions' => $actions,
+                        ]);
+    
+                        // Load HTML to Dompdf
+                        $dompdf->loadHtml($html);
+    
+                        // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+                        $dompdf->setPaper('A4', 'portrait');
+    
+                        // Render the HTML as PDF
+                        $dompdf->render();
+    
+                        $pdfName = $intervention->getClient()->getLastName().'-DEMANDE_RAPPORT-'.time().'.pdf';
+                        // Output the generated PDF to Browser (force download)
+                        $dompdf->stream($pdfName, [
+                            "Attachment" => false
+                        ]);
+                        break;
             }
         }
 

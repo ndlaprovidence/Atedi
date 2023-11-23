@@ -23,12 +23,16 @@ class InterventionType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $clientId = $options['clientId'];
         $builder
             ->add('client', EntityType::class, [
                 'class' => Client::class,
-                'query_builder' => function (ClientRepository $cr) {
+                'query_builder' => function (ClientRepository $cr) use ($clientId){
                     return $cr->createQueryBuilder('c')
-                        ->orderBy('c.last_name', 'ASC');
+                    ->addSelect('CASE WHEN c.id = :clientId THEN 0 ELSE 1 END as HIDDEN orderByValue')
+                    ->setParameter('clientId', $clientId)
+                    ->orderBy('orderByValue')
+                    ->addOrderBy('c.last_name', 'ASC');
                 }
             ])
             ->add('operating_system', EntityType::class, [
@@ -70,6 +74,7 @@ class InterventionType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Intervention::class,
+            'clientId' => null,
         ]);
     }
 }
