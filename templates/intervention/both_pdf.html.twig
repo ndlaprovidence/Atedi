@@ -7,6 +7,7 @@
     </head>
 
     <style type="text/css">
+        td { padding-top: 7px; padding-bottom: 7px; }
         hr { margin: 5px 0 5px 0; }
         .font-b{ font-weight: bold; }
         .font-25 { font-size: 25px; }
@@ -48,22 +49,22 @@
     <body>
         <div class='main-container'>
             <div class='p-1 header'>
-                <div class='text-center font-weight-bold'>DEMANDE D'INTERVENTION</div>
+                <div align="center" class='text-center font-weight-bold' style="font-size: 25px;">DEMANDE D'INTERVENTION</div>
             </div>
 
-            <div class='p-2 mt-5'>
+            <div align="center" class='p-2 mt-5'>
                 <div class='container-2-2'>
                     <div class='header'>
-                        <div class='text-center font-weight-bold'>Informations client</div>
+                        <div width="100%" align="center" class='text-center font-weight-bold' style="font-size: 18px;">Informations client</div>
                     </div>
-                    <table class='w-100' >
+                    <table width="100%" class='w-100' >
                         <tbody>
-                            <tr>
-                                <td class='border-on pr-2 text-center'>Client</td>
-                                <td class='border-on font-b font-20 pl-1'>{{ intervention.client }}</td>
+                            <tr height="100%">
+                                <td align="right" width="50%" class='border-on pr-2 text-center'>Client</td>
+                                <td width="50%" class='border-on font-b font-20 pl-1'>{{ intervention.client }}</td>
                             </tr>
                             <tr>
-                                <td class='border-on pr-2 text-center'>Téléphone</td>
+                                <td align="right" class='border-on pr-2 text-center'>Téléphone</td>
                                 <td class='border-on pl-1'>{{ intervention.client.phone }}</td>
                             </tr>
                         </tbody>
@@ -72,16 +73,16 @@
 
                 <div class='container-2-2'>
                     <div class='header'>
-                        <div class='text-center font-weight-bold'>Dates d'intervention</div>
+                        <div align="center" class='text-center font-weight-bold'style="font-size: 18px;">Dates d'intervention</div>
                     </div>
-                    <table class='w-100'>
+                    <table width="100%" class='w-100'>
                         <tbody>
-                            <tr>
-                                <td class='border-on text-center'>Date de dépôt</td>
-                                <td class='border-on px-1'>{{ intervention.depositDate ? intervention.depositDate|date('d/m/Y') : "" }}</td>
+                            <tr width="100%">
+                                <td align="right" width="50%" class='border-on text-center'>Date de dépôt</td>
+                                <td width="50%" class='border-on px-1'>{{ intervention.depositDate ? intervention.depositDate|date('d/m/Y') : "" }}</td>
                             </tr>
                             <tr>
-                                <td class='border-on text-center'>Date de restitution</td>
+                                <td align="right" class='border-on text-center'>Date de restitution</td>
                                 <td class='border-on font-b font-20 px-1'>{{ intervention.returnDate ? intervention.returnDate|date('d/m/Y') : "" }}</td>
                             </tr>
                         </tbody>
@@ -91,53 +92,53 @@
 
             <div class='p-2 mt-3'>
                 <div class='header'>
-                    <div class='text-center font-weight-bold'>Informations sur l'intervention</div>
+                    <div align="center" class='text-center font-weight-bold' style="font-size: 18px;">Informations sur l'intervention</div>
                 </div>
-                <table class='w-100'>
-                    <tbody class="w-100">
-                        <tr class="w-100">
-                            <td class='border-on text-center w-50'>Tâche(s)</td>
-                            <td class='border-on font-b font-20 px-1'>{% for task in intervention.tasks %}{{ task }}{% if not loop.last %}, {% endif %}{% endfor %}</td>
+                <table width="100%" class='w-100'>
+                    <tbody class="w-100" align="right">
+                        <tr class="w-100 border-on">
+                            <td width="50%" class='border-on text-center w-100'>Tâche(s)</td>
+                            <td align="left" class='border-on font-b font-20 px-1'>{% for task in intervention.tasks %}{{ task }}{% if not loop.last %}, {% endif %}{% endfor %}</td>
                         </tr>
                         <tr>
                             <td class='border-on text-center'>Commentaire</td>
-                            <td class='border-on px-1'>{{ intervention.comment }}</td>
+                            <td align="left" class='border-on px-1'>{{ intervention.comment }}</td>
                         </tr>
                         <tr>
                             <td class='border-on text-center'>Équipement</td>
-                            <td class='border-on font-b font-20 px-1'>{{ intervention.equipment }}</td>
+                            <td align="left" class='border-on font-b font-20 px-1'>{{ intervention.equipment }}</td>
                         </tr>
                         <tr>
                             <td class='border-on text-center'>Système d'exploitation</td>
-                            <td class='border-on px-1'>{{ intervention.operatingSystem }}</td>
+                            <td align="left" class='border-on px-1'>{{ intervention.operatingSystem }}</td>
                         </tr>
                         <tr>
                             <td class='border-on text-center'>Matériel complet</td>
-                            <td class='border-on px-1'>{{ intervention.equipmentComplete }}</td>
+                            <td align="left" class='border-on px-1'>{{ intervention.equipmentComplete }}</td>
                         </tr>
                     </tbody>
                 </table>
-            </div><br><br><br><br><br><br>
+            </div><br><br><br><br>
 
             <div class='p-1 header'>
-                <div class='text-center font-weight-bold'>TRAITEMENT DE L'INTERVENTION</div>
+                <div align="center" class='text-center font-weight-bold' style="font-size: 25px;">TRAITEMENT DE L'INTERVENTION</div>
             </div>
 
             <div class='p-2 mt-5'>
                 <div class='header'>
-                    <div class='text-center font-weight-bold'>Sévérité de l'infection</div>
+                    <div align="center" class='text-center font-weight-bold' style="font-size: 18px;">Sévérité de l'infection</div>
                 </div>
                 <table class='w-100'>
                     <tbody>
                         <tr>
-                            <td class='py-1 border-on text-center' colspan="2">[_]Matériel non infecté [_]Matériel légèrement infecté [_]Matériel dangereusement infecté</td>
+                            <td align="center" class='py-1 border-on text-center' colspan="2">[_]Matériel non infecté [_]Matériel légèrement infecté [_]Matériel dangereusement infecté</td>
                         </tr>
                         <tr>
-                            <td class='py-1 border-on px-2'>Type d'infection du matériel</td>
+                            <td width="50%" align="right" class='py-1 border-on px-2'>Type d'infection du matériel</td>
                             <td class='py-1 border-on px-2'>[_]Virus ..... [_]Malwares ..... [_]Spywares</td>
                         </tr>
                         <tr>
-                            <td class='py-1 border-on px-2'>Logiciel de nettoyage utilisé(s)</td>
+                            <td align="right" class='py-1 border-on px-2'>Logiciel de nettoyage utilisé(s)</td>
                             <td class='py-1 border-on px-2'>
                                 {% for software in cleaningSoftwares %}
                                     <div class='checkbox-item'>[_]{{ software }} {% if not loop.last %}.....{% endif %}</div>
@@ -153,15 +154,15 @@
 
             <div class='p-2 mt-3'>
                 <div class='header'>
-                    <div class='text-center font-weight-bold'>Actions effectué(s)</div>
+                    <div align="center" class='text-center font-weight-bold' style="font-size: 18px;">Actions effectué(s)</div>
                 </div>
-                <table class='w-100'>
+                <table width="100%" class='w-100'>
                     <tbody>
                         <tr>
                             <td class='large-mb border-on px-2'><span class='font-weight-bold'>Logiciel installé(s) ou mis à jour :</span></td>
                         </tr>
                         <tr>
-                            <td class='py-1 border-on px-2 text-center'>
+                            <td align="center" class='py-1 border-on px-2 text-center' width="100%">
                                 {% for action in actions %}
                                     <div class='checkbox-item'>[_]{{ action }} {% if not loop.last %}.....{% endif %}</div>
                                 {% endfor %}
@@ -188,36 +189,36 @@
 
             <div class='p-2 mt-3  page-break'>
                 <div class='header'>
-                    <div class='text-center font-weight-bold'>Observations</div>
+                    <div align="center" class='text-center font-weight-bold' style="font-size: 18px;">Observations</div>
                 </div>
             </div>
 
 
             <div class='p-1 header'>
-                <div class='text-center font-weight-bold'>RAPPORT D'INTERVENTION</div>
+                <div align="center" class='text-center font-weight-bold' style="font-size: 25px;">RAPPORT D'INTERVENTION</div>
             </div>
 
-            <div class='p-2 mt-5'>
+            <div align="center" width="100%" class='p-2 mt-5'>
                 <div class='container-2-2 pr-2'>
                     <div class='header'>
-                        <div class='text-center font-weight-bold'>Informations client</div>
+                        <div width="100%" align="center" class='text-center font-weight-bold' style="font-size: 18px;">Informations client</div>
                     </div>
-                    <table class='w-100'>
+                    <table width="100%" class='w-100'>
                         <tbody>
                             <tr>
-                                <td class='border-on pr-2 text-center'>Client</td>
+                                <td align="right" width="50%" class='border-on pr-2 text-center'>Client</td>
                                 <td class='border-on pl-1'>{{ intervention.client }}</td>
                             </tr>
                             <tr>
-                                <td class='border-on pr-2 text-center'>Téléphone</td>
+                                <td align="right" class='border-on pr-2 text-center'>Téléphone</td>
                                 <td class='border-on pl-1'>{{ intervention.client.phone }}</td>
                             </tr>
                             <tr>
-                                <td class='border-on pr-2 text-center'>Email</td>
+                                <td align="right" class='border-on pr-2 text-center'>Email</td>
                                 <td class='border-on pl-1'>{{ intervention.client.email }}</td>
                             </tr>
                             <tr>
-                                <td class='border-on pr-2 text-center'>Adresse</td>
+                                <td align="right" class='border-on pr-2 text-center'>Adresse</td>
                                 <td class='border-on pl-1'>
                                     {% if intervention.client.street %}<div>{{ intervention.client.street }}</div>{% endif %}
                                     {% if (intervention.client.city) or (intervention.client.postalCode) %}<div>{{ intervention.client.city }} {{ intervention.client.postalCode }}</div>{% endif %}
@@ -229,12 +230,12 @@
 
                 <div class='container-2-2'>
                     <div class='header'>
-                        <div class='text-center font-weight-bold'>Sévérité de l'infection</div>
+                        <div width="100%" align="center" class='text-center font-weight-bold'  style="font-size: 18px;">Sévérité de l'infection</div>
                     </div>
-                    <table class='w-100'>
+                    <table width="100%" class='w-100'>
                         <tbody>
                             <tr>
-                                <td class='border-on text-center py-2' colspan="2">{{ intervention.interventionReport.severity }}</td>
+                                <td align="center" class='py-1 border-on text-center' style="padding-top: 18px; padding-bottom: 14px;" colspan="2">[_]Matériel non infecté [_]Matériel légèrement infecté [_]Matériel dangereusement infecté</td>
                             </tr>
                             <tr>
                                 <td class='py-2 border-on text-center' colspan="2">
@@ -248,10 +249,10 @@
                 </div>
             </div>
 
-            <div class='p-2 mt-1'>
+            <div class='p-2 mt-1' align="center" width="100%">
                 <div class='container-2-2 pr-2'>
                     <div class='header'>
-                        <div class='text-center font-weight-bold'>Logiciel(s) installé(s) ou mis à jour</div>
+                        <div align="center" class='text-center font-weight-bold' style="font-size: 18px;">Logiciel(s) installé(s) ou mis à jour</div>
                     </div>
                     <div class='border-on'>
                         {% if softwares|length > 0 %}
@@ -268,7 +269,7 @@
 
                 <div class='container-2-2'>
                     <div class='header'>
-                        <div class='text-center font-weight-bold'>Opération(s) faite(s) sur le matériel</div>
+                        <div align="center" class='text-center font-weight-bold' style="font-size: 18px;">Opération(s) faite(s) sur le matériel</div>
                     </div>
                     <div class='border-on'>
                         {% if (actions|length > 0) or (intervention.interventionReport.windowsInstall|length > 0) %}
@@ -292,26 +293,24 @@
 
             <hr>
 
-            <div class='p-2'>
+            <div width="100%" align="center" class='p-2'>
                 <div class='header'>
-                    <div class='text-center font-weight-bold'>Observations et facture</div>
+                    <div align="center" class='text-center font-weight-bold' style="font-size: 18px;">Observations et facture</div>
                 </div>
-                <table class='w-100 border-on'>
+                <table width="100%" align="center" class='w-100 border-on'>
                     <tbody>
                         {% for task in intervention.tasks %}
                             <tr>
-                                <td class='list-ele w-75 pl-2'><span>{{ task }}</span></td>
-                                <td class='list-ele w-25 pl-2 bill-price'><span>{{ completePrice(task.price) }}€</span></td>
+                                <td class='list-ele w-100 pl-2'><span>{{ task }} : {{ completePrice(task.price) }}€</span></td>
                             </tr>
                         {% endfor %}
                         {% for billingLine in intervention.billingLines %}
                             <tr>
-                                <td class='list-ele w-75 pl-2'><span>{{ billingLine }}</span></td>
-                                <td class='list-ele w-25 pl-2 bill-price'><span>{{ completePrice(billingLine.price) }}€</span></td>
+                                <td class='list-ele w-100 pl-2'><span>{{ billingLine }} : {{ completePrice(billingLine.price) }}€</span></td>
                             </tr>
                         {% endfor %}
                         <tr>
-                            <td class='list-ele text-right pr-2' colspan="2"><span class='font-20'>Total : </span><span class='font-25 font-weight-bold'>{{ intervention.totalPrice }}€</span></td>
+                            <td class='list-ele text-right pr-2' colspan="2"><span class='font-20 font-weight-bold'>Total : </span><span class='font-25 font-weight-bold'>{{ intervention.totalPrice }}€</span></td>
                         </tr>
                         <tr>
                             <td class='list-ele pl-2 py-1' colspan="2">Observations : {{ intervention.interventionReport.comment }}</td>

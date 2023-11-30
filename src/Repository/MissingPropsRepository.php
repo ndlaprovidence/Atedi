@@ -2,27 +2,27 @@
 
 namespace App\Repository;
 
-use App\Entity\MissingProps;
+use App\Entity\props;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<MissingProps>
+ * @extends ServiceEntityRepository<props>
  *
- * @method MissingProps|null find($id, $lockMode = null, $lockVersion = null)
- * @method MissingProps|null findOneBy(array $criteria, array $orderBy = null)
- * @method MissingProps[]    findAll()
- * @method MissingProps[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method props|null find($id, $lockMode = null, $lockVersion = null)
+ * @method props|null findOneBy(array $criteria, array $orderBy = null)
+ * @method props[]    findAll()
+ * @method props[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class MissingPropsRepository extends ServiceEntityRepository
+class propsRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, MissingProps::class);
+        parent::__construct($registry, props::class);
     }
 
 //    /**
-//     * @return MissingProps[] Returns an array of MissingProps objects
+//     * @return props[] Returns an array of props objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -36,7 +36,7 @@ class MissingPropsRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?MissingProps
+//    public function findOneBySomeField($value): ?props
 //    {
 //        return $this->createQueryBuilder('m')
 //            ->andWhere('m.exampleField = :val')

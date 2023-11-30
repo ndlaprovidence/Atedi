@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvel equipement{% endblock %}
+
+{% block body %}
+    <a href="{{ path('equipment_index') }}"><i class="fas fa-chevron-left h1 float-left"></i></a>
+    <h2 class='text-center mb-5 font-weight-bold'>Nouvel equipement</h2>
+
+    {{ include('equipment/_form.html.twig') }}
+{% endblock %}
