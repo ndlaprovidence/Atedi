@@ -2,9 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\props;
-use App\Form\propsType;
-use App\Repository\propsRepository;
+use App\Entity\Props;
+use App\Form\PropsType;
+use App\Repository\PropsRepository;
 use App\Repository\InterventionRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,12 +14,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 /**
  * @Route("/props")
  */
-class propsController extends AbstractController
+class PropsController extends AbstractController
 {
     /**
      * @Route("/", name="props_index", methods={"GET"})
      */
-    public function index(propsRepository $propsRepository): Response
+    public function index(PropsRepository $propsRepository): Response
     {
         return $this->render('props/index.html.twig', [
             'props' => $propsRepository->findAll(),
@@ -31,8 +31,8 @@ class propsController extends AbstractController
      */
     public function new(Request $request): Response
     {
-        $props = new props();
-        $form = $this->createForm(propsType::class, $props);
+        $props = new Props();
+        $form = $this->createForm(PropsType::class, $props);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -58,9 +58,9 @@ class propsController extends AbstractController
     /**
      * @Route("/{id}", name="props_show", methods={"GET"})
      */
-    public function show(props $props, InterventionRepository $interventionRepository): Response
+    public function show(Props $props, InterventionRepository $interventionRepository): Response
     {
-        $interventions = $interventionRepository->findAllByprops($props->getId());
+        $interventions = $interventionRepository->findAllByProps($props->getId());
 
         return $this->render('props/show.html.twig', [
             'props' => $props,
@@ -71,9 +71,9 @@ class propsController extends AbstractController
     /**
      * @Route("/{id}/edit", name="props_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, props $props): Response
+    public function edit(Request $request, Props $props): Response
     {
-        $form = $this->createForm(propsType::class, $props);
+        $form = $this->createForm(PropsType::class, $props);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -93,7 +93,7 @@ class propsController extends AbstractController
     /**
      * @Route("/{id}", name="props_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, props $props): Response
+    public function delete(Request $request, Props $props): Response
     {
         if ($this->isCsrfTokenValid('delete'.$props->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();

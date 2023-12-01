@@ -47,6 +47,12 @@ class Intervention
      */
     private $equipment;
 
+    // /**
+    //  * @ORM\ManyToOne(targetEntity="App\Entity\Props", inversedBy="interventions")
+    //  * @ORM\JoinColumn(nullable=false)
+    //  */
+    // private $props;
+
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Task", inversedBy="interventions")
      * @ORM\JoinColumn(nullable=false)
@@ -294,5 +300,16 @@ class Intervention
 
         return $this;
     }
-        
+
+    // public function getProps(): ?Props
+    // {
+    //     return $this->props;
+    // }
+
+    // public function setProps(?Props $props): self
+    // {
+    //     $this->props = $props;
+
+    //     return $this;
+    // }
 }

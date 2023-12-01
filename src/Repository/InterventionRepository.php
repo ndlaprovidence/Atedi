@@ -79,6 +79,17 @@ class InterventionRepository extends ServiceEntityRepository
         ;
     }
 
+    public function findAllByProps($id)
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.props = :id')
+            ->setParameter('id', $id)
+            ->orderBy('i.id', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     public function findAllByOperatingSystem($id)
     {
         return $this->createQueryBuilder('i')

@@ -4,16 +4,16 @@ namespace App\Entity;
 
 use App\Entity\Intervention;
 use Doctrine\ORM\Mapping as ORM;
-use App\Repository\propsRepository;
+use App\Repository\PropsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\propsRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\PropsRepository")
  * @UniqueEntity(fields={"title"}, message="Il existe déjà un matériel avec ce nom")
  * @ORM\Table(name="tbl_props")
  */
-class props
+class Props
 {
     /**
      * @ORM\Id()
@@ -71,7 +71,7 @@ class props
     {
         if (!$this->interventions->contains($intervention)) {
             $this->interventions[] = $intervention;
-            $intervention->setprops($this);
+            $intervention->setProps($this);
         }
 
         return $this;
@@ -82,8 +82,8 @@ class props
         if ($this->interventions->contains($intervention)) {
             $this->interventions->removeElement($intervention);
             // set the owning side to null (unless already changed)
-            if ($intervention->getprops() === $this) {
-                $intervention->setprops(null);
+            if ($intervention->getProps() === $this) {
+                $intervention->setProps(null);
             }
         }
 
