@@ -22,7 +22,7 @@ class PropsController extends AbstractController
     public function index(PropsRepository $propsRepository): Response
     {
         return $this->render('props/index.html.twig', [
-            'props' => $propsRepository->findAll(),
+            'propss' => $propsRepository->findAll(),
         ]);
     }
 

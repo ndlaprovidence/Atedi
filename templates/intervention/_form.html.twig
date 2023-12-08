@@ -52,6 +52,16 @@
                     </div>
                 </div>
 
+                <div class='col row justify-content-end'>
+                    <div class='col row'>
+                        {% if app.request.attributes.get('_route') != 'intervention_edit' %}
+                            <a href="{{ path('props_new', {'s': 'intervention'}) }}"><i class="fas add-btn fa-plus-circle fa-lg mr-2"></i></a>
+                        {% endif %}
+                        <h5>Equipement(s) Manquant(s)</h5>            
+                        {{ form_errors(form.propss) }}
+                        {{ form_widget(form.propss, {'attr': {'class': 'mb-3', 'required': 'required'}}) }}
+                    </div>
+                </div>
 
                 <div class='col-6'>
                     <div class='col-md-auto '>

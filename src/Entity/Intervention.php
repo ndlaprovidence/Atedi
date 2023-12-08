@@ -2,10 +2,14 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Entity\Task;
+use App\Entity\Props;
+use App\Entity\BillingLine;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\InterventionReport;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\InterventionRepository")
@@ -47,11 +51,11 @@ class Intervention
      */
     private $equipment;
 
-    // /**
-    //  * @ORM\ManyToOne(targetEntity="App\Entity\Props", inversedBy="interventions")
-    //  * @ORM\JoinColumn(nullable=false)
-    //  */
-    // private $props;
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Props", inversedBy="interventions")
+     * @ORM\JoinTable(name="interventions_props")
+     */
+    private $propss;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Task", inversedBy="interventions")
@@ -301,15 +305,27 @@ class Intervention
         return $this;
     }
 
-    // public function getProps(): ?Props
-    // {
-    //     return $this->props;
-    // }
 
-    // public function setProps(?Props $props): self
-    // {
-    //     $this->props = $props;
+    public function getProps(): Collection
+    {
+        return $this->propss;
+    }
 
-    //     return $this;
-    // }
+    public function addProps(Props $props): self
+    {
+        if (!$this->propss->contains($props)) {
+            $this->propss[] = $props;
+            $props->addIntervention($this);
+        }    
+        return $this;
+    }
+    
+    public function removeProps(Props $props): self
+    {
+        if ($this->propss->contains($props)) {
+            $this->propss->removeElement($props);
+            $props->removeIntervention($this);
+        }    
+        return $this;
+    }
 }

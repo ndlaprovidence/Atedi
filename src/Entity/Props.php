@@ -28,7 +28,7 @@ class Props
     private $title;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Intervention", mappedBy="props")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Intervention", mappedBy="props")
      */
     private $interventions;
 
@@ -59,34 +59,29 @@ class Props
         return $this;
     }
 
-    /**
-     * @return Collection|Intervention[]
-     */
+
     public function getInterventions(): Collection
     {
         return $this->interventions;
     }
-
+    
     public function addIntervention(Intervention $intervention): self
     {
         if (!$this->interventions->contains($intervention)) {
             $this->interventions[] = $intervention;
-            $intervention->setProps($this);
+            $intervention->addProps($this); // Ajoute le Props à la liste des Props de l'intervention
         }
-
+    
         return $this;
     }
-
+    
     public function removeIntervention(Intervention $intervention): self
     {
         if ($this->interventions->contains($intervention)) {
             $this->interventions->removeElement($intervention);
-            // set the owning side to null (unless already changed)
-            if ($intervention->getProps() === $this) {
-                $intervention->setProps(null);
-            }
+            $intervention->removeProps($this); // Retire le Props de la liste des Props de l'intervention
         }
-
+    
         return $this;
     }
 }
