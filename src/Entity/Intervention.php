@@ -53,7 +53,7 @@ class Intervention
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Props", inversedBy="interventions")
-     * @ORM\JoinTable(name="interventions_props")
+     * @ORM\JoinTable(name="intervention_props")
      */
     private $propss;
 
@@ -105,6 +105,7 @@ class Intervention
     public function __construct()
     {
         $this->tasks = new ArrayCollection();
+        $this->propss = new ArrayCollection();
         $this->setDepositDate(new \DateTime());
         $this->setStatus('En attente');
         $this->billing_lines = new ArrayCollection();
@@ -306,7 +307,7 @@ class Intervention
     }
 
 
-    public function getProps(): Collection
+    public function getPropss(): ?Collection
     {
         return $this->propss;
     }
@@ -315,8 +316,7 @@ class Intervention
     {
         if (!$this->propss->contains($props)) {
             $this->propss[] = $props;
-            $props->addIntervention($this);
-        }    
+        }
         return $this;
     }
     
@@ -324,7 +324,6 @@ class Intervention
     {
         if ($this->propss->contains($props)) {
             $this->propss->removeElement($props);
-            $props->removeIntervention($this);
         }    
         return $this;
     }
