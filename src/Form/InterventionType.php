@@ -51,17 +51,12 @@ class InterventionType extends AbstractType
                         ->orderBy('e.id', 'DESC');
                 }
             ])
-            ->add('equipment_complete', ChoiceType::class, [
-                'choices' => [
-                    'Oui' => 'Oui',
-                    'Non' => 'Non',
-                ],
-            ])
             ->add('user', EntityType::class, [
                 'class' => User::class,
+                'choice_label' => 'first_name', // Utilisez le prénom de l'utilisateur comme libellé
                 'query_builder' => function (UserRepository $ur) {
                     return $ur->createQueryBuilder('u')
-                        ->orderBy('u.email', 'ASC');
+                        ->orderBy('u.first_name', 'ASC');
                 }
             ])
             ->add('comment')

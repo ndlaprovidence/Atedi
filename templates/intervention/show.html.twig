@@ -10,7 +10,7 @@
 
 {% block body %}
     <div class='text-center'>	
-        <div class='h2 mb-3 font-weight-bold'>Gestion de la demande d'intervention</div>
+        <div class='h2 mb-3 font-weight-bold'>Gestion de la demande d'intervention n°{{ intervention.id }}</div>
         <a class="grey-btn f-20 px-4 py-2" href="{{ path('intervention_edit', {'id': intervention.id}) }}">Modifier</a>
         {{ include('intervention/_delete_form.html.twig') }}
     </div>
@@ -184,7 +184,7 @@
                             <div class="d-flex flex-column">
                                 <div>{{ intervention.equipment }}</div>
                                 <div>{{ intervention.operatingSystem }}</div>
-                                <div>Matériel complet : {{ intervention.equipmentComplete }}</div>
+                                <div>Matériel Manquant : {% if not intervention.propss is empty %}{% for props in intervention.propss %} {{ props }}{% if not loop.last %}, {% endif %}{% endfor %}{% else %}Aucun/Non spécifié{% endif %}</div>
                             </div>
                         </div>
                     </div>

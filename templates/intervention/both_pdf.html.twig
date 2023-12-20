@@ -49,7 +49,7 @@
     <body>
         <div class='main-container'>
             <div class='p-1 header'>
-                <div align="center" class='text-center font-weight-bold' style="font-size: 25px;">DEMANDE D'INTERVENTION</div>
+                <div align="center" class='text-center font-weight-bold' style="font-size: 25px;">DEMANDE D'INTERVENTION N°{{ intervention.id }}</div>
             </div>
 
             <div align="center" class='p-2 mt-5'>
@@ -73,7 +73,7 @@
 
                 <div class='container-2-2'>
                     <div class='header'>
-                        <div align="center" class='text-center font-weight-bold'style="font-size: 18px;">Dates d'intervention</div>
+                        <div align="center" class='text-center font-weight-bold'style="font-size: 18px;">Dates</div>
                     </div>
                     <table width="100%" class='w-100'>
                         <tbody>
@@ -113,15 +113,19 @@
                             <td align="left" class='border-on px-1'>{{ intervention.operatingSystem }}</td>
                         </tr>
                         <tr>
-                            <td class='border-on text-center'>Matériel complet</td>
-                            <td align="left" class='border-on px-1'>{{ intervention.equipmentComplete }}</td>
+                            <td class='border-on text-center'>Matériel Manquant</td>
+                            <td align="left" class='border-on px-1'>{% if not intervention.propss is empty %}{% for props in intervention.propss %} {{ props }}{% if not loop.last %}, {% endif %}{% endfor %}{% else %}Aucun/Non spécifié{% endif %}</td>
+                        </tr>
+                        <tr>
+                            <td class='border-on text-center'>Signature du client avec date et mention "bon pour accord travaux" </td>
+                            <td align="left" class='border-on px-1' valign="top" >SIGNATURE:</td>
                         </tr>
                     </tbody>
                 </table>
             </div><br><br><br><br>
 
             <div class='p-1 header'>
-                <div align="center" class='text-center font-weight-bold' style="font-size: 25px;">TRAITEMENT DE L'INTERVENTION</div>
+                <div align="center" class='text-center font-weight-bold' style="font-size: 25px;">TRAITEMENT DE L'INTERVENTION N°{{ intervention.id }}</div>
             </div>
 
             <div class='p-2 mt-5'>
@@ -154,12 +158,12 @@
 
             <div class='p-2 mt-3'>
                 <div class='header'>
-                    <div align="center" class='text-center font-weight-bold' style="font-size: 18px;">Actions effectué(s)</div>
+                    <div align="center" class='text-center font-weight-bold' style="font-size: 18px;">Action(s) effectuée(s)</div>
                 </div>
                 <table width="100%" class='w-100'>
                     <tbody>
                         <tr>
-                            <td class='large-mb border-on px-2'><span class='font-weight-bold'>Logiciel installé(s) ou mis à jour :</span></td>
+                            <td class='large-mb border-on px-2'><span class='font-weight-bold'>Logiciel(s) installé(s) ou mis à jour :</span></td>
                         </tr>
                         <tr>
                             <td align="center" class='py-1 border-on px-2 text-center' width="100%">
@@ -177,10 +181,15 @@
                     <div class='header'>
                         <div class='text-center font-weight-bold'>Sous-partie Windows</div>
                     </div>
-                    <table class='w-100'>
+                    <table width="100%" class='w-100'>
                         <tbody>
                             <tr>
-                                <td class='py-1 border-on px-2 text-center' colspan='2'>[_]Installation des mises à jours Windows ..... [_]Installation des Service Pack Windows ..... [_]Activation Windows</td>
+                                <td width="100%" align="center" class='py-1 border-on px-2 text-center' colspan='2'>
+                                        <div class='w-100 list-ele pl-2'>
+                                            [{{ "Installation de(s) mise(s) à jour Windows" in intervention.interventionReport.windowsInstall ? "X" : "_" }}]Installation des mises à jour Windows .....
+                                            [{{ "Activation Windows" in intervention.interventionReport.windowsInstall ? "X" : "_" }}]Activation Windows
+                                        </div>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -195,7 +204,7 @@
 
 
             <div class='p-1 header'>
-                <div align="center" class='text-center font-weight-bold' style="font-size: 25px;">RAPPORT D'INTERVENTION</div>
+                <div align="center" class='text-center font-weight-bold' style="font-size: 25px;">RAPPORT D'INTERVENTION N°{{ intervention.id }}</div>
             </div>
 
             <div align="center" width="100%" class='p-2 mt-5'>
@@ -235,7 +244,7 @@
                     <table width="100%" class='w-100'>
                         <tbody>
                             <tr>
-                                <td align="center" class='py-1 border-on text-center' style="padding-top: 18px; padding-bottom: 14px;" colspan="2">[_]Matériel non infecté [_]Matériel légèrement infecté [_]Matériel dangereusement infecté</td>
+                                <td align="center" class='py-1 border-on text-center' style="padding-top: 18px; padding-bottom: 14px;" colspan="2">{{ intervention.interventionReport.severity }}</td>
                             </tr>
                             <tr>
                                 <td class='py-2 border-on text-center' colspan="2">
@@ -317,6 +326,9 @@
                         </tr>
                         <tr>
                             <td class='list-ele pl-2 py-1' colspan="2">Technicien(s) : {% for technician in technicians %}{{ technician }}{% if not loop.last %}, {% endif %}{% endfor %}</td>
+                        </tr>
+                        <tr>
+                            <td class='list-ele pl-2 py-1' colspan="2">Pris en charge par : {{ intervention.user.firstname }} ({{ intervention.user.email }})</td>
                         </tr>
                         <tr>
                             <td class='list-ele pl-2 py-1' colspan="2">Brochure(s) : {% for booklet in booklets %}{{ booklet }}{% if not loop.last %}, {% endif %}{% endfor %}</td>

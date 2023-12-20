@@ -75,11 +75,6 @@ class Intervention
     private $status;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $equipment_complete;
-
-    /**
      * @ORM\OneToOne(targetEntity=InterventionReport::class, inversedBy="intervention", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
@@ -223,18 +218,6 @@ class Intervention
     public function setStatus(string $status): self
     {
         $this->status = $status;
-
-        return $this;
-    }
-
-    public function getEquipmentComplete(): ?string
-    {
-        return $this->equipment_complete;
-    }
-
-    public function setEquipmentComplete(string $equipment_complete): self
-    {
-        $this->equipment_complete = $equipment_complete;
 
         return $this;
     }

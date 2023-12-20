@@ -112,8 +112,8 @@
                             <td class='border-on px-1'>{{ intervention.operatingSystem }}</td>
                         </tr>
                         <tr>
-                            <td class='border-on text-center'>Matériel complet</td>
-                            <td class='border-on px-1'>{{ intervention.equipmentComplete }}</td>
+                            <td class='border-on text-center'>Matériel Manquant</td>
+                            <td class='border-on px-1'>{% if intervention.propss != null %}{% for props in intervention.propss %} {{ props }}, {% endfor %}{% else %} Aucun/Non spécifié {% endif %}</td>
                         </tr>
                     </tbody>
                 </table>
