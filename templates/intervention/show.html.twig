@@ -78,7 +78,7 @@
                                 <form action="" method="post">
                                     <input type='submit' name='status' value='En attente' class='py-1 px-2 {% if intervention.status == 'En attente' %}disabled-btn active' disabled {% else %} grey-btn''{% endif %} />
                                     <input type='submit' name='status' value='En cours' class='py-1 px-2 {% if intervention.status == 'En cours' %}disabled-btn active' disabled {% else %} grey-btn''{% endif %} />
-                                    {% if (intervention.interventionReport.step != 8) or (not intervention.returnDate) %}
+                                    {% if (intervention.interventionReport.step != 9) or (not intervention.returnDate) %}
                                         <input type='submit' name='status' value='Terminée' class='py-1 px-2 disabled-btn' disabled />
                                     {% else %}
                                         {% if intervention.status == 'Terminée' %}
@@ -93,7 +93,7 @@
                     </div>
                 </div>
                 <hr>
-                {% if (intervention.status == 'En cours') and (intervention.interventionReport.step == 8) %}
+                {% if (intervention.status == 'En cours') and (intervention.interventionReport.step == 9) %}
                     <div class='row mb-2'>
                         <div class='col-md-auto my-auto'>
                             <i class="fas fa-copy info-btn-75 fa-lg float-left" id='copyButton'>                                
@@ -104,7 +104,7 @@
                             <div class='comment p-2'>
                                 <div id='copyTarget'>{{ intervention.client }}, votre {{ intervention.equipment }} est disponible dans notre boutique.</div>
                             </div>
-                            {% if (not intervention.returnDate) and (intervention.interventionReport.step == 8) %}
+                            {% if (not intervention.returnDate) and (intervention.interventionReport.step == 9) %}
                                 <div class='mt-2 text-center'>
                                     <form action="" method="post">
                                         <button type='submit' name='return-date' class='py-1 px-2 grey-btn'>Retour le {{ "now"|date("d/m/Y") }}</button>
@@ -206,7 +206,7 @@
                     </div>
                 </div>
 
-                {% if intervention.interventionReport.step == 8 %}
+                {% if intervention.interventionReport.step == 9 %}
                     <div class="container-background mb-5 p-4">
                         <div class='f-20 text-center font-weight-bold'>Rapport d'intervention</div>
                         <hr>

@@ -122,7 +122,7 @@
                         </tr>
                     </tbody>
                 </table>
-            </div><br><br><br><br>
+            </div><br><br><br>
 
             <div class='p-1 header'>
                 <div align="center" class='text-center font-weight-bold' style="font-size: 25px;">TRAITEMENT DE L'INTERVENTION N°{{ intervention.id }}</div>
@@ -135,12 +135,18 @@
                 <table class='w-100'>
                     <tbody>
                         <tr>
-                            <td align="center" class='py-1 border-on text-center' colspan="2">[_]Matériel non infecté [_]Matériel légèrement infecté [_]Matériel dangereusement infecté</td>
+                            <td align="center" class='py-1 border-on text-center' colspan="2">                                            
+                            [{{ "Matériel non infecté" in intervention.interventionReport.severity ? "X" : "_" }}]Matériel non infecté
+                            [{{ "Matériel légèrement infecté" in intervention.interventionReport.severity ? "X" : "_" }}]Matériel légèrement infecté
+                            [{{ "Matériel dangereusement infecté" in intervention.interventionReport.severity ? "X" : "_" }}]Matériel dangereusement infecté
+                            </td>
                         </tr>
+                        {% if(intervention.interventionReport.severity != "Matériel non infecté") %}
                         <tr>
                             <td width="50%" align="right" class='py-1 border-on px-2'>Type d'infection du matériel</td>
-                            <td class='py-1 border-on px-2'>[_]Virus ..... [_]Malwares ..... [_]Spywares</td>
+                            <td align="center" class='py-1 border-on px-2'>[{{ "Virus" in intervention.interventionReport.severityProblem ? "X" : "_" }}]Virus</td>
                         </tr>
+                        {% endif %}
                         <tr>
                             <td align="right" class='py-1 border-on px-2'>Logiciel de nettoyage utilisé(s)</td>
                             <td class='py-1 border-on px-2'>
@@ -172,6 +178,29 @@
                                 {% endfor %}
                             </td>
                         </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class='p-2 mt-3'>
+                <div class='header'>
+                    <div align="center" class='text-center font-weight-bold' style="font-size: 18px;">Info CrystalDisk</div>
+                </div>
+                <table width="100%" class='w-100'>
+                    <tbody>
+                        <tr>
+                            <td align="left" class='py-1 border-on px-2 text-center' width="100%"> Etat du Disk :                       
+                                <div align="center" class='checkbox-item'>[{{ "Correct" in intervention.interventionReport.diskState ? "X" : "_" }}]Correct</div> 
+                                <div align="center" class='checkbox-item'>[{{ "Prudence" in intervention.interventionReport.diskState ? "X" : "_" }}]Prudence</div> 
+                                <div align="center" class='checkbox-item'>[{{ "Mauvais" in intervention.interventionReport.diskState ? "X" : "_" }}]Mauvais</div> 
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class='large-mb border-on px-2'><span class='font-weight-bold'>Temps de fonctionnement : {% if intervention.interventionReport.uptime is not null %}{{ intervention.interventionReport.uptime}}H{% else %}Non indiqué {% endif %}</span></td>
+                        </tr>
+                        <tr>
+                            <td class='large-mb border-on px-2'><span class='font-weight-bold'>Taux d'usure de la batterie : {% if intervention.interventionReport.batteryDegradation is not null %}{{ intervention.interventionReport.batteryDegradation}}%{% else %}Non indiqué {% endif %}</span></td>
+                        </tr>                        
                     </tbody>
                 </table>
             </div>
@@ -246,13 +275,13 @@
                             <tr>
                                 <td align="center" class='py-1 border-on text-center' style="padding-top: 18px; padding-bottom: 14px;" colspan="2">{{ intervention.interventionReport.severity }}</td>
                             </tr>
+                            {% if (intervention.interventionReport.severity) != "Matériel non infecté" %}
                             <tr>
-                                <td class='py-2 border-on text-center' colspan="2">
-                                    [{{ "Virus" in intervention.interventionReport.severityProblem ? "X" : "_" }}]Virus ..... 
-                                    [{{ "Malwares" in intervention.interventionReport.severityProblem ? "X" : "_" }}]Malwares ..... 
-                                    [{{ "Spywares" in intervention.interventionReport.severityProblem ? "X" : "_" }}]Spywares
+                                <td align="center" class='py-2 border-on text-center' colspan="2">
+                                    [{{ "Virus" in intervention.interventionReport.severityProblem ? "X" : "_" }}]Virus
                                 </td>
                             </tr>
+                            {% endif %}
                         </tbody>
                     </table>
                 </div>
@@ -297,7 +326,31 @@
                             <div class='w-100 text-center py-1'>Pas d'opération(s) effectuée(s)</div>
                         {% endif %}
                     </div>
-                </div>
+                </div> 
+
+                <div class='p-2 mt-3'>
+                <div class='header'>
+                    <div align="center" class='text-center font-weight-bold' style="font-size: 18px;">Info CrystalDisk</div>
+                </div> 
+
+                <table width="100%" class='w-100'>
+                    <tbody>
+                        <tr>
+                            <td align="left" class='py-1 border-on px-2 text-center' width="100%"> Etat du Disk :                       
+                                <div align="center" class='checkbox-item'>[{{ "Correct" in intervention.interventionReport.diskState ? "X" : "_" }}]Correct</div> 
+                                <div align="center" class='checkbox-item'>[{{ "Prudence" in intervention.interventionReport.diskState ? "X" : "_" }}]Prudence</div> 
+                                <div align="center" class='checkbox-item'>[{{ "Mauvais" in intervention.interventionReport.diskState ? "X" : "_" }}]Mauvais</div> 
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class='large-mb border-on px-2'><span class='font-weight-bold'>Temps de fonctionnement : {% if intervention.interventionReport.uptime is not null %}{{ intervention.interventionReport.uptime}}H{% else %}Non indiqué {% endif %}</span></td>
+                        </tr>
+                        <tr>
+                            <td class='large-mb border-on px-2'><span class='font-weight-bold'>Taux d'usure de la batterie : {% if intervention.interventionReport.batteryDegradation is not null %}{{ intervention.interventionReport.batteryDegradation}}%{% else %}Non indiqué {% endif %}</span></td>
+                        </tr>                        
+                    </tbody>
+                </table>
+            </div>
             </div>
 
             <hr>

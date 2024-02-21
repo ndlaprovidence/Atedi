@@ -81,6 +81,21 @@ class InterventionReport
      */
     private $windows_version;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $disk_state;
+
+    /**
+     * @ORM\Column(type="integer", length=11, nullable=true)
+     */
+    private $uptime;
+
+    /**
+     * @ORM\Column(type="integer", length=11, nullable=true)
+     */
+    private $battery_degradation;
+
     public function __construct()
     {
         $this->softwares = new ArrayCollection();
@@ -301,6 +316,42 @@ class InterventionReport
     public function setWindowsVersion(?string $windows_version): self
     {
         $this->windows_version = $windows_version;
+
+        return $this;
+    }
+
+    public function getDiskState(): ?string
+    {
+        return $this->disk_state;
+    }
+
+    public function setDiskState(?string $disk_state): self
+    {
+        $this->disk_state = $disk_state;
+
+        return $this;
+    }
+
+    public function getUptime(): ?string
+    {
+        return $this->uptime;
+    }
+
+    public function setUptime(?string $uptime): self
+    {
+        $this->uptime = $uptime;
+
+        return $this;
+    }
+
+    public function getBatteryDegradation(): ?string
+    {
+        return $this->battery_degradation;
+    }
+
+    public function setBatteryDegradation(?string $battery_degradation): self
+    {
+        $this->battery_degradation = $battery_degradation;
 
         return $this;
     }

@@ -225,6 +225,7 @@ class InterventionController extends AbstractController
                         "Attachment" => true
                     ]);
                     break;
+
                     case "both":
                         $cleaningSoftwares = $sr->findAllByType('Nettoyage');
                         $actions = $ar->findAll();
@@ -273,7 +274,7 @@ class InterventionController extends AbstractController
                         $pdfName = $intervention->getClient()->getLastName().'-DEMANDE_RAPPORT-'.time().'.pdf';
                         // Output the generated PDF to Browser (force download)
                         $dompdf->stream($pdfName, [
-                            "Attachment" => false
+                            "Attachment" => true
                         ]);
                         break;
             }
@@ -310,10 +311,11 @@ class InterventionController extends AbstractController
                     break;
 
                 case "previous":
-                    $interventionReport->setStep($step-1);
-                    $this->em->persist($interventionReport);
-                    $this->em->flush();
-        
+                    if($step > 1){
+                        $interventionReport->setStep($step-1);
+                        $this->em->persist($interventionReport);
+                        $this->em->flush();
+                    }
                     return $this->redirectToRoute('intervention_report', [
                         'id' => $intervention->getId(),
                     ]);
@@ -521,7 +523,40 @@ class InterventionController extends AbstractController
                 }
                 break;
 
-            case 6:
+            case 6:            
+                
+                $interventionReport->setDiskState(NULL);
+                $interventionReport->setUptime(NULL);
+                $interventionReport->setBatteryDegradation(NULL);
+                $this->em->flush();
+
+                if ($request->request->has('data')) {
+                    if ($request->request->has('disk-state')) {
+                        $diskState = $request->request->get('disk-state');
+                        $interventionReport->setDiskState($diskState);
+                    }
+            
+                    if ($request->request->has('uptime')) {
+                        $uptime = $request->request->get('uptime');
+                        $interventionReport->setUptime($uptime);
+                    }
+            
+                    if ($request->request->has('battery-degradation')) {
+                        $batteryDegradation = $request->request->get('battery-degradation');
+                        $interventionReport->setBatteryDegradation($batteryDegradation);
+                    }
+            
+                    $interventionReport->setStep($step+1);
+                    $this->em->persist($interventionReport);
+                    $this->em->flush();
+            
+                    return $this->redirectToRoute('intervention_report', [
+                        'id' => $intervention->getId(),
+                    ]);
+                }
+                break;                
+
+            case 7:
                 $irBooklets = $interventionReport->getBooklets();
                 foreach ( $irBooklets as $irBooklet ) {
                     $interventionReport->removeBooklet($irBooklet);
@@ -549,7 +584,7 @@ class InterventionController extends AbstractController
                 }
                 break;
 
-            case 7:
+            case 8:
                 $interventionReport->setComment(NULL);
 
                 if ($request->request->has('data')) {
@@ -569,7 +604,7 @@ class InterventionController extends AbstractController
                 }
                 break;
             
-            case 8:
+            case 9:
                 if ($request->request->has('delete-billing-line')) {
                     $billingLineId = $request->request->get('billing-line-id');
 

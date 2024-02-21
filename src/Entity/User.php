@@ -26,7 +26,7 @@ class User implements UserInterface
     private $email;
 
         /**
-     * @ORM\Column(type="string", length=180, unique=true)
+     * @ORM\Column(type="string", length=180, unique=false)
      */
     private $first_name;
 
@@ -43,7 +43,7 @@ class User implements UserInterface
 
     public function __construct()
     {
-        $this->setRoles(["ROLE_ADMIN"]);
+        $this->setRoles(["ROLE_USER"]);
     }
 
     public function __toString()
