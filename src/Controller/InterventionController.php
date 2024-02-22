@@ -57,8 +57,20 @@ class InterventionController extends AbstractController
         $intervention = new Intervention();
         $interventionReport = new InterventionReport();
 
-        $form = $this->createForm(InterventionType::class, $intervention);
+        if ($request->query->has('client-id')) {
+            $clientId = $request->query->getInt('client-id');
+            // Vous pouvez utiliser getInt() pour obtenir directement un entier
+        } else {
+            // Définir une valeur par défaut si le paramètre client-id n'est pas présent
+            $clientId = null; // ou une autre valeur par défaut selon votre logique
+        }
+
+        $form = $this->createForm(InterventionType::class, $intervention, [
+            'clientId' => $clientId,
+        ]);
         $form->handleRequest($request);
+
+
 
         if ($form->isSubmitted() && $form->isValid()) {
 
@@ -114,7 +126,11 @@ class InterventionController extends AbstractController
                     break;
 
                     case "Terminée":
+<<<<<<< HEAD
                         if ( $intervention->getInterventionReport()->getStep() == 8 && $intervention->getReturnDate() ) {
+=======
+                        if ( $intervention->getInterventionReport()->getStep() == 9 && $intervention->getReturnDate() ) {
+>>>>>>> addMissingProps
                             $intervention->setStatus($newStatus);
                             $this->em->persist($intervention);
                             $this->em->flush();
@@ -162,7 +178,11 @@ class InterventionController extends AbstractController
                     // Load HTML to Dompdf
                     $dompdf->loadHtml($html);
 
+<<<<<<< HEAD
                     // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+=======
+                    // (Optional) Setup the paper size and orientation 'portrai<t' or 'portrait'
+>>>>>>> addMissingProps
                     $dompdf->setPaper('A4', 'portrait');
 
                     // Render the HTML as PDF
@@ -213,6 +233,61 @@ class InterventionController extends AbstractController
                         "Attachment" => true
                     ]);
                     break;
+<<<<<<< HEAD
+=======
+
+                    case "both":
+                        $cleaningSoftwares = $sr->findAllByType('Nettoyage');
+                        $actions = $ar->findAll();
+    
+                        // Configure Dompdf according to your needs
+                        $pdfOptions = new Options();
+                        $pdfOptions->set('defaultFont', 'Arial');
+    
+                        // Instantiate Dompdf with our options
+                        $dompdf = new Dompdf($pdfOptions);
+    
+                        $interventionReportId = $intervention->getInterventionReport()->getId();
+                        $softwares = $sirr->findAllByReport($interventionReportId);
+                        $actions = $intervention->getInterventionReport()->getActions();
+                        $booklets = $intervention->getInterventionReport()->getBooklets();
+                        $technicians = $intervention->getInterventionReport()->getTechnicians();
+    
+                        // Configure Dompdf according to your needs
+                        $pdfOptions = new Options();
+                        $pdfOptions->set('defaultFont', 'Arial');
+    
+                        // Instantiate Dompdf with our options
+                        $dompdf = new Dompdf($pdfOptions);
+    
+                        // Retrieve the HTML generated in our twig file
+                        $html = $this->renderView('intervention/both_pdf.html.twig', [
+                            'intervention' => $intervention,
+                            'softwares' => $softwares,
+                            'actions' => $actions,
+                            'booklets' => $booklets,
+                            'technicians' => $technicians,
+                            'intervention' => $intervention,
+                            'cleaningSoftwares' => $cleaningSoftwares,
+                            'actions' => $actions,
+                        ]);
+    
+                        // Load HTML to Dompdf
+                        $dompdf->loadHtml($html);
+    
+                        // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+                        $dompdf->setPaper('A4', 'portrait');
+    
+                        // Render the HTML as PDF
+                        $dompdf->render();
+    
+                        $pdfName = $intervention->getClient()->getLastName().'-DEMANDE_RAPPORT-'.time().'.pdf';
+                        // Output the generated PDF to Browser (force download)
+                        $dompdf->stream($pdfName, [
+                            "Attachment" => true
+                        ]);
+                        break;
+>>>>>>> addMissingProps
             }
         }
 
@@ -247,10 +322,11 @@ class InterventionController extends AbstractController
                     break;
 
                 case "previous":
-                    $interventionReport->setStep($step-1);
-                    $this->em->persist($interventionReport);
-                    $this->em->flush();
-        
+                    if($step > 1){
+                        $interventionReport->setStep($step-1);
+                        $this->em->persist($interventionReport);
+                        $this->em->flush();
+                    }
                     return $this->redirectToRoute('intervention_report', [
                         'id' => $intervention->getId(),
                     ]);
@@ -458,7 +534,44 @@ class InterventionController extends AbstractController
                 }
                 break;
 
+<<<<<<< HEAD
             case 6:
+=======
+            case 6:            
+                
+                $interventionReport->setDiskState(NULL);
+                $interventionReport->setUptime(NULL);
+                $interventionReport->setBatteryDegradation(NULL);
+                $this->em->flush();
+
+                if ($request->request->has('data')) {
+                    if ($request->request->has('disk-state')) {
+                        $diskState = $request->request->get('disk-state');
+                        $interventionReport->setDiskState($diskState);
+                    }
+            
+                    if ($request->request->has('uptime')) {
+                        $uptime = $request->request->get('uptime');
+                        $interventionReport->setUptime($uptime);
+                    }
+            
+                    if ($request->request->has('battery-degradation')) {
+                        $batteryDegradation = $request->request->get('battery-degradation');
+                        $interventionReport->setBatteryDegradation($batteryDegradation);
+                    }
+            
+                    $interventionReport->setStep($step+1);
+                    $this->em->persist($interventionReport);
+                    $this->em->flush();
+            
+                    return $this->redirectToRoute('intervention_report', [
+                        'id' => $intervention->getId(),
+                    ]);
+                }
+                break;                
+
+            case 7:
+>>>>>>> addMissingProps
                 $irBooklets = $interventionReport->getBooklets();
                 foreach ( $irBooklets as $irBooklet ) {
                     $interventionReport->removeBooklet($irBooklet);
@@ -486,7 +599,11 @@ class InterventionController extends AbstractController
                 }
                 break;
 
+<<<<<<< HEAD
             case 7:
+=======
+            case 8:
+>>>>>>> addMissingProps
                 $interventionReport->setComment(NULL);
 
                 if ($request->request->has('data')) {
@@ -506,7 +623,11 @@ class InterventionController extends AbstractController
                 }
                 break;
             
+<<<<<<< HEAD
             case 8:
+=======
+            case 9:
+>>>>>>> addMissingProps
                 if ($request->request->has('delete-billing-line')) {
                     $billingLineId = $request->request->get('billing-line-id');
 

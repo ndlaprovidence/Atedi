@@ -2,9 +2,14 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Entity\Task;
+use App\Entity\Props;
+use App\Entity\BillingLine;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\InterventionReport;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\InterventionRepository")
@@ -47,6 +52,12 @@ class Intervention
     private $equipment;
 
     /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Props", inversedBy="interventions")
+     * @ORM\JoinTable(name="intervention_props")
+     */
+    private $propss;
+
+    /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Task", inversedBy="interventions")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -62,11 +73,6 @@ class Intervention
      * @ORM\Column(type="string", length=255)
      */
     private $status;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $equipment_complete;
 
     /**
      * @ORM\OneToOne(targetEntity=InterventionReport::class, inversedBy="intervention", cascade={"persist", "remove"})
@@ -85,9 +91,16 @@ class Intervention
      */
     private $billing_lines;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="users")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $user;
+
     public function __construct()
     {
         $this->tasks = new ArrayCollection();
+        $this->propss = new ArrayCollection();
         $this->setDepositDate(new \DateTime());
         $this->setStatus('En attente');
         $this->billing_lines = new ArrayCollection();
@@ -209,18 +222,6 @@ class Intervention
         return $this;
     }
 
-    public function getEquipmentComplete(): ?string
-    {
-        return $this->equipment_complete;
-    }
-
-    public function setEquipmentComplete(string $equipment_complete): self
-    {
-        $this->equipment_complete = $equipment_complete;
-
-        return $this;
-    }
-
     public function getInterventionReport(): ?InterventionReport
     {
         return $this->intervention_report;
@@ -273,6 +274,40 @@ class Intervention
             }
         }
 
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+
+    public function getPropss(): ?Collection
+    {
+        return $this->propss;
+    }
+
+    public function addProps(Props $props): self
+    {
+        if (!$this->propss->contains($props)) {
+            $this->propss[] = $props;
+        }
+        return $this;
+    }
+    
+    public function removeProps(Props $props): self
+    {
+        if ($this->propss->contains($props)) {
+            $this->propss->removeElement($props);
+        }    
         return $this;
     }
 }

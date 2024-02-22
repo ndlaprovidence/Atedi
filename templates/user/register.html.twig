@@ -11,11 +11,23 @@
     <div class="p-4 form container-background">
         <div class="container">
             <div class="row justify-content-md-center">
-                <div class='col-12'>        
-                    {{ form_row(registrationForm.email, {'attr': {'class': 'mb-3'}}) }}
-                    {{ form_row(registrationForm.plainPassword, {'attr': {'class': 'mb-3'}}) }}
+                <div class='col row col-12'>    
+                    <div class='col-6'>   
+                        {{ form_row(registrationForm.first_name, {'label': 'Prénom', 'attr': {'class': 'mb-3'}}) }}
+                    </div>
+                    <div class='col-6'> 
+                        {{ form_row(registrationForm.plainPassword.first, {'label': 'Mot de passe', 'attr': {'class': 'mb-3'}}) }}
+                    </div>
+                    <div class='col-6'> 
+                        {{ form_row(registrationForm.email, {'attr': {'class': 'mb-3'}}) }}
+                    </div>
+                    <div class='col-6'> 
+                        {{ form_row(registrationForm.plainPassword.second, {'label': 'Confirmer le mot de passe', 'attr': {'class': 'mb-3'}}) }}
+                    </div>
+                    <div class='col-6'> 
+                        {{ form_row(registrationForm.roles, {'attr': {'class': 'mb-3'}}) }}
+                    </div>
                 </div>
-
                 <button class="green-btn py-2 px-4 mt-3">{{ button_label|default('Valider') }}</button>
             </div>
         </div>
