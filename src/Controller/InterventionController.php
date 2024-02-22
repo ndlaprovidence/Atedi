@@ -126,11 +126,7 @@ class InterventionController extends AbstractController
                     break;
 
                     case "Terminée":
-<<<<<<< HEAD
-                        if ( $intervention->getInterventionReport()->getStep() == 8 && $intervention->getReturnDate() ) {
-=======
                         if ( $intervention->getInterventionReport()->getStep() == 9 && $intervention->getReturnDate() ) {
->>>>>>> addMissingProps
                             $intervention->setStatus($newStatus);
                             $this->em->persist($intervention);
                             $this->em->flush();
@@ -178,11 +174,7 @@ class InterventionController extends AbstractController
                     // Load HTML to Dompdf
                     $dompdf->loadHtml($html);
 
-<<<<<<< HEAD
-                    // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
-=======
                     // (Optional) Setup the paper size and orientation 'portrai<t' or 'portrait'
->>>>>>> addMissingProps
                     $dompdf->setPaper('A4', 'portrait');
 
                     // Render the HTML as PDF
@@ -233,8 +225,6 @@ class InterventionController extends AbstractController
                         "Attachment" => true
                     ]);
                     break;
-<<<<<<< HEAD
-=======
 
                     case "both":
                         $cleaningSoftwares = $sr->findAllByType('Nettoyage');
@@ -287,7 +277,6 @@ class InterventionController extends AbstractController
                             "Attachment" => true
                         ]);
                         break;
->>>>>>> addMissingProps
             }
         }
 
@@ -534,9 +523,6 @@ class InterventionController extends AbstractController
                 }
                 break;
 
-<<<<<<< HEAD
-            case 6:
-=======
             case 6:            
                 
                 $interventionReport->setDiskState(NULL);
@@ -571,7 +557,6 @@ class InterventionController extends AbstractController
                 break;                
 
             case 7:
->>>>>>> addMissingProps
                 $irBooklets = $interventionReport->getBooklets();
                 foreach ( $irBooklets as $irBooklet ) {
                     $interventionReport->removeBooklet($irBooklet);
@@ -599,11 +584,7 @@ class InterventionController extends AbstractController
                 }
                 break;
 
-<<<<<<< HEAD
-            case 7:
-=======
             case 8:
->>>>>>> addMissingProps
                 $interventionReport->setComment(NULL);
 
                 if ($request->request->has('data')) {
@@ -623,11 +604,7 @@ class InterventionController extends AbstractController
                 }
                 break;
             
-<<<<<<< HEAD
-            case 8:
-=======
             case 9:
->>>>>>> addMissingProps
                 if ($request->request->has('delete-billing-line')) {
                     $billingLineId = $request->request->get('billing-line-id');
 
