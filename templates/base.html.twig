@@ -50,6 +50,7 @@
                             <a class="dropdown-item {% if app.request.get('_route') starts with 'software' %} active {% endif %}" href="{{ path('software_index') }}">Logiciels</a>
                             <a class="dropdown-item {% if app.request.get('_route') starts with 'booklet' %} active {% endif %}" href="{{ path('booklet_index') }}">Brochures</a>
                             <a class="dropdown-item {% if app.request.get('_route') starts with 'action' %} active {% endif %}" href="{{ path('action_index') }}">Actions</a>
+                            <a class="dropdown-item {% if app.request.get('_route') starts with 'action' %} active {% endif %}" href="{{ path('props_index') }}">Accessoires</a>
                             <hr>
                             <a class="dropdown-item {% if app.request.get('_route') starts with 'user' %} active {% endif %}" href="{{ path('user_index') }}">Utilisateurs</a>
                             <a class="dropdown-item {% if app.request.get('_route') starts with 'statistics' %} active {% endif %}" href="{{ path('statistics_index') }}">Statistiques</a>
@@ -74,7 +75,7 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h2 class="modal-title"><i class="fas fa-info-circle mr-3"></i>A propos de Atedi</h2>
+                            <h2 class="modal-title"><i class="fas fa-info-circle mr-3"></i>A propsos de Atedi</h2>
                             <button type="button" class="close" data-dismiss="modal">
                                 <span>&times;</span>
                             </button>
@@ -88,6 +89,7 @@
                             <hr>
                             <h5>Logiciel développé par :</h5>
                             <p>2020 - HOCHET Dylan & LEYSENNE Rémi</p>
+                            <p>2023 - TIRBOIS Romain</p>
                             <hr>
                             <p>Merci aux differents développeurs des bibliothèques utilisées</p>
                             <p>

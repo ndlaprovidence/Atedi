@@ -25,7 +25,8 @@
             <div class="col-2">Téléphone</div>
             <div class="col-2">Techniciens</div>
             <div class="col-2">Tâches</div>
-            <div class="col-2">Status</div>
+            <div class="col-1">Status</div>
+            <div class="col-1">N°</div>
         </div>
 
         {% for intervention in interventions %}
@@ -44,7 +45,8 @@
                         {% endif %}
                     </div>
                     <div class="col-2 my-auto">{% for task in intervention.tasks %}{{ task }}{% if not loop.last %}, {% endif %}{% endfor %}</div>
-                    <div class="col-2 my-auto">{{ intervention.status }}</div>
+                    <div class="col-1 my-auto">{{ intervention.status }}</div>
+                    <div class="col-1 my-auto">{{ intervention.id }}</div>
                 </div>
             </a>
         {% else %}
