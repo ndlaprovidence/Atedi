@@ -126,7 +126,7 @@ class InterventionController extends AbstractController
                     break;
 
                     case "Terminée":
-                        if ( $intervention->getInterventionReport()->getStep() == 8 && $intervention->getReturnDate() ) {
+                        if ( $intervention->getInterventionReport()->getStep() == 9 && $intervention->getReturnDate() ) {
                             $intervention->setStatus($newStatus);
                             $this->em->persist($intervention);
                             $this->em->flush();
