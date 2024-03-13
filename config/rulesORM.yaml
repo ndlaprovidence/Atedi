@@ -1,0 +1,4 @@
+rules:
+    - find: '#/\*\*\s*\n\s*\*\s*@Route\("([^"]+)"\)\s*\n\s*\*/#'
+      replace: "#[Route('$1')]"
+    # Ajoutez d'autres règles de remplacement au besoin

@@ -16,9 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
-/**
- * @Route("/user")
- */
+#[Route('/user')]
 class UserController extends AbstractController
 {
     /**

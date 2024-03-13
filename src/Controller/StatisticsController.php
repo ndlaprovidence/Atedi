@@ -14,9 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\InterventionReportRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-/**
- * @Route("/statistics")
- */
+#[Route('/statistics')]
 class StatisticsController extends AbstractController
 {
     /**

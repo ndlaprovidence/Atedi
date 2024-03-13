@@ -25,9 +25,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\SoftwareInterventionReportRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-/**
- * @Route("/intervention")
- */
+#[Route('/intervention')]
 class InterventionController extends AbstractController
 {
     private $AtediHelper;

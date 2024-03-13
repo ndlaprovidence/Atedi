@@ -12,9 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\InterventionReportRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-/**
- * @Route("/technician")
- */
+#[Route('/technician')]
 class TechnicianController extends AbstractController
 {
     /**

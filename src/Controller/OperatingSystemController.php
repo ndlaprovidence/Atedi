@@ -11,9 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-/**
- * @Route("/operating/system")
- */
+#[Route('/operating/system')]
 class OperatingSystemController extends AbstractController
 {
     /**
