@@ -38,6 +38,8 @@ class Php7ToPhp8ORMTranslation extends Command
 
         $rules = $mappingData['rules'] ?? [];
 
+        $parameters = $mappingData['parameters'] ?? [];
+
         foreach ($rules as $rule) {
             $find = $rule['find'] ?? null;
             $replace = $rule['replace'] ?? null;
@@ -52,19 +54,69 @@ class Php7ToPhp8ORMTranslation extends Command
                 foreach ($finder as $file) {
                     $filePath = $file->getRealPath();
                     $fileContent = file_get_contents($filePath);
+                    
 
+                        if (preg_match_all($find, $fileContent, $matches)) {
+                            foreach ($matches[0] as $value) {
 
-                    if (preg_match_all($find, $fileContent, $matches)) {
-                        foreach ($matches[0] as $value) {        
-                            $updatedContent = preg_replace($find, $replace, $fileContent);
-                            
+                                $tempContent = preg_replace($find, '$1', $value);
+                                $output->writeln("contenu : $tempContent");
+
+                                $parameterModified = $tempContent;
+                                foreach ($parameters as $parameter){
+                                    $for = "#".$parameter['for']."#" ?? null;
+                                    $put = $parameter['put'] ?? null;
+                                    //$output->writeln("for : $for");
+                                    if(preg_match_all($for, $parameterModified, $matchesParameters)){
+                                        foreach ($matchesParameters[0] as $value2) {
+                                            if(isset($parameterModified) && !is_null($parameterModified)){
+                                                $parameterModified = preg_replace($for, $put, $parameterModified);
+                                            }else{
+                                                $parameterModified = preg_replace($for, $put, $tempContent);
+                                            }
+                                            //$output->writeln($parameterModified);
+                                        } 
+                                        $replaceTest = preg_replace('#modifthis#', $parameterModified, $replace);
+
+                                        $output->writeln("replaceTest : $replaceTest");                                                                     
+                                    }
+                                }
+
+                                $value = preg_quote($value, '/');
+                                $value = '#'.$value.'#';
+                                $output->writeln("value : $value");
+                                if (isset($updatedContent) && !is_null($updatedContent)){
+                                    $updatedContent = preg_replace($value, $replaceTest, $updatedContent);
+
+                                }else{
+                                    $updatedContent = preg_replace($value, $replaceTest, $fileContent);
+                                }
+
+                                $parameterModified = null;
+                                
+                                
+                                //$allModified = ;
+                                
+                                // $findModif = preg_replace($find, '$1 fonctionne', $fileContent);
+                                // print_r($findModif);
+                            }
+                            $output->writeln("updatedContent : $updatedContent");
+
                             if ($updatedContent !== $fileContent) {
                                 file_put_contents($filePath, $updatedContent);
                                 $output->writeln("Mise à jour effectuée dans : $filePath ");
                             }
                         }
-                    }
+                    
+                    //$output->writeln("updatedContent : $updatedContent");
+                    // if ($updatedContent !== $fileContent) {
+                    //     //file_put_contents($filePath, $updatedContent);
+                    //     $output->writeln("Mise à jour effectuée dans : $filePath ");
+                    // }
+    
+                    // $updatedContent = null;
                 }
+
             }
         }        
         $output->writeln('Terminé !');
