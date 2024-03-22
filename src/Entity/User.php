@@ -3,43 +3,32 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use App\Repository\UserRepository;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- * @ORM\Table(name="tbl_user")
- * @UniqueEntity(fields={"email"}, message="Il existe déjà un utilisateur avec cet email")
- */
+
+#[ORM\Entity(repositoryClass: UserRepository::class)]
+#[ORM\Table(name: "tbl_user")]
+#[UniqueEntity(fields: ["email"], message: "Il existe déjà un utilisateur avec cet email")]
 class User implements UserInterface
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: "integer")]
+    private ?int $id;
 
-    /**
-     * @ORM\Column(type="string", length=180, unique=true)
-     */
-    private $email;
+    #[ORM\Column(type: "string", length: 180, unique: true)]
+    private ?string $email;
 
-        /**
-     * @ORM\Column(type="string", length=180, unique=false)
-     */
-    private $first_name;
+    #[ORM\Column(type: "string", length: 180)]
+    private ?string $first_name;
 
-    /**
-     * @ORM\Column(type="json")
-     */
-    private $roles = [];
+    #[ORM\Column(type: "json")]
+    private array $roles = [];
 
-    /**
-     * @var string The hashed password
-     * @ORM\Column(type="string")
-     */
-    private $password;
+    #[ORM\Column(type: "string")]
+    private string $password;
 
     public function __construct()
     {

@@ -15,9 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[Route('/technician')]
 class TechnicianController extends AbstractController
 {
-    /**
-     * @Route("/", name="technician_index", methods={"GET"})
-     */
+    #[Route("/", name: "technician_index", methods: ["GET"])]
     public function index(TechnicianRepository $technicianRepository): Response
     {
         return $this->render('technician/index.html.twig', [
@@ -25,9 +23,7 @@ class TechnicianController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/new", name="technician_new", methods={"GET","POST"})
-     */
+    #[Route("/new", name: "technician_new", methods: ["GET","POST"])]
     public function new(Request $request): Response
     {
         $technician = new Technician();
@@ -56,9 +52,7 @@ class TechnicianController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="technician_show", methods={"GET"})
-     */
+    #[Route("/{id}", name: "technician_show", methods: ["GET"])]
     public function show(Technician $technician, InterventionReportRepository $interventionReportRepository): Response
     {
         $interventions = $interventionReportRepository->findAllByTechnician($technician->getId());
@@ -69,9 +63,7 @@ class TechnicianController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="technician_edit", methods={"GET","POST"})
-     */
+    #[Route("/{id}/edit", name: "technician_edit", methods: ["GET","POST"])]
     public function edit(Request $request, Technician $technician): Response
     {
         $form = $this->createForm(TechnicianType::class, $technician);
@@ -91,9 +83,7 @@ class TechnicianController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="technician_delete", methods={"DELETE"})
-     */
+    #[Route("/{id}", name: "technician_delete", methods: ["DELETE"])]
     public function delete(Request $request, Technician $technician): Response
     {
         if ($this->isCsrfTokenValid('delete'.$technician->getId(), $request->request->get('_token'))) {

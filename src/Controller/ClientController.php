@@ -15,9 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[Route('/client')]
 class ClientController extends AbstractController
 {
-    /**
-     * @Route("/", name="client_index", methods={"GET"})
-     */
+    #[Route("/", name: "client_index", methods: ["GET"])]
     public function index(ClientRepository $clientRepository): Response
     {
         return $this->render('client/index.html.twig', [
@@ -25,9 +23,7 @@ class ClientController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/new", name="client_new", methods={"GET","POST"})
-     */
+    #[Route("/new", name: "client_new", methods: ["GET","POST"])]
     public function new(Request $request): Response
     {
 
@@ -58,9 +54,7 @@ class ClientController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="client_show", methods={"GET"})
-     */
+    #[Route("/{id}", name: "client_show", methods: ["GET"])]
     public function show(Client $client, InterventionRepository $interventionRepository): Response
     {
         $interventions = $interventionRepository->findAllByClient($client->getId());
@@ -71,9 +65,7 @@ class ClientController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="client_edit", methods={"GET","POST"})
-     */
+    #[Route("/{id}/edit", name: "client_edit", methods: ["GET","POST"])]
     public function edit(Request $request, Client $client): Response
     {
         $form = $this->createForm(ClientType::class, $client);
@@ -93,9 +85,7 @@ class ClientController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="client_delete", methods={"DELETE"})
-     */
+    #[Route("/{id}", name: "client_delete", methods: ["DELETE"])]
     public function delete(Request $request, Client $client): Response
     {
         if ($this->isCsrfTokenValid('delete'.$client->getId(), $request->request->get('_token'))) {

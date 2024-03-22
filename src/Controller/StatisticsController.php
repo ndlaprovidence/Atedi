@@ -17,9 +17,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[Route('/statistics')]
 class StatisticsController extends AbstractController
 {
-    /**
-     * @Route("/", name="statistics_index", methods={"GET"})
-     */
+    #[Route("/", name: "statistics_index", methods: ["GET"])]
     public function index(InterventionReportRepository $irr, InterventionRepository $ir, TechnicianRepository $ter, TaskRepository $tar, EquipmentRepository $er, OperatingSystemRepository $osr)
     {
         // Load interventions by technicians chart

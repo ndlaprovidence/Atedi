@@ -2,45 +2,35 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use App\Entity\Intervention;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\TaskRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\TaskRepository")
- * @UniqueEntity(fields={"title"}, message="Il existe une tâche avec ce nom")
- * @ORM\Table(name="tbl_task")
- */
+
+#[ORM\Entity(repositoryClass: TaskRepository::class)]
+#[UniqueEntity(fields: ["title"], message: "Il existe une tâche avec ce nom")]
+#[ORM\Table(name: "tbl_task")]
 class Task
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: "integer")]
+    private int $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $title;
+    #[ORM\Column(type: "string", length: 255)]
+    private string $title;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Intervention", mappedBy="tasks")
-     */
+    #[ORM\ManyToMany(targetEntity: Intervention::class, mappedBy: "tasks")]
     private $interventions;
 
-    /**
-     * @ORM\Column(type="string", length=6)
-     */
-    private $color;
+    #[ORM\Column(type: "string", length: 6)]
+    private string $color;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $price;
-
+    #[ORM\Column(type: "string", length: 255)]
+    private string $price;
     public function __construct()
     {
         $this->interventions = new ArrayCollection();

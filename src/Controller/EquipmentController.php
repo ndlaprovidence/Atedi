@@ -14,9 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[Route('/equipment')]
 class EquipmentController extends AbstractController
 {
-    /**
-     * @Route("/", name="equipment_index", methods={"GET"})
-     */
+    #[Route("/", name: "equipment_index", methods: ["GET"])]
     public function index(EquipmentRepository $equipmentRepository): Response
     {
         return $this->render('equipment/index.html.twig', [
@@ -24,9 +22,7 @@ class EquipmentController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/new", name="equipment_new", methods={"GET","POST"})
-     */
+    #[Route("/new", name: "equipment_new", methods: ["GET","POST"])]
     public function new(Request $request): Response
     {
         $equipment = new Equipment();
@@ -53,9 +49,7 @@ class EquipmentController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="equipment_show", methods={"GET"})
-     */
+    #[Route("/{id}", name: "equipment_show", methods: ["GET"])]
     public function show(Equipment $equipment, InterventionRepository $interventionRepository): Response
     {
         $interventions = $interventionRepository->findAllByEquipment($equipment->getId());
@@ -66,9 +60,7 @@ class EquipmentController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="equipment_edit", methods={"GET","POST"})
-     */
+    #[Route("/{id}/edit", name: "equipment_edit", methods: ["GET","POST"])]
     public function edit(Request $request, Equipment $equipment): Response
     {
         $form = $this->createForm(EquipmentType::class, $equipment);
@@ -88,9 +80,7 @@ class EquipmentController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="equipment_delete", methods={"DELETE"})
-     */
+    #[Route("/{id}", name: "equipment_delete", methods: ["DELETE"])]
     public function delete(Request $request, Equipment $equipment): Response
     {
         if ($this->isCsrfTokenValid('delete'.$equipment->getId(), $request->request->get('_token'))) {

@@ -2,39 +2,30 @@
 
 namespace App\Entity;
 
-use App\Repository\SoftwareRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\SoftwareRepository;
+use App\Entity\SoftwareInterventionReport;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-/**
- * @ORM\Entity(repositoryClass=SoftwareRepository::class)
- * @UniqueEntity(fields={"title"}, message="Il existe déjà un logiciel avec ce nom")
- * @ORM\Table(name="tbl_software")
- */
+#[ORM\Entity(repositoryClass: SoftwareRepository::class)]
+#[UniqueEntity(fields: ["title"], message: "Il existe déjà un logiciel avec ce nom")]
+#[ORM\Table(name: "tbl_software")] 
 class Software
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: "integer")]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $title;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private $type;
 
-    /**
-     * @ORM\OneToMany(targetEntity=SoftwareInterventionReport::class, mappedBy="software", orphanRemoval=true)
-     */
+    #[ORM\OneToMany(targetEntity: SoftwareInterventionReport::class, mappedBy: "software", orphanRemoval: true)]
     private $softwareInterventionReports;
 
     public function __construct()

@@ -14,9 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[Route('/props')]
 class PropsController extends AbstractController
 {
-    /**
-     * @Route("/", name="props_index", methods={"GET"})
-     */
+    #[Route("/", name: "props_index", methods: ["GET"])]
     public function index(PropsRepository $propsRepository): Response
     {
         return $this->render('props/index.html.twig', [
@@ -24,9 +22,7 @@ class PropsController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/new", name="props_new", methods={"GET","POST"})
-     */
+    #[Route("/new", name: "props_new", methods: ["GET","POST"])]
     public function new(Request $request): Response
     {
         $props = new Props();
@@ -53,9 +49,7 @@ class PropsController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="props_show", methods={"GET"})
-     */
+    #[Route("/{id}", name: "props_show", methods: ["GET"])]
     public function show(Props $props, InterventionRepository $interventionRepository): Response
     {
         $interventions = $interventionRepository->findAllByProps($props->getId());
@@ -66,9 +60,7 @@ class PropsController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="props_edit", methods={"GET","POST"})
-     */
+    #[Route("/{id}/edit", name: "props_edit", methods: ["GET","POST"])]
     public function edit(Request $request, Props $props): Response
     {
         $form = $this->createForm(PropsType::class, $props);
@@ -88,9 +80,7 @@ class PropsController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="props_delete", methods={"DELETE"})
-     */
+    #[Route("/{id}", name: "props_delete", methods: ["DELETE"])]
     public function delete(Request $request, Props $props): Response
     {
         if ($this->isCsrfTokenValid('delete'.$props->getId(), $request->request->get('_token'))) {

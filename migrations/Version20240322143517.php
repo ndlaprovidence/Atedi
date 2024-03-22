@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20240219131741 extends AbstractMigration
+final class Version20240322143517 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,12 +20,12 @@ final class Version20240219131741 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('DROP INDEX UNIQ_38B383A1A9D1C132 ON tbl_user');
+        $this->addSql('ALTER TABLE intervention_report_technician ADD CONSTRAINT FK_ABD18E4EE6C5D496 FOREIGN KEY (technician_id) REFERENCES tbl_techncian (id) ON DELETE CASCADE');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE UNIQUE INDEX UNIQ_38B383A1A9D1C132 ON tbl_user (first_name)');
+        $this->addSql('ALTER TABLE intervention_report_technician DROP FOREIGN KEY FK_ABD18E4EE6C5D496');
     }
 }

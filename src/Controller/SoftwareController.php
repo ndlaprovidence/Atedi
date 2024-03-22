@@ -13,9 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/software')]
 class SoftwareController extends AbstractController
 {
-    /**
-     * @Route("/", name="software_index", methods={"GET"})
-     */
+    #[Route("/", name: "software_index", methods: ["GET"])]
     public function index(SoftwareRepository $softwareRepository): Response
     {
         return $this->render('software/index.html.twig', [
@@ -23,9 +21,7 @@ class SoftwareController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/new", name="software_new", methods={"GET","POST"})
-     */
+    #[Route("/new", name: "software_new", methods: ["GET","POST"])]
     public function new(Request $request): Response
     {
         $software = new Software();
@@ -52,9 +48,7 @@ class SoftwareController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="software_edit", methods={"GET","POST"})
-     */
+    #[Route("/{id}/edit", name: "software_edit", methods: ["GET","POST"])]
     public function edit(Request $request, Software $software): Response
     {
         $form = $this->createForm(SoftwareType::class, $software);
@@ -72,9 +66,7 @@ class SoftwareController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="software_delete", methods={"DELETE"})
-     */
+    #[Route("/{id}", name: "software_delete", methods: ["DELETE"])]
     public function delete(Request $request, Software $software): Response
     {
         if ($this->isCsrfTokenValid('delete'.$software->getId(), $request->request->get('_token'))) {

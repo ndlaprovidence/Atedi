@@ -103,9 +103,10 @@ class Php7ToPhp8ORMTranslation extends Command
                             $output->writeln("updatedContent : $updatedContent");
 
                             if ($updatedContent !== $fileContent) {
-                                file_put_contents($filePath, $updatedContent);
+                                //file_put_contents($filePath, $updatedContent);
                                 $output->writeln("Mise à jour effectuée dans : $filePath ");
                             }
+                            $updatedContent = null ;
                         }
                     
                     //$output->writeln("updatedContent : $updatedContent");
