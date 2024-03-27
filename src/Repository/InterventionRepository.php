@@ -79,10 +79,10 @@ class InterventionRepository extends ServiceEntityRepository
         ;
     }
 
-    public function findAllByProps($id)
+    public function findAllByProp($id)
     {
         return $this->createQueryBuilder('i')
-            ->leftJoin('i.propss', 'p')
+            ->leftJoin('i.props', 'p')
             ->andWhere('p.id = :id')
             ->setParameter('id', $id)
             ->orderBy('i.id', 'DESC')

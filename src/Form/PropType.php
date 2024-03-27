@@ -2,12 +2,12 @@
 
 namespace App\Form;
 
-use App\Entity\Props;
+use App\Entity\Prop;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class PropsType extends AbstractType
+class PropType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -19,7 +19,7 @@ class PropsType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Props::class,
+            'data_class' => Prop::class,
         ]);
     }
 }

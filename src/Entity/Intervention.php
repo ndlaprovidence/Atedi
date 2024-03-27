@@ -3,7 +3,7 @@
 namespace App\Entity;
 
 use App\Entity\Task;
-use App\Entity\Props;
+use App\Entity\Prop;
 use App\Entity\BillingLine;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -52,10 +52,10 @@ class Intervention
     private $equipment;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Props", inversedBy="interventions")
-     * @ORM\JoinTable(name="intervention_props")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Prop", inversedBy="interventions")
+     * @ORM\JoinTable(name="intervention_prop")
      */
-    private $propss;
+    private $props;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Task", inversedBy="interventions")
@@ -100,7 +100,7 @@ class Intervention
     public function __construct()
     {
         $this->tasks = new ArrayCollection();
-        $this->propss = new ArrayCollection();
+        $this->props = new ArrayCollection();
         $this->setDepositDate(new \DateTime());
         $this->setStatus('En attente');
         $this->billing_lines = new ArrayCollection();
@@ -290,23 +290,23 @@ class Intervention
     }
 
 
-    public function getPropss(): ?Collection
+    public function getProps(): ?Collection
     {
-        return $this->propss;
+        return $this->props;
     }
 
-    public function addProps(Props $props): self
+    public function addProp(Prop $prop): self
     {
-        if (!$this->propss->contains($props)) {
-            $this->propss[] = $props;
+        if (!$this->props->contains($prop)) {
+            $this->props[] = $prop;
         }
         return $this;
     }
     
-    public function removeProps(Props $props): self
+    public function removeProp(Prop $prop): self
     {
-        if ($this->propss->contains($props)) {
-            $this->propss->removeElement($props);
+        if ($this->props->contains($prop)) {
+            $this->props->removeElement($prop);
         }    
         return $this;
     }

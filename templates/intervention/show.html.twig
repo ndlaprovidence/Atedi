@@ -184,7 +184,7 @@
                             <div class="d-flex flex-column">
                                 <div>{{ intervention.equipment }}</div>
                                 <div>{{ intervention.operatingSystem }}</div>
-                                <div>Matériel Manquant : {% if not intervention.propss is empty %}{% for props in intervention.propss %} {{ props }}{% if not loop.last %}, {% endif %}{% endfor %}{% else %}Aucun/Non spécifié{% endif %}</div>
+                                <div>Matériel Manquant : {% if not intervention.props is empty %}{% for prop in intervention.props %} {{ prop }}{% if not loop.last %}, {% endif %}{% endfor %}{% else %}Aucun/Non spécifié{% endif %}</div>
                             </div>
                         </div>
                     </div>

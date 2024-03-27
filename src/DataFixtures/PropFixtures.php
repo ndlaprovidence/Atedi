@@ -5,17 +5,17 @@ namespace App\DataFixtures;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
-use App\Entity\Props;
+use App\Entity\Prop;
 
-class PropsFixtures extends Fixture
+class PropFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        $data = new Props();
+        $data = new Prop();
         $data->setTitle('Sacoche');
         $manager->persist($data);
 
-        $data = new Props();
+        $data = new Prop();
         $data->setTitle('Chargeur');
         $manager->persist($data);
 
