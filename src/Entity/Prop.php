@@ -4,14 +4,14 @@ namespace App\Entity;
 
 use App\Entity\Intervention;
 use Doctrine\ORM\Mapping as ORM;
-use App\Repository\PropsRepository;
+use App\Repository\PropRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-#[ORM\Entity(repositoryClass: PropsRepository::class)]
+#[ORM\Entity(repositoryClass: PropRepository::class)]
 #[UniqueEntity(fields: ['title'], message: 'Il existe déjà un matériel avec ce nom')]
-#[ORM\Table(name: 'tbl_props')]
-class Props
+#[ORM\Table(name: 'tbl_prop')]
+class Prop
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -22,7 +22,7 @@ class Props
     private $title;
 
     /**
-     * #[ORM\ManyToMany(targetEntity: Intervention::class, mappedBy: 'props')]
+     * #[ORM\ManyToMany(targetEntity: Intervention::class, mappedBy: 'prop')]
      */
     private ArrayCollection $interventions;
 
@@ -63,7 +63,7 @@ class Props
     {
         if (!$this->interventions->contains($intervention)) {
             $this->interventions[] = $intervention;
-            $intervention->addProps($this); // Ajoute le Props à la liste des Props de l'intervention
+            $intervention->addProp($this); // Ajoute le Prop à la liste des Prop de l'intervention
         }
     
         return $this;
@@ -73,7 +73,7 @@ class Props
     {
         if ($this->interventions->contains($intervention)) {
             $this->interventions->removeElement($intervention);
-            $intervention->removeProps($this); // Retire le Props de la liste des Props de l'intervention
+            $intervention->removeProp($this); // Retire le Prop de la liste des Prop de l'intervention
         }
     
         return $this;

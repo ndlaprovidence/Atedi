@@ -11,7 +11,7 @@
         <div class='h2 mb-3 font-weight-bold'>Liste des Accessoires</div>
     </div>
     <div class='text-center mb-2'>	
-        <a href='{{ path('props_new') }}'><input type='button' value="Ajouter un accessoire" class='grey-btn f-20 py-2 px-4' /></a>
+        <a href='{{ path('prop_new') }}'><input type='button' value="Ajouter un accessoire" class='grey-btn f-20 py-2 px-4' /></a>
     </div>
 
     <hr>
@@ -23,10 +23,10 @@
             <div class="col-12">Titre</div>
         </div>
 
-        {% for props in propss %}
-            <a class='data-row' href="{{ path('props_show', {'id': props.id}) }}">
+        {% for prop in props %}
+            <a class='data-row' href="{{ path('prop_show', {'id': prop.id}) }}">
                 <div class="row link default p-2">
-                    <div class="col-12 my-auto">{{ props.title }}</div>
+                    <div class="col-12 my-auto">{{ prop.title }}</div>
                 </div>
             </a>
         {% else %}

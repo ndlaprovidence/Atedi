@@ -70,14 +70,16 @@ class InterventionController extends AbstractController
 
             $interventionReport->setStep(1);
             $this->em->persist($interventionReport);
-            $this->em->flush();
+            // $this->em->flush();
 
             $intervention->setInterventionReport($interventionReport);
 
             $totalPrice = $this->atediHelper->strTotalPrice($intervention);
-
             $intervention->setTotalPrice($totalPrice);
             $this->em->persist($intervention);
+
+            dump($intervention);
+
             $this->em->flush();
 
             return $this->redirectToRoute('intervention_show', [

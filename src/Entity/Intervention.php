@@ -4,7 +4,7 @@ namespace App\Entity;
 
 use App\Entity\Task;
 use App\Entity\User;
-use App\Entity\Props;
+use App\Entity\Prop;
 use App\Entity\Client;
 use DateTimeInterface;
 use App\Entity\Equipment;
@@ -43,9 +43,9 @@ class Intervention
     #[ORM\JoinColumn(nullable: false)]
     private ?Equipment $equipment = null;
 
-    #[ORM\ManyToMany(targetEntity: Props::class, inversedBy: "interventions")]
-    #[ORM\JoinTable(name: "intervention_props")]
-    private Collection $propss;
+    #[ORM\ManyToMany(targetEntity: Prop::class, inversedBy: "interventions")]
+    #[ORM\JoinTable(name: "intervention_prop")]
+    private Collection $props;
 
     #[ORM\ManyToMany(targetEntity: Task::class, inversedBy: "interventions")]
     private Collection $tasks;
@@ -243,23 +243,23 @@ class Intervention
     }
 
 
-    public function getPropss(): Collection
+    public function getProps(): Collection
     {
-        return $this->propss;
+        return $this->props;
     }
 
-    public function addProps(Props $props): self
+    public function addProp(Prop $prop): self
     {
-        if (!$this->propss->contains($props)) {
-            $this->propss[] = $props;
+        if (!$this->props->contains($prop)) {
+            $this->props[] = $prop;
         }
         return $this;
     }
     
-    public function removeProps(Props $props): self
+    public function removeProp(Prop $prop): self
     {
-        if ($this->propss->contains($props)) {
-            $this->propss->removeElement($props);
+        if ($this->props->contains($prop)) {
+            $this->props->removeElement($prop);
         }
         return $this;
     }

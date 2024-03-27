@@ -50,7 +50,7 @@ Once you've installed everything, execute this line in the atedi directory :
 symfony server:start
 =======
 php -S localhost:8000 -t public
->>>>>>> addMissingProps
+>>>>>>> addMissingProp
 ```
 You can access to your local server with localhost:8000
 

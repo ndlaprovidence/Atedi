@@ -3,14 +3,14 @@
 namespace App\Form;
 
 use App\Entity\User;
-use App\Entity\Props;
+use App\Entity\Prop;
 use App\Entity\Client;
 use App\Entity\Equipment;
 use App\Entity\Intervention;
 use App\Entity\OperatingSystem;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityRepository;
-use App\Repository\PropsRepository;
+use App\Repository\PropRepository;
 use App\Repository\ClientRepository;
 use App\Repository\EquipmentRepository;
 use Symfony\Component\Form\AbstractType;
@@ -61,7 +61,7 @@ class InterventionType extends AbstractType
             ])
             ->add('comment')
             ->add('tasks')
-            ->add('propss')
+            ->add('props')
             ->add('return_date', DateType::class, [
                 'widget' => 'single_text',
                 'required' => false,

@@ -114,7 +114,7 @@
                         </tr>
                         <tr>
                             <td class='border-on text-center'>Matériel Manquant</td>
-                            <td align="left" class='border-on px-1'>{% if not intervention.propss is empty %}{% for props in intervention.propss %} {{ props }}{% if not loop.last %}, {% endif %}{% endfor %}{% else %}Aucun/Non spécifié{% endif %}</td>
+                            <td align="left" class='border-on px-1'>{% if not intervention.props is empty %}{% for prop in intervention.props %} {{ prop }}{% if not loop.last %}, {% endif %}{% endfor %}{% else %}Aucun/Non spécifié{% endif %}</td>
                         </tr>
                         <tr>
                             <td class='border-on text-center'>Signature du client avec date et mention "bon pour accord travaux" </td>
