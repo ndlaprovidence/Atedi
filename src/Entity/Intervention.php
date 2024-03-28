@@ -67,9 +67,12 @@ class Intervention
     #[ORM\OneToMany(targetEntity: BillingLine::class, mappedBy: "intervention")]
     private Collection $billing_lines;
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "users")]
-    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\ManyToOne(inversedBy: 'intervention')]
     private ?User $user = null;
+
+    // #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "interventions")]
+    // #[ORM\JoinColumn(nullable: true)]
+    // private ?User $user = null;
 
     public function __construct()
     {
@@ -78,8 +81,7 @@ class Intervention
         $this->setDepositDate(new \DateTime());
         $this->setStatus('En attente');
         $this->billing_lines = new ArrayCollection();
-    }
-    
+    }    
 
     public function getId(): ?int
     {
@@ -231,16 +233,16 @@ class Intervention
         return $this;
     }
 
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
+    // public function getUser(): ?User
+    // {
+    //     return $this->user;
+    // }
 
-    public function setUser(?User $user): self
-    {
-        $this->user = $user;
-        return $this;
-    }
+    // public function setUser(?User $user): self
+    // {
+    //     $this->user = $user;
+    //     return $this;
+    // }
 
 
     public function getProps(): Collection
@@ -261,6 +263,18 @@ class Intervention
         if ($this->props->contains($prop)) {
             $this->props->removeElement($prop);
         }
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
         return $this;
     }
 }

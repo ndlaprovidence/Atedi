@@ -25,7 +25,7 @@ class InterventionReport
     #[ORM\Column(type: "text", nullable: true)]
     private $comment;
 
-    #[ORM\OneToOne(targetEntity: Intervention::class, mappedBy: "interventionReport", cascade: ["persist", "remove"])]
+    #[ORM\OneToOne(targetEntity: Intervention::class, mappedBy: "intervention_report", cascade: ["persist", "remove"])]
     private $intervention;
 
     #[ORM\Column(type: "integer")]
@@ -46,7 +46,7 @@ class InterventionReport
     #[ORM\ManyToMany(targetEntity: Action::class, inversedBy: "interventionReports")]
     private $actions;
 
-    #[ORM\OneToMany(targetEntity: SoftwareInterventionReport::class, mappedBy: "interventionReport", orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: SoftwareInterventionReport::class, mappedBy: "intervention_report", orphanRemoval: true)]
     private $softwareInterventionReports;
 
     #[ORM\Column(type: "string", length: 255, nullable: true)]

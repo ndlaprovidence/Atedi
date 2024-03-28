@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Entity\Intervention;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\PropRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -21,10 +22,9 @@ class Prop
     #[ORM\Column(type: 'string', length: 255)]
     private $title;
 
-    /**
-     * #[ORM\ManyToMany(targetEntity: Intervention::class, mappedBy: 'prop')]
-     */
-    private ArrayCollection $interventions;
+    
+    #[ORM\ManyToMany(targetEntity: Intervention::class, mappedBy: 'props')]     
+    private Collection $interventions;
 
     public function __construct()
     {
