@@ -2,35 +2,26 @@
 
 namespace App\Entity;
 
-use App\Repository\BillingLineRepository;
+use App\Entity\Intervention;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\BillingLineRepository;
 
-/**
- * @ORM\Entity(repositoryClass=BillingLineRepository::class)
- * @ORM\Table(name="tbl_billing_line")
- */
+#[ORM\Entity(repositoryClass: BillingLineRepository::class)]
+#[ORM\Table(name: "tbl_billing_line")]
 class BillingLine
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
+    private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $title;
+    #[ORM\Column(type: 'string', length: 255)]
+    private ?string $title = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $price;
+    #[ORM\Column(type: 'string', length: 255)]
+    private ?string $price = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Intervention::class, inversedBy="billing_lines")
-     */
+    #[ORM\ManyToOne(targetEntity: Intervention::class, inversedBy: "billing_lines")]
     private $intervention;
 
     public function __toString()

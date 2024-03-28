@@ -2,42 +2,35 @@
 
 namespace App\Entity;
 
-use App\Repository\BookletRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\InterventionReport;
+use App\Repository\BookletRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-/**
- * @ORM\Entity(repositoryClass=BookletRepository::class)
- * @UniqueEntity(fields={"title"}, message="Il existe déjà une brochure avec ce nom")
- * @ORM\Table(name="tbl_booklet")
- */
+#[ORM\Entity(repositoryClass: BookletRepository::class)]
+#[UniqueEntity(fields: ["title"], message: "Il existe déjà une brochure avec ce nom")]
+#[ORM\Table(name: "tbl_booklet")]
 class Booklet
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: "integer")]
+    private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $title;
+    #[ORM\Column(type: "string", length: 255)]
+    private ?string $title = null;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=InterventionReport::class, mappedBy="booklets")
-     */
-    private $interventionReports;
+    #[ORM\ManyToMany(targetEntity: InterventionReport::class, mappedBy: "booklets")]
+    private Collection $interventionReports;
 
     public function __construct()
     {
         $this->interventionReports = new ArrayCollection();
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->title;
     }
@@ -55,7 +48,6 @@ class Booklet
     public function setTitle(string $title): self
     {
         $this->title = $title;
-
         return $this;
     }
 
@@ -73,7 +65,6 @@ class Booklet
             $this->interventionReports[] = $interventionReport;
             $interventionReport->addBooklet($this);
         }
-
         return $this;
     }
 
@@ -83,7 +74,6 @@ class Booklet
             $this->interventionReports->removeElement($interventionReport);
             $interventionReport->removeBooklet($this);
         }
-
         return $this;
     }
 }

@@ -25,9 +25,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\SoftwareInterventionReportRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-/**
- * @Route("/intervention")
- */
+#[Route('/intervention')]
 class InterventionController extends AbstractController
 {
     private $AtediHelper;
@@ -37,9 +35,7 @@ class InterventionController extends AbstractController
         $this->atediHelper = $AtediHelper;
     }
 
-    /**
-     * @Route("/", name="intervention_index", methods={"GET"})
-     */
+    #[Route("/", name: "intervention_index", methods: ["GET"])]
     public function index(InterventionRepository $interventionRepository): Response
     {
         return $this->render('intervention/index.html.twig', [
@@ -47,9 +43,7 @@ class InterventionController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/new", name="intervention_new", methods={"GET","POST"})
-     */
+    #[Route("/new", name: "intervention_new", methods: ["GET","POST"])]
     public function new(Request $request, ClientRepository $cr, EntityManagerInterface $em): Response
     {
         $this->em = $em;
@@ -76,14 +70,16 @@ class InterventionController extends AbstractController
 
             $interventionReport->setStep(1);
             $this->em->persist($interventionReport);
-            $this->em->flush();
+            // $this->em->flush();
 
             $intervention->setInterventionReport($interventionReport);
 
             $totalPrice = $this->atediHelper->strTotalPrice($intervention);
-
             $intervention->setTotalPrice($totalPrice);
             $this->em->persist($intervention);
+
+            dump($intervention);
+
             $this->em->flush();
 
             return $this->redirectToRoute('intervention_show', [
@@ -97,9 +93,7 @@ class InterventionController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="intervention_show", methods={"GET","POST"})
-     */
+    #[Route("/{id}", name: "intervention_show", methods: ["GET","POST"])]
     public function show(Request $request, Intervention $intervention, EntityManagerInterface $em, SoftwareRepository $sr, ActionRepository $ar, SoftwareInterventionReportRepository $sirr): Response
     {
         $this->em = $em;
@@ -285,9 +279,7 @@ class InterventionController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/report", name="intervention_report", methods={"GET","POST"})
-     */
+    #[Route("/{id}/report", name: "intervention_report", methods: ["GET","POST"])]
     public function report(Request $request, EntityManagerInterface $em, Intervention $intervention, SoftwareRepository $sr, BookletRepository $br, ActionRepository $ar, SoftwareInterventionReportRepository $sirr, BillingLineRepository $blr, TechnicianRepository $tr): Response
     {
         $this->em = $em;
@@ -652,9 +644,7 @@ class InterventionController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="intervention_edit", methods={"GET","POST"})
-     */
+    #[Route("/{id}/edit", name: "intervention_edit", methods: ["GET","POST"])]
     public function edit(Request $request, Intervention $intervention): Response
     {
         $form = $this->createForm(InterventionType::class, $intervention);
@@ -678,9 +668,7 @@ class InterventionController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="intervention_delete", methods={"DELETE"})
-     */
+    #[Route("/{id}", name: "intervention_delete", methods: ["DELETE"])]
     public function delete(Request $request, EntityManagerInterface $em, Intervention $intervention, BillingLineRepository $blr): Response
     {
         if ($this->isCsrfTokenValid('delete'.$intervention->getId(), $request->request->get('_token'))) {

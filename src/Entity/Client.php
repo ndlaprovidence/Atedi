@@ -2,71 +2,53 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use App\Entity\Intervention;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ClientRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\ClientRepository")
- * @UniqueEntity(fields={"phone"}, message="Il existe déjà un client avec ce numéro")
- * @ORM\Table(name="tbl_client")
- */
+#[ORM\Entity(repositoryClass: ClientRepository::class)]
+#[UniqueEntity(fields: ["phone"], message: "Il existe déjà un client avec ce numéro")]
+#[ORM\Table(name: "tbl_client")]
 class Client
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: "integer")]
+    private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $last_name;
+    #[ORM\Column(type: "string", length: 255)]
+    private ?string $last_name = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $first_name;
+    #[ORM\Column(type: "string", length: 255)]
+    private ?string $first_name = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $phone;
+    #[ORM\Column(type: "string", length: 255)]
+    private ?string $phone = null;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $email;
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    private ?string $email = null;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $street;
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    private ?string $street = null;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $city;
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    private ?string $city = null;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $postal_code;
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    private ?string $postalCode = null;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Intervention", mappedBy="client")
-     */
-    private $interventions;
+    #[ORM\OneToMany(targetEntity: Intervention::class, mappedBy: "client")]
+    private Collection $interventions;
 
     public function __construct()
     {
         $this->interventions = new ArrayCollection();
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->last_name . ' ' . $this->first_name;
     }
@@ -84,7 +66,6 @@ class Client
     public function setLastName(string $last_name): self
     {
         $this->last_name = $last_name;
-
         return $this;
     }
 
@@ -96,7 +77,6 @@ class Client
     public function setFirstName(string $first_name): self
     {
         $this->first_name = $first_name;
-
         return $this;
     }
 
@@ -108,7 +88,6 @@ class Client
     public function setPhone(string $phone): self
     {
         $this->phone = $phone;
-
         return $this;
     }
 
@@ -120,7 +99,6 @@ class Client
     public function setEmail(?string $email): self
     {
         $this->email = $email;
-
         return $this;
     }
 
@@ -132,7 +110,6 @@ class Client
     public function setStreet(?string $street): self
     {
         $this->street = $street;
-
         return $this;
     }
 
@@ -144,19 +121,17 @@ class Client
     public function setCity(?string $city): self
     {
         $this->city = $city;
-
         return $this;
     }
 
     public function getPostalCode(): ?string
     {
-        return $this->postal_code;
+        return $this->postalCode;
     }
 
-    public function setPostalCode(?string $postal_code): self
+    public function setPostalCode(?string $postalCode): self
     {
-        $this->postal_code = $postal_code;
-
+        $this->postalCode = $postalCode;
         return $this;
     }
 
@@ -174,7 +149,6 @@ class Client
             $this->interventions[] = $intervention;
             $intervention->setClient($this);
         }
-
         return $this;
     }
 
@@ -182,12 +156,10 @@ class Client
     {
         if ($this->interventions->contains($intervention)) {
             $this->interventions->removeElement($intervention);
-            // set the owning side to null (unless already changed)
             if ($intervention->getClient() === $this) {
                 $intervention->setClient(null);
             }
         }
-
         return $this;
     }
 }

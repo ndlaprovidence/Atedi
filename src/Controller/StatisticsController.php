@@ -14,14 +14,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\InterventionReportRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-/**
- * @Route("/statistics")
- */
+#[Route('/statistics')]
 class StatisticsController extends AbstractController
 {
-    /**
-     * @Route("/", name="statistics_index", methods={"GET"})
-     */
+    #[Route("/", name: "statistics_index", methods: ["GET"])]
     public function index(InterventionReportRepository $irr, InterventionRepository $ir, TechnicianRepository $ter, TaskRepository $tar, EquipmentRepository $er, OperatingSystemRepository $osr)
     {
         // Load interventions by technicians chart

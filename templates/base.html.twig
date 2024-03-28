@@ -50,7 +50,7 @@
                             <a class="dropdown-item {% if app.request.get('_route') starts with 'software' %} active {% endif %}" href="{{ path('software_index') }}">Logiciels</a>
                             <a class="dropdown-item {% if app.request.get('_route') starts with 'booklet' %} active {% endif %}" href="{{ path('booklet_index') }}">Brochures</a>
                             <a class="dropdown-item {% if app.request.get('_route') starts with 'action' %} active {% endif %}" href="{{ path('action_index') }}">Actions</a>
-                            <a class="dropdown-item {% if app.request.get('_route') starts with 'action' %} active {% endif %}" href="{{ path('prop_index') }}">Accessoires</a>
+                            <a class="dropdown-item {% if app.request.get('_route') starts with 'prop' %} active {% endif %}" href="{{ path('prop_index') }}">Accessoires</a>
                             <hr>
                             <a class="dropdown-item {% if app.request.get('_route') starts with 'user' %} active {% endif %}" href="{{ path('user_index') }}">Utilisateurs</a>
                             <a class="dropdown-item {% if app.request.get('_route') starts with 'statistics' %} active {% endif %}" href="{{ path('statistics_index') }}">Statistiques</a>

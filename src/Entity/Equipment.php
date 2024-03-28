@@ -2,41 +2,35 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use App\Entity\Intervention;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\EquipmentRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\EquipmentRepository")
- * @UniqueEntity(fields={"title"}, message="Il existe déjà un matériel avec ce nom")
- * @ORM\Table(name="tbl_equipment")
- */
+#[ORM\Entity(repositoryClass: EquipmentRepository::class)]
+#[UniqueEntity(fields: ["title"], message: "Il existe déjà un matériel avec ce nom")]
+#[ORM\Table(name: "tbl_equipment")]
 class Equipment
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: "integer")]
+    private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $title;
+    #[ORM\Column(type: "string", length: 255)]
+    private ?string $title = null;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Intervention", mappedBy="equipment")
-     */
-    private $interventions;
+    #[ORM\OneToMany(targetEntity: Intervention::class, mappedBy: "equipment")]
+    private Collection $interventions;
 
     public function __construct()
     {
         $this->interventions = new ArrayCollection();
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->title;
     }
@@ -54,7 +48,6 @@ class Equipment
     public function setTitle(string $title): self
     {
         $this->title = $title;
-
         return $this;
     }
 
@@ -72,7 +65,6 @@ class Equipment
             $this->interventions[] = $intervention;
             $intervention->setEquipment($this);
         }
-
         return $this;
     }
 
@@ -80,12 +72,10 @@ class Equipment
     {
         if ($this->interventions->contains($intervention)) {
             $this->interventions->removeElement($intervention);
-            // set the owning side to null (unless already changed)
             if ($intervention->getEquipment() === $this) {
                 $intervention->setEquipment(null);
             }
         }
-
         return $this;
     }
 }

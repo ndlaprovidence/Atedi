@@ -11,14 +11,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-/**
- * @Route("/operating/system")
- */
+#[Route('/operating/system')]
 class OperatingSystemController extends AbstractController
 {
-    /**
-     * @Route("/", name="operating_system_index", methods={"GET"})
-     */
+    #[Route("/", name: "operating_system_index", methods: ["GET"])]
     public function index(OperatingSystemRepository $operatingSystemRepository): Response
     {
         return $this->render('operating_system/index.html.twig', [
@@ -26,9 +22,7 @@ class OperatingSystemController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/new", name="operating_system_new", methods={"GET","POST"})
-     */
+    #[Route("/new", name: "operating_system_new", methods: ["GET","POST"])]
     public function new(Request $request): Response
     {
         $operatingSystem = new OperatingSystem();
@@ -55,9 +49,7 @@ class OperatingSystemController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="operating_system_show", methods={"GET"})
-     */
+    #[Route("/{id}", name: "operating_system_show", methods: ["GET"])]
     public function show(OperatingSystem $operatingSystem, InterventionRepository $interventionRepository): Response
     {
         $interventions = $interventionRepository->findAllByOperatingSystem($operatingSystem->getId());
@@ -68,9 +60,7 @@ class OperatingSystemController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="operating_system_edit", methods={"GET","POST"})
-     */
+    #[Route("/{id}/edit", name: "operating_system_edit", methods: ["GET","POST"])]
     public function edit(Request $request, OperatingSystem $operatingSystem): Response
     {
         $form = $this->createForm(OperatingSystemType::class, $operatingSystem);
@@ -90,9 +80,7 @@ class OperatingSystemController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="operating_system_delete", methods={"DELETE"})
-     */
+    #[Route("/{id}", name: "operating_system_delete", methods: ["DELETE"])]
     public function delete(Request $request, OperatingSystem $operatingSystem): Response
     {
         if ($this->isCsrfTokenValid('delete'.$operatingSystem->getId(), $request->request->get('_token'))) {

@@ -2,98 +2,69 @@
 
 namespace App\Entity;
 
+use App\Entity\Action;
+use App\Entity\Booklet;
+use App\Entity\Technician;
+use App\Entity\Intervention;
+use Doctrine\ORM\Mapping as ORM;
+use App\Entity\InterventionReport;
+use App\Entity\SoftwareInterventionReport;
+use Doctrine\Common\Collections\Collection;
 use App\Repository\InterventionReportRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=InterventionReportRepository::class)
- * @ORM\Table(name="tbl_intervention_report")
- */
+#[ORM\Entity(repositoryClass: InterventionReportRepository::class)]
+#[ORM\Table(name: "tbl_intervention_report")]
 class InterventionReport
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: "integer")]
     private $id;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+    #[ORM\Column(type: "text", nullable: true)]
     private $comment;
 
-    /**
-     * @ORM\OneToOne(targetEntity=Intervention::class, mappedBy="intervention_report", cascade={"persist", "remove"})
-     */
+    #[ORM\OneToOne(targetEntity: Intervention::class, mappedBy: "intervention_report", cascade: ["persist", "remove"])]
     private $intervention;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: "integer")]
     private $step;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
     private $severity;
 
-    /**
-     * @ORM\Column(type="array", nullable=true)
-     */
+    #[ORM\Column(type: "array", nullable: true)]
     private $windows_install = [];
 
-    /**
-     * @ORM\ManyToMany(targetEntity=Booklet::class, inversedBy="interventionReports")
-     */
+    #[ORM\ManyToMany(targetEntity: Booklet::class, inversedBy: "interventionReports")]
     private $booklets;
 
-    /**
-     * @ORM\Column(type="array", nullable=true)
-     */
+    #[ORM\Column(type: "array", nullable: true)]
     private $severity_problem = [];
 
-    /**
-     * @ORM\ManyToMany(targetEntity=Action::class, inversedBy="interventionReports")
-     */
+    #[ORM\ManyToMany(targetEntity: Action::class, inversedBy: "interventionReports")]
     private $actions;
 
-    /**
-     * @ORM\OneToMany(targetEntity=SoftwareInterventionReport::class, mappedBy="intervention_report", orphanRemoval=true)
-     */
+    #[ORM\OneToMany(targetEntity: SoftwareInterventionReport::class, mappedBy: "intervention_report", orphanRemoval: true)]
     private $softwareInterventionReports;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
     private $internal_analysis;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=Technician::class, inversedBy="interventionReports")
-     */
+    #[ORM\ManyToMany(targetEntity: Technician::class, inversedBy: "interventionReports")]
     private $technicians;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
     private $windows_version;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
     private $disk_state;
 
-    /**
-     * @ORM\Column(type="integer", length=11, nullable=true)
-     */
+    #[ORM\Column(type: "integer", length: 11, nullable: true)]
     private $uptime;
 
-    /**
-     * @ORM\Column(type="integer", length=11, nullable=true)
-     */
+    #[ORM\Column(type: "integer", length: 11, nullable: true)]
     private $battery_degradation;
 
     public function __construct()
