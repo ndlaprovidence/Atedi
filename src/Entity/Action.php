@@ -2,42 +2,35 @@
 
 namespace App\Entity;
 
-use App\Repository\ActionRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\InterventionReport;
+use App\Repository\ActionRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-/**
- * @ORM\Entity(repositoryClass=ActionRepository::class)
- * @UniqueEntity(fields={"title"}, message="Il existe déjà une action avec ce nom")
- * @ORM\Table(name="tbl_action")
- */
+#[ORM\Entity(repositoryClass: ActionRepository::class)]
+#[UniqueEntity(fields: ['title'], message: 'Il existe déjà une action avec ce nom')]
+#[ORM\Table(name: 'tbl_action')]
 class Action
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $title;
+    #[ORM\Column(type: 'string', length: 255)]
+    private ?string $title = null;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=InterventionReport::class, mappedBy="actions")
-     */
-    private $interventionReports;
+    #[ORM\ManyToMany(targetEntity: InterventionReport::class, mappedBy: 'actions')]
+    private Collection $interventionReports;
 
     public function __construct()
     {
         $this->interventionReports = new ArrayCollection();
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->title;
     }

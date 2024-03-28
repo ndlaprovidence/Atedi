@@ -13,9 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-/**
- * @Route("/task")
- */
+#[Route('/task')]
 class TaskController extends AbstractController
 {
     public function __construct(AtediHelper $AtediHelper)
@@ -23,9 +21,7 @@ class TaskController extends AbstractController
         $this->atediHelper = $AtediHelper;
     }
 
-    /**
-     * @Route("/", name="task_index", methods={"GET"})
-     */
+    #[Route("/", name: "task_index", methods: ["GET"])]
     public function index(TaskRepository $taskRepository): Response
     {
         return $this->render('task/index.html.twig', [
@@ -33,9 +29,7 @@ class TaskController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/new", name="task_new", methods={"GET","POST"})
-     */
+    #[Route("/new", name: "task_new", methods: ["GET","POST"])]
     public function new(Request $request): Response
     {
         $task = new Task();
@@ -63,9 +57,7 @@ class TaskController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="task_show", methods={"GET"})
-     */
+    #[Route("/{id}", name: "task_show", methods: ["GET"])]
     public function show(Task $task, InterventionRepository $interventionRepository): Response
     {
         $interventions = $interventionRepository->findAllByTask($task->getId());
@@ -76,9 +68,7 @@ class TaskController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="task_edit", methods={"GET","POST"})
-     */
+    #[Route("/{id}/edit", name: "task_edit", methods: ["GET","POST"])]
     public function edit(Request $request, Task $task, EntityManagerInterface $em, InterventionRepository $ir): Response
     {
         $form = $this->createForm(TaskType::class, $task);
@@ -110,9 +100,7 @@ class TaskController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="task_delete", methods={"DELETE"})
-     */
+    #[Route("/{id}", name: "task_delete", methods: ["DELETE"])]
     public function delete(Request $request, Task $task): Response
     {
         if ($this->isCsrfTokenValid('delete'.$task->getId(), $request->request->get('_token'))) {

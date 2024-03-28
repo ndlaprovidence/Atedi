@@ -2,42 +2,33 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\InterventionReport;
+use App\Repository\TechnicianRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\TechnicianRepository")
- * @ORM\Table(name="tbl_techncian")
- */
+
+#[ORM\Entity(repositoryClass: TechnicianRepository::class)]
+#[ORM\Table(name: "tbl_techncian")]
 class Technician
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: "integer")]
+    private ?int $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $last_name;
+    #[ORM\Column(type: "string", length: 255)]
+    private ?string $last_name;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $first_name;
+    #[ORM\Column(type: "string", length: 255)]
+    private ?string $first_name;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $email;
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    private ?string $email;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=InterventionReport::class, mappedBy="technicians")
-     */
-    private $interventionReports;
+    #[ORM\ManyToMany(targetEntity: InterventionReport::class, mappedBy: "technicians")]
+    private Collection $interventionReports;
 
     public function __construct()
     {

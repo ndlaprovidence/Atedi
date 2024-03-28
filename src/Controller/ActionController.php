@@ -10,14 +10,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/action")
- */
+#[Route('/action')]
 class ActionController extends AbstractController
 {
-    /**
-     * @Route("/", name="action_index", methods={"GET"})
-     */
+    #[Route("/", name: "action_index", methods: ["GET"])]
     public function index(ActionRepository $actionRepository): Response
     {
         return $this->render('action/index.html.twig', [
@@ -25,9 +21,7 @@ class ActionController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/new", name="action_new", methods={"GET","POST"})
-     */
+    #[Route("/new", name: "action_new", methods: ["GET","POST"])]
     public function new(Request $request): Response
     {
         $action = new Action();
@@ -54,9 +48,7 @@ class ActionController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="action_edit", methods={"GET","POST"})
-     */
+    #[Route("/{id}/edit", name: "action_edit", methods: ["GET","POST"])]
     public function edit(Request $request, Action $action): Response
     {
         $form = $this->createForm(ActionType::class, $action);
@@ -74,9 +66,7 @@ class ActionController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="action_delete", methods={"DELETE"})
-     */
+    #[Route("/{id}", name: "action_delete", methods: ["DELETE"])]
     public function delete(Request $request, Action $action): Response
     {
         if ($this->isCsrfTokenValid('delete'.$action->getId(), $request->request->get('_token'))) {

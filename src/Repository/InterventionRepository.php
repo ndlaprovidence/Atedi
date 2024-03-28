@@ -3,8 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Intervention;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
  * @method Intervention|null find($id, $lockMode = null, $lockVersion = null)
@@ -72,6 +72,18 @@ class InterventionRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('i')
             ->andWhere('i.equipment = :id')
+            ->setParameter('id', $id)
+            ->orderBy('i.id', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findAllByProp($id)
+    {
+        return $this->createQueryBuilder('i')
+            ->leftJoin('i.props', 'p')
+            ->andWhere('p.id = :id')
             ->setParameter('id', $id)
             ->orderBy('i.id', 'DESC')
             ->getQuery()

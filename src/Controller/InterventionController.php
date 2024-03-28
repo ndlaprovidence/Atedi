@@ -25,9 +25,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\SoftwareInterventionReportRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-/**
- * @Route("/intervention")
- */
+#[Route('/intervention')]
 class InterventionController extends AbstractController
 {
     private $AtediHelper;
@@ -37,9 +35,7 @@ class InterventionController extends AbstractController
         $this->atediHelper = $AtediHelper;
     }
 
-    /**
-     * @Route("/", name="intervention_index", methods={"GET"})
-     */
+    #[Route("/", name: "intervention_index", methods: ["GET"])]
     public function index(InterventionRepository $interventionRepository): Response
     {
         return $this->render('intervention/index.html.twig', [
@@ -47,9 +43,7 @@ class InterventionController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/new", name="intervention_new", methods={"GET","POST"})
-     */
+    #[Route("/new", name: "intervention_new", methods: ["GET","POST"])]
     public function new(Request $request, ClientRepository $cr, EntityManagerInterface $em): Response
     {
         $this->em = $em;
@@ -57,21 +51,35 @@ class InterventionController extends AbstractController
         $intervention = new Intervention();
         $interventionReport = new InterventionReport();
 
-        $form = $this->createForm(InterventionType::class, $intervention);
+        if ($request->query->has('client-id')) {
+            $clientId = $request->query->getInt('client-id');
+            // Vous pouvez utiliser getInt() pour obtenir directement un entier
+        } else {
+            // Définir une valeur par défaut si le paramètre client-id n'est pas présent
+            $clientId = null; // ou une autre valeur par défaut selon votre logique
+        }
+
+        $form = $this->createForm(InterventionType::class, $intervention, [
+            'clientId' => $clientId,
+        ]);
         $form->handleRequest($request);
+
+
 
         if ($form->isSubmitted() && $form->isValid()) {
 
             $interventionReport->setStep(1);
             $this->em->persist($interventionReport);
-            $this->em->flush();
+            // $this->em->flush();
 
             $intervention->setInterventionReport($interventionReport);
 
             $totalPrice = $this->atediHelper->strTotalPrice($intervention);
-
             $intervention->setTotalPrice($totalPrice);
             $this->em->persist($intervention);
+
+            dump($intervention);
+
             $this->em->flush();
 
             return $this->redirectToRoute('intervention_show', [
@@ -85,9 +93,7 @@ class InterventionController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="intervention_show", methods={"GET","POST"})
-     */
+    #[Route("/{id}", name: "intervention_show", methods: ["GET","POST"])]
     public function show(Request $request, Intervention $intervention, EntityManagerInterface $em, SoftwareRepository $sr, ActionRepository $ar, SoftwareInterventionReportRepository $sirr): Response
     {
         $this->em = $em;
@@ -114,7 +120,7 @@ class InterventionController extends AbstractController
                     break;
 
                     case "Terminée":
-                        if ( $intervention->getInterventionReport()->getStep() == 8 && $intervention->getReturnDate() ) {
+                        if ( $intervention->getInterventionReport()->getStep() == 9 && $intervention->getReturnDate() ) {
                             $intervention->setStatus($newStatus);
                             $this->em->persist($intervention);
                             $this->em->flush();
@@ -162,7 +168,7 @@ class InterventionController extends AbstractController
                     // Load HTML to Dompdf
                     $dompdf->loadHtml($html);
 
-                    // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+                    // (Optional) Setup the paper size and orientation 'portrai<t' or 'portrait'
                     $dompdf->setPaper('A4', 'portrait');
 
                     // Render the HTML as PDF
@@ -213,6 +219,58 @@ class InterventionController extends AbstractController
                         "Attachment" => true
                     ]);
                     break;
+
+                    case "both":
+                        $cleaningSoftwares = $sr->findAllByType('Nettoyage');
+                        $actions = $ar->findAll();
+    
+                        // Configure Dompdf according to your needs
+                        $pdfOptions = new Options();
+                        $pdfOptions->set('defaultFont', 'Arial');
+    
+                        // Instantiate Dompdf with our options
+                        $dompdf = new Dompdf($pdfOptions);
+    
+                        $interventionReportId = $intervention->getInterventionReport()->getId();
+                        $softwares = $sirr->findAllByReport($interventionReportId);
+                        $actions = $intervention->getInterventionReport()->getActions();
+                        $booklets = $intervention->getInterventionReport()->getBooklets();
+                        $technicians = $intervention->getInterventionReport()->getTechnicians();
+    
+                        // Configure Dompdf according to your needs
+                        $pdfOptions = new Options();
+                        $pdfOptions->set('defaultFont', 'Arial');
+    
+                        // Instantiate Dompdf with our options
+                        $dompdf = new Dompdf($pdfOptions);
+    
+                        // Retrieve the HTML generated in our twig file
+                        $html = $this->renderView('intervention/both_pdf.html.twig', [
+                            'intervention' => $intervention,
+                            'softwares' => $softwares,
+                            'actions' => $actions,
+                            'booklets' => $booklets,
+                            'technicians' => $technicians,
+                            'intervention' => $intervention,
+                            'cleaningSoftwares' => $cleaningSoftwares,
+                            'actions' => $actions,
+                        ]);
+    
+                        // Load HTML to Dompdf
+                        $dompdf->loadHtml($html);
+    
+                        // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+                        $dompdf->setPaper('A4', 'portrait');
+    
+                        // Render the HTML as PDF
+                        $dompdf->render();
+    
+                        $pdfName = $intervention->getClient()->getLastName().'-DEMANDE_RAPPORT-'.time().'.pdf';
+                        // Output the generated PDF to Browser (force download)
+                        $dompdf->stream($pdfName, [
+                            "Attachment" => true
+                        ]);
+                        break;
             }
         }
 
@@ -221,9 +279,7 @@ class InterventionController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/report", name="intervention_report", methods={"GET","POST"})
-     */
+    #[Route("/{id}/report", name: "intervention_report", methods: ["GET","POST"])]
     public function report(Request $request, EntityManagerInterface $em, Intervention $intervention, SoftwareRepository $sr, BookletRepository $br, ActionRepository $ar, SoftwareInterventionReportRepository $sirr, BillingLineRepository $blr, TechnicianRepository $tr): Response
     {
         $this->em = $em;
@@ -247,10 +303,11 @@ class InterventionController extends AbstractController
                     break;
 
                 case "previous":
-                    $interventionReport->setStep($step-1);
-                    $this->em->persist($interventionReport);
-                    $this->em->flush();
-        
+                    if($step > 1){
+                        $interventionReport->setStep($step-1);
+                        $this->em->persist($interventionReport);
+                        $this->em->flush();
+                    }
                     return $this->redirectToRoute('intervention_report', [
                         'id' => $intervention->getId(),
                     ]);
@@ -458,7 +515,40 @@ class InterventionController extends AbstractController
                 }
                 break;
 
-            case 6:
+            case 6:            
+                
+                $interventionReport->setDiskState(NULL);
+                $interventionReport->setUptime(NULL);
+                $interventionReport->setBatteryDegradation(NULL);
+                $this->em->flush();
+
+                if ($request->request->has('data')) {
+                    if ($request->request->has('disk-state')) {
+                        $diskState = $request->request->get('disk-state');
+                        $interventionReport->setDiskState($diskState);
+                    }
+            
+                    if ($request->request->has('uptime')) {
+                        $uptime = $request->request->get('uptime');
+                        $interventionReport->setUptime($uptime);
+                    }
+            
+                    if ($request->request->has('battery-degradation')) {
+                        $batteryDegradation = $request->request->get('battery-degradation');
+                        $interventionReport->setBatteryDegradation($batteryDegradation);
+                    }
+            
+                    $interventionReport->setStep($step+1);
+                    $this->em->persist($interventionReport);
+                    $this->em->flush();
+            
+                    return $this->redirectToRoute('intervention_report', [
+                        'id' => $intervention->getId(),
+                    ]);
+                }
+                break;                
+
+            case 7:
                 $irBooklets = $interventionReport->getBooklets();
                 foreach ( $irBooklets as $irBooklet ) {
                     $interventionReport->removeBooklet($irBooklet);
@@ -486,7 +576,7 @@ class InterventionController extends AbstractController
                 }
                 break;
 
-            case 7:
+            case 8:
                 $interventionReport->setComment(NULL);
 
                 if ($request->request->has('data')) {
@@ -506,7 +596,7 @@ class InterventionController extends AbstractController
                 }
                 break;
             
-            case 8:
+            case 9:
                 if ($request->request->has('delete-billing-line')) {
                     $billingLineId = $request->request->get('billing-line-id');
 
@@ -554,9 +644,7 @@ class InterventionController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="intervention_edit", methods={"GET","POST"})
-     */
+    #[Route("/{id}/edit", name: "intervention_edit", methods: ["GET","POST"])]
     public function edit(Request $request, Intervention $intervention): Response
     {
         $form = $this->createForm(InterventionType::class, $intervention);
@@ -580,9 +668,7 @@ class InterventionController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="intervention_delete", methods={"DELETE"})
-     */
+    #[Route("/{id}", name: "intervention_delete", methods: ["DELETE"])]
     public function delete(Request $request, EntityManagerInterface $em, Intervention $intervention, BillingLineRepository $blr): Response
     {
         if ($this->isCsrfTokenValid('delete'.$intervention->getId(), $request->request->get('_token'))) {

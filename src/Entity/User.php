@@ -2,43 +2,43 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use App\Repository\UserRepository;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- * @ORM\Table(name="tbl_user")
- * @UniqueEntity(fields={"email"}, message="Il existe déjà un utilisateur avec cet email")
- */
+
+#[ORM\Entity(repositoryClass: UserRepository::class)]
+#[ORM\Table(name: "tbl_user")]
+#[UniqueEntity(fields: ["email"], message: "Il existe déjà un utilisateur avec cet email")]
 class User implements UserInterface
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: "integer")]
+    private ?int $id;
 
-    /**
-     * @ORM\Column(type="string", length=180, unique=true)
-     */
-    private $email;
+    #[ORM\Column(type: "string", length: 180, unique: true)]
+    private ?string $email;
 
-    /**
-     * @ORM\Column(type="json")
-     */
-    private $roles = [];
+    #[ORM\Column(type: "string", length: 180)]
+    private ?string $first_name;
 
-    /**
-     * @var string The hashed password
-     * @ORM\Column(type="string")
-     */
-    private $password;
+    #[ORM\Column(type: "json")]
+    private array $roles = [];
+
+    #[ORM\Column(type: "string")]
+    private string $password;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Intervention::class)]
+    private Collection $intervention;
 
     public function __construct()
     {
-        $this->setRoles(["ROLE_ADMIN"]);
+        $this->setRoles(["ROLE_USER"]);
+        $this->intervention = new ArrayCollection();
     }
 
     public function __toString()
@@ -59,6 +59,18 @@ class User implements UserInterface
     public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    public function getFirstName(): ?string
+    {
+        return $this->first_name;
+    }
+
+    public function setFirstName(string $first_name): self
+    {
+        $this->first_name = $first_name;
 
         return $this;
     }
@@ -122,5 +134,35 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection<int, intervention>
+     */
+    public function getIntervention(): Collection
+    {
+        return $this->intervention;
+    }
+
+    public function addIntervention(Intervention $intervention): static
+    {
+        if (!$this->intervention->contains($intervention)) {
+            $this->intervention->add($intervention);
+            $intervention->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIntervention(Intervention $intervention): static
+    {
+        if ($this->intervention->removeElement($intervention)) {
+            // set the owning side to null (unless already changed)
+            if ($intervention->getUser() === $this) {
+                $intervention->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }

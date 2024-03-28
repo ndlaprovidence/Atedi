@@ -2,38 +2,30 @@
 
 namespace App\Entity;
 
-use App\Repository\SoftwareInterventionReportRepository;
+use App\Entity\Software;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\InterventionReport;
+use App\Repository\SoftwareInterventionReportRepository;
 
-/**
- * @ORM\Entity(repositoryClass=SoftwareInterventionReportRepository::class)
- * @ORM\Table(name="tbl_software_intervention_report")
- */
+#[ORM\Entity(repositoryClass: SoftwareInterventionReportRepository::class)]
+#[ORM\Table(name: "tbl_software_intervention_report")]
 class SoftwareInterventionReport
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: "integer")]
+    private ?int $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $action;
+    #[ORM\Column(type: "string", length: 255)]
+    private string $action;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Software::class, inversedBy="softwareInterventionReports")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $software;
+    #[ORM\ManyToOne(targetEntity: Software::class, inversedBy: "softwareInterventionReports")]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Software $software;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=InterventionReport::class, inversedBy="softwareInterventionReports")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $intervention_report;
+    #[ORM\ManyToOne(targetEntity: InterventionReport::class, inversedBy: "softwareInterventionReports")]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?InterventionReport $intervention_report;
 
     public function __toString()
     {

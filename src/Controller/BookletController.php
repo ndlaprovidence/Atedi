@@ -10,14 +10,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/booklet")
- */
+#[Route('/booklet')]
 class BookletController extends AbstractController
 {
-    /**
-     * @Route("/", name="booklet_index", methods={"GET"})
-     */
+    #[Route("/", name: "booklet_index", methods: ["GET"])]
     public function index(BookletRepository $bookletRepository): Response
     {
         return $this->render('booklet/index.html.twig', [
@@ -25,9 +21,7 @@ class BookletController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/new", name="booklet_new", methods={"GET","POST"})
-     */
+    #[Route("/new", name: "booklet_new", methods: ["GET","POST"])]
     public function new(Request $request): Response
     {
         $booklet = new Booklet();
@@ -54,9 +48,7 @@ class BookletController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="booklet_edit", methods={"GET","POST"})
-     */
+    #[Route("/{id}/edit", name: "booklet_edit", methods: ["GET","POST"])]
     public function edit(Request $request, Booklet $booklet): Response
     {
         $form = $this->createForm(BookletType::class, $booklet);
@@ -74,9 +66,7 @@ class BookletController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="booklet_delete", methods={"DELETE"})
-     */
+    #[Route("/{id}", name: "booklet_delete", methods: ["DELETE"])]
     public function delete(Request $request, Booklet $booklet): Response
     {
         if ($this->isCsrfTokenValid('delete'.$booklet->getId(), $request->request->get('_token'))) {

@@ -2,104 +2,93 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Entity\Task;
+use App\Entity\User;
+use App\Entity\Prop;
+use App\Entity\Client;
+use DateTimeInterface;
+use App\Entity\Equipment;
+use App\Entity\BillingLine;
+use Doctrine\DBAL\Types\Types;
+use App\Entity\OperatingSystem;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\InterventionReport;
+use App\Repository\InterventionRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\InterventionRepository")
- * @ORM\Table(name="tbl_intervention")
- */
+#[ORM\Entity(repositoryClass: InterventionRepository::class)]
+#[ORM\Table(name: "tbl_intervention")]
 class Intervention
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $deposit_date;
+    #[ORM\Column(type: "datetime")]
+    private DateTimeInterface $deposit_date;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $return_date;
+    #[ORM\Column(type: "datetime", nullable: true)]
+    private ?\DateTimeInterface $return_date = null;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $comment;
+    #[ORM\Column(type: "text", nullable: true)]
+    private ?string $comment = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\OperatingSystem", inversedBy="interventions")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $operating_system;
+    #[ORM\ManyToOne(targetEntity: OperatingSystem::class, inversedBy: "interventions")]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?OperatingSystem $operating_system = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Equipment", inversedBy="interventions")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $equipment;
+    #[ORM\ManyToOne(targetEntity: Equipment::class, inversedBy: "interventions")]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Equipment $equipment = null;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Task", inversedBy="interventions")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $tasks;
+    #[ORM\ManyToMany(targetEntity: Prop::class, inversedBy: "interventions")]
+    #[ORM\JoinTable(name: "intervention_prop")]
+    private Collection $props;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Client", inversedBy="interventions")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $client;
+    #[ORM\ManyToMany(targetEntity: Task::class, inversedBy: "interventions")]
+    private Collection $tasks;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $status;
+    #[ORM\ManyToOne(targetEntity: Client::class, inversedBy: "interventions")]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Client $client = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $equipment_complete;
+    #[ORM\Column(type: "string", length: 255)]
+    private string $status;
 
-    /**
-     * @ORM\OneToOne(targetEntity=InterventionReport::class, inversedBy="intervention", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $intervention_report;
+    #[ORM\OneToOne(targetEntity: InterventionReport::class, inversedBy: "intervention", cascade: ["persist", "remove"])]
+    #[ORM\JoinColumn(nullable: false)]
+    private InterventionReport $intervention_report;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $total_price;
+    #[ORM\Column(type: "string", length: 255)]
+    private string $total_price;
 
-    /**
-     * @ORM\OneToMany(targetEntity=BillingLine::class, mappedBy="intervention")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $billing_lines;
+    #[ORM\OneToMany(targetEntity: BillingLine::class, mappedBy: "intervention")]
+    private Collection $billing_lines;
+
+    #[ORM\ManyToOne(inversedBy: 'intervention')]
+    private ?User $user = null;
+
+    // #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "interventions")]
+    // #[ORM\JoinColumn(nullable: true)]
+    // private ?User $user = null;
 
     public function __construct()
     {
         $this->tasks = new ArrayCollection();
+        $this->props = new ArrayCollection();
         $this->setDepositDate(new \DateTime());
         $this->setStatus('En attente');
         $this->billing_lines = new ArrayCollection();
-    }
-    
+    }    
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getDepositDate(): ?\DateTimeInterface
+    public function getDepositDate(): \DateTimeInterface
     {
         return $this->deposit_date;
     }
@@ -107,7 +96,6 @@ class Intervention
     public function setDepositDate(\DateTimeInterface $deposit_date): self
     {
         $this->deposit_date = $deposit_date;
-
         return $this;
     }
 
@@ -119,7 +107,6 @@ class Intervention
     public function setReturnDate(?\DateTimeInterface $return_date): self
     {
         $this->return_date = $return_date;
-
         return $this;
     }
 
@@ -131,7 +118,6 @@ class Intervention
     public function setComment(?string $comment): self
     {
         $this->comment = $comment;
-
         return $this;
     }
 
@@ -143,7 +129,6 @@ class Intervention
     public function setOperatingSystem(?OperatingSystem $operating_system): self
     {
         $this->operating_system = $operating_system;
-
         return $this;
     }
 
@@ -155,13 +140,9 @@ class Intervention
     public function setEquipment(?Equipment $equipment): self
     {
         $this->equipment = $equipment;
-
         return $this;
     }
 
-    /**
-     * @return Collection|Task[]
-     */
     public function getTasks(): Collection
     {
         return $this->tasks;
@@ -172,7 +153,6 @@ class Intervention
         if (!$this->tasks->contains($task)) {
             $this->tasks[] = $task;
         }
-
         return $this;
     }
 
@@ -181,7 +161,6 @@ class Intervention
         if ($this->tasks->contains($task)) {
             $this->tasks->removeElement($task);
         }
-
         return $this;
     }
 
@@ -193,11 +172,10 @@ class Intervention
     public function setClient(?Client $client): self
     {
         $this->client = $client;
-
         return $this;
     }
 
-    public function getStatus(): ?string
+    public function getStatus(): string
     {
         return $this->status;
     }
@@ -205,23 +183,10 @@ class Intervention
     public function setStatus(string $status): self
     {
         $this->status = $status;
-
         return $this;
     }
 
-    public function getEquipmentComplete(): ?string
-    {
-        return $this->equipment_complete;
-    }
-
-    public function setEquipmentComplete(string $equipment_complete): self
-    {
-        $this->equipment_complete = $equipment_complete;
-
-        return $this;
-    }
-
-    public function getInterventionReport(): ?InterventionReport
+    public function getInterventionReport(): InterventionReport
     {
         return $this->intervention_report;
     }
@@ -229,11 +194,10 @@ class Intervention
     public function setInterventionReport(InterventionReport $intervention_report): self
     {
         $this->intervention_report = $intervention_report;
-
         return $this;
     }
 
-    public function getTotalPrice(): ?string
+    public function getTotalPrice(): string
     {
         return $this->total_price;
     }
@@ -241,13 +205,9 @@ class Intervention
     public function setTotalPrice(string $total_price): self
     {
         $this->total_price = $total_price;
-
         return $this;
     }
 
-    /**
-     * @return Collection|BillingLine[]
-     */
     public function getBillingLines(): Collection
     {
         return $this->billing_lines;
@@ -259,7 +219,6 @@ class Intervention
             $this->billing_lines[] = $billingLine;
             $billingLine->setIntervention($this);
         }
-
         return $this;
     }
 
@@ -267,11 +226,54 @@ class Intervention
     {
         if ($this->billing_lines->contains($billingLine)) {
             $this->billing_lines->removeElement($billingLine);
-            // set the owning side to null (unless already changed)
             if ($billingLine->getIntervention() === $this) {
                 $billingLine->setIntervention(null);
             }
         }
+        return $this;
+    }
+
+    // public function getUser(): ?User
+    // {
+    //     return $this->user;
+    // }
+
+    // public function setUser(?User $user): self
+    // {
+    //     $this->user = $user;
+    //     return $this;
+    // }
+
+
+    public function getProps(): Collection
+    {
+        return $this->props;
+    }
+
+    public function addProp(Prop $prop): self
+    {
+        if (!$this->props->contains($prop)) {
+            $this->props[] = $prop;
+        }
+        return $this;
+    }
+    
+    public function removeProp(Prop $prop): self
+    {
+        if ($this->props->contains($prop)) {
+            $this->props->removeElement($prop);
+        }
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }
