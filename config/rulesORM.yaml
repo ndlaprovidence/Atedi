@@ -1,0 +1,13 @@
+rules:
+  - find: '#/\*\*\s*\n\s*\*\s*@Route\((.*?)\)\s*\n\s*\*/#s'
+    replace: "#[Route(modifthis)]"
+parameters:
+  - for: '='
+    put: ': '
+  - for: '{'
+    put: '['
+  - for: '}'
+    put: ']'
+  - for: '\[id\]'
+    put: '{id}'
+    # Ajoutez d'autres règles de remplacement au besoin
